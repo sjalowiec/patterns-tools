@@ -1,0 +1,59 @@
+I want to create a web-based wizard (HTML, CSS, JavaScript) with the same step-by-step formatting as a corner-to-corner blanket calculator.
+
+Requirements:
+
+1. User inputs (Step 1):
+   - Choice of measurement units (inches or centimeters).
+   - Stitch gauge (stitches per unit).
+   - Row gauge (rows per unit).
+
+2. Fixed knitted piece dimensions:
+   - Cast on: 10" of stitches.
+   - Knit: 5" of rows before shaping.
+   - Neckline: 5" wide and 4" deep.
+
+3. Neckline shaping formula (displayed in results):
+   - STEP 1: Bind off or place on a holder one-third of the neckline stitches.
+   - STEP 2: Decrease one-third of the neckline stitches in 2- or 3-stitch stair steps, divided half on each neckline edge.
+     * If combining 2- and 3-stitch decreases, bind off the 3-stitch steps first.
+   - STEP 3: Decrease the last one-third of neckline stitches with single decreases, half at each neckline edge.
+     * If stitches don’t divide evenly, borrow a stitch or two from another group.
+
+4. Calculations (Step 2 results):
+   - Convert fixed dimensions into stitches and rows using the user’s gauge.
+   - Display stitch counts for cast-on and neckline width.
+   - Display row counts for pre-neck height and neckline depth.
+
+5. SVG Diagram:
+   - Draw a rectangle (10" wide × 9" tall).
+   - Add a centered neckline cut-out at the top (5" wide × 4" deep).
+   - Add braces or dimension lines with labels showing:
+     * Cast-on width + calculated stitches.
+     * Height before neckline (5" + row count).
+     * Neckline depth (4" + row count).
+     * Neckline width (5" + stitch count).
+   - Color scheme: body = light blue, neckline cut-out = light pink, labels = black text.
+   - Keep diagram simple, clean, and responsive for mobile.
+
+6. Wizard behavior:
+   - Include a step indicator/progress bar at the top with two circles connected by a line:
+     * Circle 1 labeled: **“Step 1: Gauge”**
+     * Circle 2 labeled: **“Step 2: Results”**
+   - Highlight the current step’s circle with a filled color and bold text.
+   - Fill in the connecting line as the user advances.
+   - Navigation buttons: “Next” (moves forward), “Back” (returns to gauge), and “Reset” (starts over).
+   - Mobile-friendly layout.
+
+7. Styling:
+   - Link to my uploaded CSS file: `sweater_planner_css.css`
+   - Keep generated classes semantic and minimal so my CSS can override them.
+
+8. Design hint for step indicator:
+   - Each step circle should be about 30px diameter, with the step number inside the circle.
+   - Place the label text directly underneath each circle.
+   - Use a horizontal connecting line between circles that fills in when progressing from Step 1 to Step 2.
+
+9. Output:
+   - index.html
+   - script.js (wizard logic, calculations, and SVG rendering)
+   - style.css (placeholder only; I will use `sweater_planner_css.css` for styling)
