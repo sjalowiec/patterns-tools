@@ -99,9 +99,9 @@ export default function NecklineWizard() {
           <small style="color: #666;">Place a thin yarn or thread through all active stitches to preserve your work before starting neckline shaping.</small>
         </div>
         
-        <div style="margin-bottom: 20px; padding: 15px; background: #e3f2fd; border-left: 4px solid #2196f3; border-radius: 4px;">
+        <div style="margin-bottom: 20px;">
           <strong>About Neckline Shaping:</strong><br>
-          Each side of the neckline is knit separately. You will scrap off one side, shape one side, then rehang and shape the 2nd side.
+          Each side of the neckline is knit separately. You will scrap off one side, shape one side, then re-hang and shape the 2nd side.
         </div>
         
         <div style="margin-bottom: 20px;">
@@ -118,8 +118,8 @@ export default function NecklineWizard() {
 
         <div style="margin-bottom: 20px;">
           <strong>Step 4: Shape neck edge #2</strong><br>
-          • Rehang scrapped off stitches<br>
-          • Reattach working yarn and bind off ${adjustedBindOff} stitches<br>
+          • Re-hang scrapped off stitches<br>
+          • Re-attach working yarn and bind off ${adjustedBindOff} stitches<br>
           • At neck edge, decrease 1 stitch every other row ${section1Decreases} times; decrease 1 stitch every row ${section2Decreases} times.<br>
           • Knit ${remainingRows} rows<br>
           • Bind off or scrap off remaining stitches
@@ -300,7 +300,7 @@ export default function NecklineWizard() {
         {/* Data Persistence Warning */}
         <div style={{ marginBottom: '20px', padding: '15px', background: '#fff3cd', border: '1px solid #ffeaa7', borderRadius: '8px' }}>
           <strong style={{ color: '#d63031' }}>IMPORTANT: Your pattern will not be saved on this site.</strong><br />
-          <small style={{ color: '#666' }}>Please be sure to download and save your PDF now — once you leave this page, your custom details won't be available again.</small>
+          <small style={{ color: '#666' }}>Please be sure to download and save your PDF — once you leave this page, your custom details won't be available again.</small>
         </div>
         
         {/* Input Form */}
