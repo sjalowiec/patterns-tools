@@ -32,51 +32,74 @@ export default function NecklineWizard() {
   const neckSts = Math.round(necklineWidth * stitchesPerUnit) || 0;
   const neckDepthRows = Math.round(necklineDepth * rowsPerUnit) || 0;
 
-  // Neckline shaping calculations
-  const bindOffSts = Math.floor(neckSts / 3);
-  const remainingSts = neckSts - bindOffSts;
-  const stairStepSts = Math.floor(remainingSts / 2);
-  const singleDecreaseSts = remainingSts - stairStepSts;
+  // Machine knitting neckline shaping calculations
+  const bindOffSts = Math.floor(neckSts / 3);  // initial bind off (center)
+  const sideTotal = Math.floor(castOnSts / 2);  // total stitches per side
+  const totalDecreases = neckSts - bindOffSts;  // total stitches to decrease
+  const perSideRemaining = Math.floor(totalDecreases / 2);  // decreases per side 
+  const extraStitch = totalDecreases % 2;  // remainder stitch (0 or 1)
+  const adjustedBindOff = bindOffSts + extraStitch;  // add remainder to center bind-off
+  const scrapOffTotal = sideTotal + adjustedBindOff;  // stitches to scrap off
+  
+  // Split per-side decreases into stair steps and singles
+  const perSideStair = Math.floor(perSideRemaining / 2);
+  const perSideSingle = perSideRemaining - perSideStair;
+  
+  // Calculate shaping rows used per side
+  const stairStepRows = Math.ceil(perSideStair / 2.5); // approx 2-3 stitches per step
+  const singleDecreaseRows = perSideSingle; // one decrease per row
+  const shapingRows = stairStepRows + singleDecreaseRows;
+  const remainingRows = Math.max(0, neckDepthRows - shapingRows);
 
-  // Generate text instructions
+  // Generate machine knitting text instructions
   const generateInstructions = () => {
     const unitLabel = units === 'inches' ? '"' : 'cm';
     
     return `
       <div class="well_white">
-        <h3 class="text-primary">Neckline Shaping Instructions</h3>
+        <h3 class="text-primary">Machine Knitting Neckline Instructions</h3>
         
         <div style="margin-bottom: 20px;">
-          <strong>Base Piece:</strong><br>
-          Cast on ${castOnSts} stitches (${garmentWidth}${unitLabel} wide)<br>
-          Knit for ${totalRows} rows (${garmentHeight}${unitLabel} length)
+          <strong>Setup:</strong><br>
+          • Full stitch count: ${castOnSts} stitches<br>
+          • Initial bind off: ${adjustedBindOff} stitches (center${extraStitch ? ' + 1 remainder' : ''})<br>
+          • One side: ${sideTotal} stitches<br>
+          • Total decreases needed: ${totalDecreases} (${perSideRemaining} per side)<br>
+          • Remaining rows: ${remainingRows} rows
         </div>
 
         <div style="margin-bottom: 15px;">
-          <strong>STEP 1: Center Bind-Off</strong><br>
-          Bind off (or place on holder) ${bindOffSts} stitches straight across the center.
+          <strong>STEP 1:</strong> Scrap off ${scrapOffTotal} stitches (${sideTotal} + ${adjustedBindOff})
         </div>
 
         <div style="margin-bottom: 15px;">
-          <strong>STEP 2: Stair-Step Decreases</strong><br>
-          Decrease ${stairStepSts} stitches in 2- or 3-stitch stair steps:<br>
-          • Work ${Math.floor(stairStepSts/2)} stitches on each side<br>
-          • If mixing 2- and 3-stitch steps, work 3-stitch steps first<br>
-          • Work each side separately
+          <strong>STEP 2:</strong> Shape the remaining ${sideTotal} stitches with ${perSideRemaining} decreases per side:<br>
+          • ${perSideStair} stitches in stair steps (2-3 stitch groups)<br>
+          • ${perSideSingle} stitches as single decreases<br>
+          • Total shaping rows: ${shapingRows}
         </div>
 
         <div style="margin-bottom: 15px;">
-          <strong>STEP 3: Single Decreases</strong><br>
-          Decrease the final ${singleDecreaseSts} stitches as single decreases:<br>
-          • ${Math.floor(singleDecreaseSts/2)} decreases on each neckline edge<br>
-          • Work each side separately
+          <strong>STEP 3:</strong> Knit the remaining ${remainingRows} rows and bind off
+        </div>
+
+        <div style="margin-bottom: 15px;">
+          <strong>STEP 4:</strong> Pick up the held stitches<br>
+          Bind off center ${adjustedBindOff} stitches when working the second side
+        </div>
+
+        <div style="margin-bottom: 15px;">
+          <strong>STEP 5:</strong> Reverse the shaping on the other side:<br>
+          • Work the same ${perSideStair} + ${perSideSingle} decrease sequence<br>
+          • Knit ${remainingRows} straight rows and bind off
         </div>
 
         <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 6px;">
           <strong>Summary:</strong><br>
-          Total neckline stitches: ${neckSts}<br>
-          Neckline depth: ${neckDepthRows} rows (${necklineDepth}${unitLabel})<br>
-          ${bindOffSts} bind off + ${stairStepSts} stair steps + ${singleDecreaseSts} single decreases = ${neckSts} total
+          Neckline: ${neckSts} stitches (${necklineWidth}${unitLabel} wide)<br>
+          Depth: ${neckDepthRows} rows (${necklineDepth}${unitLabel})<br>
+          Shaping: ${shapingRows} rows + Straight: ${remainingRows} rows = ${neckDepthRows} total<br>
+          <strong>Validation:</strong> 2×${perSideRemaining} + ${adjustedBindOff} = ${2*perSideRemaining + adjustedBindOff} (should equal ${neckSts})
         </div>
       </div>
     `;
@@ -120,7 +143,7 @@ export default function NecklineWizard() {
         <circle cx="${rectX}" cy="${rectY + rectHeight + 25}" r="3" fill="black"/>
         <circle cx="${rectX + rectWidth}" cy="${rectY + rectHeight + 25}" r="3" fill="black"/>
         <text x="${centerX}" y="${rectY + rectHeight + 45}" text-anchor="middle" font-size="12" fill="black">
-          {{castOnSts}} stitches
+          {{castOnSts}} stitches ({{width}}${units === 'inches' ? '"' : 'cm'})
         </text>
         
         <!-- Left measurement line -->
@@ -139,17 +162,17 @@ export default function NecklineWizard() {
         <circle cx="${neckLeft}" cy="${rectY - 15}" r="2" fill="black"/>
         <circle cx="${neckRight}" cy="${rectY - 15}" r="2" fill="black"/>
         <text x="${centerX}" y="${rectY - 25}" text-anchor="middle" font-size="11" fill="black">
-          {{neckSts}} stitches
+          {{neckSts}} stitches ({{neckWidth}}${units === 'inches' ? '"' : 'cm'})
         </text>
         
-        <!-- Neckline depth -->
-        <line x1="${rectX + rectWidth + 15}" y1="${rectY}" x2="${rectX + rectWidth + 15}" y2="${rectY + neckDepthSvg}" 
+        <!-- Neckline depth - extends to lowest point of curve -->
+        <line x1="${rectX + rectWidth + 15}" y1="${rectY}" x2="${rectX + rectWidth + 15}" y2="${rectY + neckDepthSvg * 1.3}" 
               stroke="black" stroke-width="1"/>
         <circle cx="${rectX + rectWidth + 15}" cy="${rectY}" r="2" fill="black"/>
-        <circle cx="${rectX + rectWidth + 15}" cy="${rectY + neckDepthSvg}" r="2" fill="black"/>
-        <text x="${rectX + rectWidth + 25}" y="${rectY + neckDepthSvg/2}" text-anchor="start" font-size="11" fill="black" 
-              transform="rotate(90, ${rectX + rectWidth + 25}, ${rectY + neckDepthSvg/2})">
-          {{neckDepth}}${units === 'inches' ? '"' : 'cm'}
+        <circle cx="${rectX + rectWidth + 15}" cy="${rectY + neckDepthSvg * 1.3}" r="2" fill="black"/>
+        <text x="${rectX + rectWidth + 25}" y="${rectY + (neckDepthSvg * 1.3)/2}" text-anchor="start" font-size="11" fill="black" 
+              transform="rotate(90, ${rectX + rectWidth + 25}, ${rectY + (neckDepthSvg * 1.3)/2})">
+          {{neckDepthRows}} rows ({{neckDepth}}${units === 'inches' ? '"' : 'cm'})
         </text>
       </svg>
     `;
@@ -162,7 +185,10 @@ export default function NecklineWizard() {
       .replace(/\{\{rows\}\}/g, totalRows.toString())
       .replace(/\{\{height\}\}/g, garmentHeight.toString())
       .replace(/\{\{neckSts\}\}/g, neckSts.toString())
-      .replace(/\{\{neckDepth\}\}/g, necklineDepth.toString());
+      .replace(/\{\{neckDepth\}\}/g, necklineDepth.toString())
+      .replace(/\{\{neckDepthRows\}\}/g, neckDepthRows.toString())
+      .replace(/\{\{width\}\}/g, garmentWidth.toString())
+      .replace(/\{\{neckWidth\}\}/g, necklineWidth.toString());
   };
 
   return (
