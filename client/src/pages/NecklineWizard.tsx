@@ -88,9 +88,13 @@ export default function NecklineWizard() {
           <small style="color: #666;">Place a thin yarn or thread through all active stitches to preserve your work before starting neckline shaping.</small>
         </div>
         
+        <div style="margin-bottom: 20px; padding: 15px; background: #e3f2fd; border-left: 4px solid #2196f3; border-radius: 4px;">
+          <strong>About Neckline Shaping:</strong><br>
+          Each side of the neckline is knit separately. You will scrap off one side, shape one side, then rehang and shape the 2nd side.
+        </div>
+        
         <div style="margin-bottom: 20px;">
-          <strong>Step 2: Neckline Shaping Setup</strong><br><br>
-          Each side of the neckline is knit separately. You will scrap off one side, shape one side, then rehang and shape the 2nd side.<br><br>
+          <strong>Step 2: Neckline Shaping Setup</strong><br>
           • Scrap off ${sideTotal} stitches
         </div>
 
