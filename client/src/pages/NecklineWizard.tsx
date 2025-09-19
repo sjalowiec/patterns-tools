@@ -14,9 +14,10 @@ export default function NecklineWizard() {
 
   // Fixed dimensions in inches (canonical base units)
   const garmentWidthIn = 10;
-  const garmentHeightIn = 5;  
+  const bodyHeightIn = 5;  // Straight knitting before neck shaping
   const necklineWidthIn = 5;
   const necklineDepthIn = 4;
+  const totalGarmentHeightIn = bodyHeightIn + necklineDepthIn; // 9" total
 
   // Calculate per-inch gauge consistently
   const stitchesPerInch = units === 'inches' 
@@ -28,15 +29,17 @@ export default function NecklineWizard() {
 
   // Calculate stitch and row counts using canonical dimensions (always in inches)
   const castOnSts = Math.round(garmentWidthIn * stitchesPerInch) || 0;
-  const totalRows = Math.round(garmentHeightIn * rowsPerInch) || 0;
+  const bodyRows = Math.round(bodyHeightIn * rowsPerInch) || 0;
+  const totalRows = Math.round(totalGarmentHeightIn * rowsPerInch) || 0;
   const neckSts = Math.round(necklineWidthIn * stitchesPerInch) || 0;
   const neckDepthRows = Math.round(necklineDepthIn * rowsPerInch) || 0;
   
-  // Display dimensions in current units for labels
-  const garmentWidth = units === 'inches' ? garmentWidthIn : garmentWidthIn * 2.54;
-  const garmentHeight = units === 'inches' ? garmentHeightIn : garmentHeightIn * 2.54;
-  const necklineWidth = units === 'inches' ? necklineWidthIn : necklineWidthIn * 2.54;
-  const necklineDepth = units === 'inches' ? necklineDepthIn : necklineDepthIn * 2.54;
+  // Display dimensions in current units for labels  
+  const garmentWidth = units === 'inches' ? garmentWidthIn : Math.round(garmentWidthIn * 2.54 * 10) / 10;
+  const bodyHeight = units === 'inches' ? bodyHeightIn : Math.round(bodyHeightIn * 2.54 * 10) / 10;
+  const totalGarmentHeight = units === 'inches' ? totalGarmentHeightIn : Math.round(totalGarmentHeightIn * 2.54 * 10) / 10;
+  const necklineWidth = units === 'inches' ? necklineWidthIn : Math.round(necklineWidthIn * 2.54 * 10) / 10;
+  const necklineDepth = units === 'inches' ? necklineDepthIn : Math.round(necklineDepthIn * 2.54 * 10) / 10;
 
   // Machine knitting neckline shaping calculations
   const bindOffSts = Math.floor(neckSts / 3);  // initial bind off (center)
@@ -58,13 +61,13 @@ export default function NecklineWizard() {
   const remainingRows = Math.max(0, neckDepthRows - shapingRows);
   
   // Calculate total knitting rows for SVG
-  const initialStraightRows = totalRows - neckDepthRows;
-  const totalKnittingRows = initialStraightRows + shapingRows;
+  const initialStraightRows = bodyRows; // 5" of straight knitting
+  const totalKnittingRows = Math.min(initialStraightRows + shapingRows, totalRows); // Clamp to prevent SVG overflow
 
   // Generate machine knitting text instructions
   const generateInstructions = () => {
     const unitLabel = units === 'inches' ? '"' : 'cm';
-    const initialStraightRows = totalRows - neckDepthRows;
+    const initialStraightRows = bodyRows;
     
     return `
       <div class="well_white">
@@ -75,7 +78,7 @@ export default function NecklineWizard() {
         </div>
         
         <div style="margin-bottom: 20px;">
-          <strong>Knit ${initialStraightRows} rows straight</strong>
+          <strong>Knit ${initialStraightRows} rows straight (${bodyHeight}${unitLabel})</strong>
         </div>
         
         <div style="margin-bottom: 25px; padding: 15px; background: #fff3cd; border-left: 4px solid #ffeb3b; border-radius: 4px;">
@@ -155,11 +158,11 @@ export default function NecklineWizard() {
       <svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="width: 100%; max-width: 500px; height: auto;">
         <!-- Main rectangle -->
         <rect x="${rectX}" y="${rectY}" width="${rectWidth}" height="${rectHeight}" 
-              fill="none" stroke="black" stroke-width="2"/>
+              fill="none" stroke="black" stroke-width="1"/>
         
         <!-- Neckline curve -->
         <path d="M ${neckLeft} ${rectY} Q ${centerX} ${rectY + neckDepthSvg * 1.3} ${neckRight} ${rectY}" 
-              fill="none" stroke="black" stroke-width="2"/>
+              fill="none" stroke="black" stroke-width="1"/>
         
         <!-- Bottom measurement line -->
         <line x1="${rectX}" y1="${rectY + rectHeight + 25}" x2="${rectX + rectWidth}" y2="${rectY + rectHeight + 25}" 
@@ -170,14 +173,14 @@ export default function NecklineWizard() {
           {{castOnSts}} stitches ({{width}}${units === 'inches' ? '"' : 'cm'})
         </text>
         
-        <!-- Left measurement line - neckline depth only -->
-        <line x1="${rectX - 25}" y1="${rectY}" x2="${rectX - 25}" y2="${rectY + neckDepthSvg * 1.3}" 
+        <!-- Left measurement line - total knitted length (initial straight + one side shaping) -->
+        <line x1="${rectX - 25}" y1="${rectY}" x2="${rectX - 25}" y2="${rectY + rectHeight * totalKnittingRows / totalRows}" 
               stroke="black" stroke-width="1"/>
-        <circle cx="${rectX - 25}" cy="${rectY}" r="3" fill="black"/>
-        <circle cx="${rectX - 25}" cy="${rectY + neckDepthSvg * 1.3}" r="3" fill="black"/>
-        <text x="${rectX - 35}" y="${rectY + (neckDepthSvg * 1.3)/2}" text-anchor="middle" font-size="12" fill="black" 
-              transform="rotate(-90, ${rectX - 35}, ${rectY + (neckDepthSvg * 1.3)/2})">
-          {{neckDepthRows}} rows ({{neckDepth}}${units === 'inches' ? '"' : 'cm'})
+        <circle cx="${rectX - 25}" cy="${rectY}" r="2" fill="black"/>
+        <circle cx="${rectX - 25}" cy="${rectY + rectHeight * totalKnittingRows / totalRows}" r="2" fill="black"/>
+        <text x="${rectX - 35}" y="${rectY + (rectHeight * totalKnittingRows / totalRows)/2}" text-anchor="middle" font-size="11" fill="black" 
+              transform="rotate(-90, ${rectX - 35}, ${rectY + (rectHeight * totalKnittingRows / totalRows)/2})">
+          {{totalKnittingRows}} rows ({{knittedHeight}}${units === 'inches' ? '"' : 'cm'})
         </text>
         
         <!-- Neckline measurement -->
@@ -189,14 +192,14 @@ export default function NecklineWizard() {
           {{neckSts}} stitches ({{neckWidth}}${units === 'inches' ? '"' : 'cm'})
         </text>
         
-        <!-- Total knitting rows (initial straight + shaping) -->
-        <line x1="${rectX + rectWidth + 15}" y1="${rectY}" x2="${rectX + rectWidth + 15}" y2="${rectY + rectHeight * totalKnittingRows / totalRows}" 
+        <!-- Right measurement line - neckline depth only -->
+        <line x1="${rectX + rectWidth + 15}" y1="${rectY}" x2="${rectX + rectWidth + 15}" y2="${rectY + neckDepthSvg * 1.3}" 
               stroke="black" stroke-width="1"/>
         <circle cx="${rectX + rectWidth + 15}" cy="${rectY}" r="2" fill="black"/>
-        <circle cx="${rectX + rectWidth + 15}" cy="${rectY + rectHeight * totalKnittingRows / totalRows}" r="2" fill="black"/>
-        <text x="${rectX + rectWidth + 25}" y="${rectY + (rectHeight * totalKnittingRows / totalRows)/2}" text-anchor="start" font-size="11" fill="black" 
-              transform="rotate(90, ${rectX + rectWidth + 25}, ${rectY + (rectHeight * totalKnittingRows / totalRows)/2})">
-          {{totalKnittingRows}} rows ({{knittedHeight}}${units === 'inches' ? '"' : 'cm'})
+        <circle cx="${rectX + rectWidth + 15}" cy="${rectY + neckDepthSvg * 1.3}" r="2" fill="black"/>
+        <text x="${rectX + rectWidth + 25}" y="${rectY + (neckDepthSvg * 1.3)/2}" text-anchor="start" font-size="11" fill="black" 
+              transform="rotate(90, ${rectX + rectWidth + 25}, ${rectY + (neckDepthSvg * 1.3)/2})">
+          {{neckDepthRows}} rows ({{neckDepth}}${units === 'inches' ? '"' : 'cm'})
         </text>
       </svg>
     `;
@@ -211,7 +214,7 @@ export default function NecklineWizard() {
     return template
       .replace(/\{\{castOnSts\}\}/g, castOnSts.toString())
       .replace(/\{\{rows\}\}/g, totalRows.toString())
-      .replace(/\{\{height\}\}/g, garmentHeight.toFixed(1))
+      .replace(/\{\{height\}\}/g, totalGarmentHeight.toFixed(1))
       .replace(/\{\{neckSts\}\}/g, neckSts.toString())
       .replace(/\{\{neckDepth\}\}/g, necklineDepth.toFixed(1))
       .replace(/\{\{neckDepthRows\}\}/g, neckDepthRows.toString())
@@ -235,89 +238,114 @@ export default function NecklineWizard() {
           
           <div className="form-group">
             <label>Measurement Units</label>
-            <select 
-              className="form-control"
-              value={units}
-              onChange={(e) => setUnits(e.target.value as 'inches' | 'cm')}
-              data-testid="select-units"
-            >
-              <option value="inches">Inches</option>
-              <option value="cm">Centimeters</option>
-            </select>
+            <div style={{ display: 'flex', gap: '20px', marginTop: '8px' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                <input
+                  type="radio"
+                  name="units"
+                  value="inches"
+                  checked={units === 'inches'}
+                  onChange={(e) => setUnits(e.target.value as 'inches' | 'cm')}
+                  data-testid="radio-inches"
+                />
+                Inches
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                <input
+                  type="radio"
+                  name="units"
+                  value="cm"
+                  checked={units === 'cm'}
+                  onChange={(e) => setUnits(e.target.value as 'inches' | 'cm')}
+                  data-testid="radio-cm"
+                />
+                Centimeters
+              </label>
+            </div>
           </div>
 
-          <div className="form-group">
-            <label>Stitches in {units === 'inches' ? '4 inches' : '10 cm'}</label>
-            <input
-              type="number"
-              className="form-control"
-              value={stitchesIn4}
-              onChange={(e) => setStitchesIn4(e.target.value)}
-              placeholder={units === 'inches' ? 'e.g., 20' : 'e.g., 20'}
-              data-testid="input-stitches"
-            />
-          </div>
+          <div style={{ display: 'flex', gap: '20px' }}>
+            <div className="form-group" style={{ flex: 1 }}>
+              <label>Stitches in {units === 'inches' ? '4 inches' : '10 cm'}</label>
+              <input
+                type="number"
+                className="form-control"
+                value={stitchesIn4}
+                onChange={(e) => setStitchesIn4(e.target.value)}
+                placeholder={units === 'inches' ? 'e.g., 20' : 'e.g., 20'}
+                data-testid="input-stitches"
+              />
+            </div>
 
-          <div className="form-group">
-            <label>Rows in {units === 'inches' ? '4 inches' : '10 cm'}</label>
-            <input
-              type="number"
-              className="form-control"
-              value={rowsIn4}
-              onChange={(e) => setRowsIn4(e.target.value)}
-              placeholder="e.g., 28"
-              data-testid="input-rows"
-            />
+            <div className="form-group" style={{ flex: 1 }}>
+              <label>Rows in {units === 'inches' ? '4 inches' : '10 cm'}</label>
+              <input
+                type="number"
+                className="form-control"
+                value={rowsIn4}
+                onChange={(e) => setRowsIn4(e.target.value)}
+                placeholder="e.g., 28"
+                data-testid="input-rows"
+              />
+            </div>
           </div>
           
-          <div className="form-actions" style={{ marginTop: '20px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-            <button 
-              type="button" 
-              className="btn btn-secondary"
-              onClick={() => {
-                setStitchesIn4('20');
-                setRowsIn4('28');
-                setUnits('inches');
-              }}
-              data-testid="button-start-over"
-            >
-              Start Over
-            </button>
-            
-            {castOnSts > 0 && totalRows > 0 && neckSts > 0 && (
+          <div className="form-actions" style={{ marginTop: '30px', display: 'flex', gap: '30px', justifyContent: 'center', alignItems: 'flex-start' }}>
+            <div style={{ textAlign: 'center' }}>
               <button 
                 type="button" 
-                className="btn btn-primary"
+                className="btn-round btn-round-secondary"
                 onClick={() => {
-                  const printContent = `
-                    <html>
-                      <head>
-                        <title>Knitting Pattern - Neckline Practice</title>
-                        <style>
-                          body { font-family: Arial, sans-serif; margin: 20px; }
-                          .instructions { margin-bottom: 30px; }
-                          .schematic { text-align: center; }
-                          @media print { body { margin: 0; } }
-                        </style>
-                      </head>
-                      <body>
-                        <div class="instructions">${generateInstructions()}</div>
-                        <div class="schematic">
-                          <h3>Technical Schematic</h3>
-                          ${replacePlaceholders(generateSchematic())}
-                        </div>
-                      </body>
-                    </html>
-                  `;
-                  const printWindow = window.open('', '_blank');
-                  printWindow?.document.write(printContent);
-                  printWindow?.document.close();
-                  printWindow?.print();
+                  setStitchesIn4('20');
+                  setRowsIn4('28');
+                  setUnits('inches');
                 }}
-                data-testid="button-download-print"
+                data-testid="button-start-over"
               >
-                Download/Print
+                <i className="fas fa-undo-alt"></i>
               </button>
+              <div className="btn-label">Start Over</div>
+            </div>
+            
+            {castOnSts > 0 && totalRows > 0 && neckSts > 0 && (
+              <div style={{ textAlign: 'center' }}>
+                <button 
+                  type="button" 
+                  className="btn-round btn-round-primary"
+                  onClick={() => {
+                    const printContent = `
+                      <html>
+                        <head>
+                          <title>Knitting Pattern - Neckline Practice</title>
+                          <style>
+                            body { font-family: Arial, sans-serif; margin: 20px; }
+                            .instructions { margin-bottom: 30px; }
+                            .schematic { text-align: center; }
+                            .well_white { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+                            .text-primary { color: #1E7E72; }
+                            @media print { body { margin: 0; } }
+                          </style>
+                        </head>
+                        <body>
+                          <div class="instructions">${generateInstructions()}</div>
+                          <div class="schematic">
+                            <h3>Technical Schematic</h3>
+                            ${replacePlaceholders(generateSchematic())}
+                          </div>
+                        </body>
+                      </html>
+                    `;
+                    const printWindow = window.open('', '_blank');
+                    printWindow?.document.write(printContent);
+                    printWindow?.document.close();
+                    printWindow?.print();
+                  }}
+                  data-testid="button-download-print"
+                >
+                  <i className="fas fa-download"></i>
+                </button>
+                <div className="btn-label">Download/Print</div>
+              </div>
             )}
           </div>
         </div>
