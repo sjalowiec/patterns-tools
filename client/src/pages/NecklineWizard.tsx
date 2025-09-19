@@ -190,14 +190,14 @@ export default function NecklineWizard() {
           {{castOnSts}} stitches ({{width}}${units === 'inches' ? '"' : 'cm'})
         </text>
         
-        <!-- Left measurement line - total knitted length (initial straight + one side shaping) -->
-        <line x1="${rectX - 25}" y1="${rectY}" x2="${rectX - 25}" y2="${rectY + rectHeight * totalKnittingRows / totalRows}" 
+        <!-- Left measurement line - full rectangle height showing total rows knitted -->
+        <line x1="${rectX - 25}" y1="${rectY}" x2="${rectX - 25}" y2="${rectY + rectHeight}" 
               stroke="black" stroke-width="1"/>
         <circle cx="${rectX - 25}" cy="${rectY}" r="2" fill="black"/>
-        <circle cx="${rectX - 25}" cy="${rectY + rectHeight * totalKnittingRows / totalRows}" r="2" fill="black"/>
-        <text x="${rectX - 35}" y="${rectY + (rectHeight * totalKnittingRows / totalRows)/2}" text-anchor="middle" font-size="11" fill="black" 
-              transform="rotate(-90, ${rectX - 35}, ${rectY + (rectHeight * totalKnittingRows / totalRows)/2})">
-          {{totalKnittingRows}} rows ({{knittedHeight}}${units === 'inches' ? '"' : 'cm'})
+        <circle cx="${rectX - 25}" cy="${rectY + rectHeight}" r="2" fill="black"/>
+        <text x="${rectX - 35}" y="${rectY + rectHeight/2}" text-anchor="middle" font-size="11" fill="black" 
+              transform="rotate(-90, ${rectX - 35}, ${rectY + rectHeight/2})">
+          {{rows}} rows ({{height}}${units === 'inches' ? '"' : 'cm'})
         </text>
         
         <!-- Neckline measurement -->
@@ -281,90 +281,94 @@ export default function NecklineWizard() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '20px' }}>
-            <div className="form-group" style={{ flex: 1 }}>
-              <label>Stitches in {units === 'inches' ? '4 inches' : '10 cm'}</label>
-              <input
-                type="number"
-                className="form-control"
-                value={stitchesIn4}
-                onChange={(e) => setStitchesIn4(e.target.value)}
-                placeholder={units === 'inches' ? 'e.g., 20' : 'e.g., 20'}
-                data-testid="input-stitches"
-              />
-            </div>
+          <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+            <div style={{ display: 'flex', gap: '20px', flex: 1 }}>
+              <div className="form-group" style={{ flex: 1 }}>
+                <label>Stitches in {units === 'inches' ? '4 inches' : '10 cm'}</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={stitchesIn4}
+                  onChange={(e) => setStitchesIn4(e.target.value)}
+                  placeholder={units === 'inches' ? 'e.g., 20' : 'e.g., 20'}
+                  data-testid="input-stitches"
+                />
+              </div>
 
-            <div className="form-group" style={{ flex: 1 }}>
-              <label>Rows in {units === 'inches' ? '4 inches' : '10 cm'}</label>
-              <input
-                type="number"
-                className="form-control"
-                value={rowsIn4}
-                onChange={(e) => setRowsIn4(e.target.value)}
-                placeholder="e.g., 28"
-                data-testid="input-rows"
-              />
-            </div>
-          </div>
-          
-          <div className="form-actions" style={{ marginTop: '30px', display: 'flex', gap: '30px', justifyContent: 'center', alignItems: 'flex-start' }}>
-            <div style={{ textAlign: 'center' }}>
-              <button 
-                type="button" 
-                className="btn-round btn-round-secondary"
-                onClick={() => {
-                  setStitchesIn4('20');
-                  setRowsIn4('28');
-                  setUnits('inches');
-                }}
-                data-testid="button-start-over"
-              >
-                <i className="fas fa-undo-alt"></i>
-              </button>
-              <div className="btn-label">Start Over</div>
+              <div className="form-group" style={{ flex: 1 }}>
+                <label>Rows in {units === 'inches' ? '4 inches' : '10 cm'}</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={rowsIn4}
+                  onChange={(e) => setRowsIn4(e.target.value)}
+                  placeholder="e.g., 28"
+                  data-testid="input-rows"
+                />
+              </div>
             </div>
             
-            {castOnSts > 0 && totalRows > 0 && neckSts > 0 && (
+            {/* Action buttons positioned to the right above inputs */}
+            <div style={{ display: 'flex', gap: '15px', marginTop: '20px' }}>
               <div style={{ textAlign: 'center' }}>
                 <button 
                   type="button" 
-                  className="btn-round btn-round-primary"
+                  className="btn-round btn-round-secondary"
                   onClick={() => {
-                    const printContent = `
-                      <html>
-                        <head>
-                          <title>Knitting Pattern - Neckline Practice</title>
-                          <style>
-                            body { font-family: Arial, sans-serif; margin: 20px; }
-                            .instructions { margin-bottom: 30px; }
-                            .schematic { text-align: center; }
-                            .well_white { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-                            .text-primary { color: #1E7E72; }
-                            @media print { body { margin: 0; } }
-                          </style>
-                        </head>
-                        <body>
-                          <div class="instructions">${generateInstructions()}</div>
-                          <div class="schematic">
-                            <h3>Technical Schematic</h3>
-                            ${replacePlaceholders(generateSchematic())}
-                          </div>
-                        </body>
-                      </html>
-                    `;
-                    const printWindow = window.open('', '_blank');
-                    printWindow?.document.write(printContent);
-                    printWindow?.document.close();
-                    printWindow?.print();
+                    setStitchesIn4('20');
+                    setRowsIn4('28');
+                    handleUnitsChange('inches');
                   }}
-                  data-testid="button-download-print"
+                  data-testid="button-start-over"
                 >
-                  <i className="fas fa-download"></i>
+                  <i className="fas fa-undo-alt"></i>
                 </button>
-                <div className="btn-label">Download/Print</div>
+                <div className="btn-label">Start Over</div>
               </div>
-            )}
+              
+              {castOnSts > 0 && totalRows > 0 && neckSts > 0 && (
+                <div style={{ textAlign: 'center' }}>
+                  <button 
+                    type="button" 
+                    className="btn-round btn-round-primary"
+                    onClick={() => {
+                      const printContent = `
+                        <html>
+                          <head>
+                            <title>Knitting Pattern - Neckline Practice</title>
+                            <style>
+                              body { font-family: Arial, sans-serif; margin: 20px; }
+                              .instructions { margin-bottom: 30px; }
+                              .schematic { text-align: center; }
+                              .well_white { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+                              .text-primary { color: #1E7E72; }
+                              @media print { body { margin: 0; } }
+                            </style>
+                          </head>
+                          <body>
+                            <div class="instructions">${generateInstructions()}</div>
+                            <div class="schematic">
+                              <h3>Technical Schematic</h3>
+                              ${replacePlaceholders(generateSchematic())}
+                            </div>
+                          </body>
+                        </html>
+                      `;
+                      const printWindow = window.open('', '_blank');
+                      printWindow?.document.write(printContent);
+                      printWindow?.document.close();
+                      printWindow?.print();
+                    }}
+                    data-testid="button-download-print"
+                  >
+                    <i className="fas fa-download"></i>
+                  </button>
+                  <div className="btn-label">Download/Print</div>
+                </div>
+              )}
+            </div>
           </div>
+          
         </div>
 
         {/* Instructions */}
