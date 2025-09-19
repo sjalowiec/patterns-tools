@@ -12,6 +12,30 @@ export default function NecklineWizard() {
   const [stitchesIn4, setStitchesIn4] = useState<string>('20');
   const [rowsIn4, setRowsIn4] = useState<string>('28');
 
+  // Handle unit conversion while maintaining the same physical gauge
+  const handleUnitsChange = (newUnits: 'inches' | 'cm') => {
+    if (newUnits === units) return;
+    
+    const currentStitches = Number(stitchesIn4) || 0;
+    const currentRows = Number(rowsIn4) || 0;
+    
+    if (newUnits === 'cm' && units === 'inches') {
+      // Converting from inches to cm: (stitches/4 inches) * 10 cm
+      const convertedStitches = ((currentStitches / 4) / 2.54 * 10).toString();
+      const convertedRows = ((currentRows / 4) / 2.54 * 10).toString();
+      setStitchesIn4(convertedStitches);
+      setRowsIn4(convertedRows);
+    } else if (newUnits === 'inches' && units === 'cm') {
+      // Converting from cm to inches: (stitches/10 cm) * 4 inches
+      const convertedStitches = ((currentStitches / 10) * 2.54 * 4).toString();
+      const convertedRows = ((currentRows / 10) * 2.54 * 4).toString();
+      setStitchesIn4(convertedStitches);
+      setRowsIn4(convertedRows);
+    }
+    
+    setUnits(newUnits);
+  };
+
   // Fixed dimensions in inches (canonical base units)
   const garmentWidthIn = 10;
   const bodyHeightIn = 5;  // Straight knitting before neck shaping
@@ -42,7 +66,7 @@ export default function NecklineWizard() {
   const necklineDepth = units === 'inches' ? necklineDepthIn : Math.round(necklineDepthIn * 2.54 * 10) / 10;
 
   // Machine knitting neckline shaping calculations
-  const bindOffSts = Math.floor(neckSts / 3);  // initial bind off (center)
+  const bindOffSts = Math.floor(castOnSts / 3);  // initial bind off (center) - 1/3 of total cast-on
   const sideTotal = Math.floor(castOnSts / 2);  // total stitches per side
   const totalDecreases = neckSts - bindOffSts;  // total stitches to decrease
   const perSideRemaining = Math.floor(totalDecreases / 2);  // decreases per side 
@@ -121,13 +145,6 @@ export default function NecklineWizard() {
           • Knit ${remainingRows} straight rows and bind off
         </div>
 
-        <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 6px;">
-          <strong>Summary:</strong><br>
-          Neckline: ${neckSts} stitches (${necklineWidth}${unitLabel} wide)<br>
-          Depth: ${neckDepthRows} rows (${necklineDepth}${unitLabel})<br>
-          Shaping: ${shapingRows} rows + Straight: ${remainingRows} rows = ${neckDepthRows} total<br>
-          <strong>Validation:</strong> 2×${perSideRemaining} + ${adjustedBindOff} = ${2*perSideRemaining + adjustedBindOff} (should equal ${neckSts})
-        </div>
       </div>
     `;
   };
@@ -245,7 +262,7 @@ export default function NecklineWizard() {
                   name="units"
                   value="inches"
                   checked={units === 'inches'}
-                  onChange={(e) => setUnits(e.target.value as 'inches' | 'cm')}
+                  onChange={(e) => handleUnitsChange(e.target.value as 'inches' | 'cm')}
                   data-testid="radio-inches"
                 />
                 Inches
@@ -256,7 +273,7 @@ export default function NecklineWizard() {
                   name="units"
                   value="cm"
                   checked={units === 'cm'}
-                  onChange={(e) => setUnits(e.target.value as 'inches' | 'cm')}
+                  onChange={(e) => handleUnitsChange(e.target.value as 'inches' | 'cm')}
                   data-testid="radio-cm"
                 />
                 Centimeters
