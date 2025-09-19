@@ -12,27 +12,8 @@ export default function NecklineWizard() {
   const [stitchesIn4, setStitchesIn4] = useState<string>('20');
   const [rowsIn4, setRowsIn4] = useState<string>('28');
 
-  // Handle unit conversion while maintaining the same physical gauge
+  // Handle unit change without converting input display values
   const handleUnitsChange = (newUnits: 'inches' | 'cm') => {
-    if (newUnits === units) return;
-    
-    const currentStitches = Number(stitchesIn4) || 0;
-    const currentRows = Number(rowsIn4) || 0;
-    
-    if (newUnits === 'cm' && units === 'inches') {
-      // Converting from inches to cm: (stitches/4 inches) * 10 cm
-      const convertedStitches = ((currentStitches / 4) / 2.54 * 10).toString();
-      const convertedRows = ((currentRows / 4) / 2.54 * 10).toString();
-      setStitchesIn4(convertedStitches);
-      setRowsIn4(convertedRows);
-    } else if (newUnits === 'inches' && units === 'cm') {
-      // Converting from cm to inches: (stitches/10 cm) * 4 inches
-      const convertedStitches = ((currentStitches / 10) * 2.54 * 4).toString();
-      const convertedRows = ((currentRows / 10) * 2.54 * 4).toString();
-      setStitchesIn4(convertedStitches);
-      setRowsIn4(convertedRows);
-    }
-    
     setUnits(newUnits);
   };
 
