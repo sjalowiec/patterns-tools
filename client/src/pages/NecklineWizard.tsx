@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import html2pdf from 'html2pdf.js';
 import '../sweater-planner.css';
 
 interface GaugeData {
@@ -12,6 +13,20 @@ export default function NecklineWizard() {
   const [stitchesIn4, setStitchesIn4] = useState<string>('20');
   const [rowsIn4, setRowsIn4] = useState<string>('28');
 
+  // Warn user before leaving page if they have entered data
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (stitchesIn4 !== '20' || rowsIn4 !== '28') {
+        e.preventDefault();
+        e.returnValue = 'Your pattern will be lost! Make sure to download your PDF before leaving.';
+        return e.returnValue;
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [stitchesIn4, rowsIn4]);
+
   // Handle unit change without converting input display values
   const handleUnitsChange = (newUnits: 'inches' | 'cm') => {
     setUnits(newUnits);
@@ -24,13 +39,9 @@ export default function NecklineWizard() {
   const necklineDepthIn = 4;
   const totalGarmentHeightIn = bodyHeightIn + necklineDepthIn; // 9" total
 
-  // Calculate per-inch gauge consistently
-  const stitchesPerInch = units === 'inches' 
-    ? (Number(stitchesIn4) || 0) / 4 
-    : (Number(stitchesIn4) || 0) / 10 * 2.54;
-  const rowsPerInch = units === 'inches' 
-    ? (Number(rowsIn4) || 0) / 4 
-    : (Number(rowsIn4) || 0) / 10 * 2.54;
+  // Calculate per-inch gauge consistently - treat input numbers the same regardless of units
+  const stitchesPerInch = (Number(stitchesIn4) || 0) / 4;
+  const rowsPerInch = (Number(rowsIn4) || 0) / 4;
 
   // Calculate stitch and row counts using canonical dimensions (always in inches)
   const castOnSts = Math.round(garmentWidthIn * stitchesPerInch) || 0;
@@ -243,40 +254,42 @@ export default function NecklineWizard() {
               <button 
                 type="button" 
                 className="btn-round btn-round-light"
-                onClick={() => {
-                  const printContent = `
-                    <html>
-                      <head>
-                        <title>Knitting Pattern - Neckline Practice</title>
-                        <style>
-                          body { font-family: Arial, sans-serif; margin: 20px; }
-                          .instructions { margin-bottom: 30px; }
-                          .schematic { text-align: center; }
-                          .well_white { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-                          .text-primary { color: #1E7E72; }
-                          @media print { body { margin: 0; } }
-                        </style>
-                      </head>
-                      <body>
-                        <div class="instructions">${generateInstructions()}</div>
-                        <div class="schematic">
-                          <h3>Diagram</h3>
-                          ${replacePlaceholders(generateSchematic())}
-                        </div>
-                      </body>
-                    </html>
+                onClick={async () => {
+                  const content = `
+                    <div style="font-family: Arial, sans-serif; padding: 20px;">
+                      <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #1E7E72;">
+                        <h1 style="color: #1E7E72; margin: 0; font-size: 28px;">Neckline Practice Wizard</h1>
+                        <p style="color: #666; margin: 5px 0 0 0; font-size: 16px;">Learn neckline shaping with step-by-step instructions and technical diagrams</p>
+                      </div>
+                      <div style="margin-bottom: 30px;">${generateInstructions()}</div>
+                      <div style="text-align: center;">
+                        <h3 style="color: #1E7E72;">Diagram</h3>
+                        ${replacePlaceholders(generateSchematic())}
+                      </div>
+                    </div>
                   `;
-                  const printWindow = window.open('', '_blank');
-                  printWindow?.document.write(printContent);
-                  printWindow?.document.close();
-                  printWindow?.print();
+                  
+                  const options = {
+                    margin: 0.5,
+                    filename: 'neckline-pattern.pdf',
+                    image: { type: 'jpeg' as const, quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'in' as const, format: 'letter' as const, orientation: 'portrait' as const }
+                  };
+                  
+                  try {
+                    await html2pdf().set(options).from(content).save();
+                  } catch (error) {
+                    console.error('Error generating PDF:', error);
+                    alert('Error generating PDF. Please try again.');
+                  }
                 }}
-                data-testid="button-download-print"
-                title="Download/Print"
+                data-testid="button-download"
+                title="Download"
               >
                 <i className="fas fa-download"></i>
               </button>
-              <div className="btn-label" style={{ color: 'rgba(255,255,255,0.8)' }}>Download/Print</div>
+              <div className="btn-label" style={{ color: 'rgba(255,255,255,0.8)' }}>Download</div>
             </div>
           )}
           </div>
@@ -284,6 +297,12 @@ export default function NecklineWizard() {
       </div>
 
       <div className="content-area">
+        {/* Data Persistence Warning */}
+        <div style={{ marginBottom: '20px', padding: '15px', background: '#fff3cd', border: '1px solid #ffeaa7', borderRadius: '8px' }}>
+          <strong style={{ color: '#d63031' }}>IMPORTANT: Your pattern will not be saved on this site.</strong><br />
+          <small style={{ color: '#666' }}>Please be sure to download and save your PDF now — once you leave this page, your custom details won't be available again.</small>
+        </div>
+        
         {/* Input Form */}
         <div className="well_white">
           <h2 className="text-primary">Your Gauge</h2>
@@ -356,6 +375,11 @@ export default function NecklineWizard() {
           <div id="schematic" style={{ textAlign: 'center', padding: '20px' }}>
             <div dangerouslySetInnerHTML={{ __html: replacePlaceholders(generateSchematic()) }} />
           </div>
+        </div>
+        
+        {/* Copyright Notice */}
+        <div style={{ textAlign: 'center', padding: '20px', fontSize: '14px', color: '#666', borderTop: '1px solid #e0e0e0', marginTop: '30px' }}>
+          © 2025 Neckline Practice Wizard. All rights reserved.
         </div>
       </div>
     </div>
