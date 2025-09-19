@@ -67,6 +67,7 @@ export default function SweaterWizard() {
   };
 
   const canProceed = currentStep === 1 ? gaugeData !== null : true;
+  const isLoading = createCalculation.isPending;
 
   return (
     <div className="wizard-container" data-testid="container-wizard">
@@ -76,10 +77,17 @@ export default function SweaterWizard() {
       
       <div className="content-area">
         <div className={`section ${currentStep === 1 ? 'active' : ''}`}>
-          <GaugeInput 
-            onGaugeChange={handleGaugeSubmit}
-            initialData={gaugeData || undefined}
-          />
+          {isLoading && (
+            <div style={{ textAlign: 'center', padding: '20px' }}>
+              <div className="text-primary">Saving your calculation...</div>
+            </div>
+          )}
+          {!isLoading && (
+            <GaugeInput 
+              onGaugeChange={handleGaugeSubmit}
+              initialData={gaugeData || undefined}
+            />
+          )}
         </div>
         
         <div className={`section ${currentStep === 2 ? 'active' : ''}`}>

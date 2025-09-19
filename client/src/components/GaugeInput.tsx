@@ -19,21 +19,31 @@ export default function GaugeInput({ onGaugeChange, initialData = {} }: GaugeInp
 
   // Reset form when initialData changes (e.g., when reset is clicked)
   useEffect(() => {
-    setUnits(initialData.units || 'inches');
-    setStitchGauge(initialData.stitchGauge?.toString() || '');
-    setRowGauge(initialData.rowGauge?.toString() || '');
-    setErrors({});
-  }, [initialData]);
+    if (initialData) {
+      setUnits(initialData.units || 'inches');
+      setStitchGauge(initialData.stitchGauge?.toString() || '');
+      setRowGauge(initialData.rowGauge?.toString() || '');
+      setErrors({});
+    }
+  }, [initialData?.units, initialData?.stitchGauge, initialData?.rowGauge]);
 
   const validateInputs = () => {
     const newErrors: Record<string, string> = {};
     
-    if (!stitchGauge || Number(stitchGauge) <= 0) {
-      newErrors.stitchGauge = 'Stitch gauge must be greater than 0';
+    if (!stitchGauge || stitchGauge.trim() === '') {
+      newErrors.stitchGauge = 'Stitch gauge is required';
+    } else if (isNaN(Number(stitchGauge)) || Number(stitchGauge) <= 0) {
+      newErrors.stitchGauge = 'Stitch gauge must be a positive number';
+    } else if (Number(stitchGauge) > 50) {
+      newErrors.stitchGauge = 'Stitch gauge seems too high (max 50)';
     }
     
-    if (!rowGauge || Number(rowGauge) <= 0) {
-      newErrors.rowGauge = 'Row gauge must be greater than 0';
+    if (!rowGauge || rowGauge.trim() === '') {
+      newErrors.rowGauge = 'Row gauge is required';
+    } else if (isNaN(Number(rowGauge)) || Number(rowGauge) <= 0) {
+      newErrors.rowGauge = 'Row gauge must be a positive number';
+    } else if (Number(rowGauge) > 50) {
+      newErrors.rowGauge = 'Row gauge seems too high (max 50)';
     }
     
     setErrors(newErrors);

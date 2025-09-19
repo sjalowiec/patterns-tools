@@ -42,9 +42,10 @@ export default function NavigationButtons({
       <div>
         {!isLastStep && (
           <button 
-            className={`btn-primary ${!canProceed ? 'disabled' : ''}`}
+            className="btn-primary"
             onClick={onNext}
             disabled={!canProceed}
+            style={{ opacity: canProceed ? 1 : 0.6, cursor: canProceed ? 'pointer' : 'not-allowed' }}
             data-testid="button-next"
           >
             Next
