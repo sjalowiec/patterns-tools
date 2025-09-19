@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface GaugeData {
   units: 'inches' | 'centimeters';
@@ -13,9 +13,17 @@ interface GaugeInputProps {
 
 export default function GaugeInput({ onGaugeChange, initialData = {} }: GaugeInputProps) {
   const [units, setUnits] = useState<'inches' | 'centimeters'>(initialData.units || 'inches');
-  const [stitchGauge, setStitchGauge] = useState(initialData.stitchGauge || '');
-  const [rowGauge, setRowGauge] = useState(initialData.rowGauge || '');
+  const [stitchGauge, setStitchGauge] = useState(initialData.stitchGauge?.toString() || '');
+  const [rowGauge, setRowGauge] = useState(initialData.rowGauge?.toString() || '');
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Reset form when initialData changes (e.g., when reset is clicked)
+  useEffect(() => {
+    setUnits(initialData.units || 'inches');
+    setStitchGauge(initialData.stitchGauge?.toString() || '');
+    setRowGauge(initialData.rowGauge?.toString() || '');
+    setErrors({});
+  }, [initialData]);
 
   const validateInputs = () => {
     const newErrors: Record<string, string> = {};

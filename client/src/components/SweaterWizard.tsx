@@ -5,6 +5,8 @@ import ProgressIndicator from './ProgressIndicator';
 import GaugeInput from './GaugeInput';
 import ResultsDisplay from './ResultsDisplay';
 import NavigationButtons from './NavigationButtons';
+import { useCreateGaugeCalculation } from '../hooks/useGaugeCalculations';
+import { useToast } from '@/hooks/use-toast';
 
 interface GaugeData {
   units: 'inches' | 'centimeters';
@@ -15,16 +17,35 @@ interface GaugeData {
 export default function SweaterWizard() {
   const [currentStep, setCurrentStep] = useState(1);
   const [gaugeData, setGaugeData] = useState<GaugeData | null>(null);
+  const createCalculation = useCreateGaugeCalculation();
+  const { toast } = useToast();
   
   const steps = [
     { number: 1, label: "Gauge", status: currentStep > 1 ? 'completed' as const : currentStep === 1 ? 'active' as const : 'pending' as const },
     { number: 2, label: "Results", status: currentStep > 2 ? 'completed' as const : currentStep === 2 ? 'active' as const : 'pending' as const }
   ];
 
-  const handleGaugeSubmit = (data: GaugeData) => {
+  const handleGaugeSubmit = async (data: GaugeData) => {
     console.log('Gauge data submitted:', data);
     setGaugeData(data);
-    setCurrentStep(2);
+    
+    try {
+      await createCalculation.mutateAsync(data);
+      setCurrentStep(2);
+      toast({
+        title: "Calculation saved",
+        description: "Your gauge calculation has been saved successfully.",
+      });
+    } catch (error) {
+      console.error('Error saving calculation:', error);
+      toast({
+        title: "Error",
+        description: "Failed to save your calculation. Please try again.",
+        variant: "destructive",
+      });
+      // Still advance to step 2 to show results even if save failed
+      setCurrentStep(2);
+    }
   };
 
   const handleNext = () => {
