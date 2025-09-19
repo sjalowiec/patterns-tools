@@ -227,12 +227,15 @@ export default function NecklineWizard() {
 
   return (
     <div className="wizard-container">
-      <div className="wizard-header" style={{ position: 'relative' }}>
-        <h1 className="wizard-title">Neckline Practice Wizard</h1>
-        <p className="wizard-subtitle">Learn neckline shaping with step-by-step instructions and technical diagrams</p>
-        
-        {/* Action buttons positioned in top-right corner */}
-        <div style={{ position: 'absolute', top: '20px', right: '20px', display: 'flex', gap: '10px' }}>
+      <div className="wizard-header">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px' }}>
+          <div style={{ flex: 1, minWidth: '200px' }}>
+            <h1 className="wizard-title">Neckline Practice Wizard</h1>
+            <p className="wizard-subtitle">Learn neckline shaping with step-by-step instructions and technical diagrams</p>
+          </div>
+          
+          {/* Action buttons - responsive positioning */}
+          <div style={{ display: 'flex', gap: '10px', flexShrink: 0 }}>
           <div style={{ textAlign: 'center' }}>
             <button 
               type="button" 
@@ -291,6 +294,7 @@ export default function NecklineWizard() {
               <div className="btn-label" style={{ color: 'rgba(255,255,255,0.8)' }}>Download/Print</div>
             </div>
           )}
+          </div>
         </div>
       </div>
 
