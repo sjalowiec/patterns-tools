@@ -1,8 +1,8 @@
-# Sweater Planning Wizard
+# Neckline Practice Wizard
 
 ## Overview
 
-The Sweater Planning Wizard is a web-based knitting calculator that helps users determine stitch counts and shaping instructions for sweater construction. The application provides a step-by-step wizard interface where users input their gauge measurements and receive calculated stitch counts, row counts, and detailed neckline shaping instructions with visual SVG diagrams.
+The Neckline Practice Wizard is a focused web-based knitting calculator that helps users learn and practice neckline shaping techniques. The application accepts gauge measurements and generates both detailed text instructions and Japanese-style technical SVG schematics for a fixed 10-unit wide by 5-unit tall garment section with precise neckline shaping calculations.
 
 ## User Preferences
 
@@ -18,17 +18,20 @@ Preferred communication style: Simple, everyday language.
 - **State Management**: React hooks for local state, TanStack Query for server state management
 
 ### Component Structure
-The application follows a modular component architecture with:
-- **Wizard Components**: Step-by-step form navigation with progress tracking
-- **Form Components**: Gauge input forms with validation
-- **Visualization Components**: SVG-based sweater diagrams with responsive design
-- **UI Components**: Comprehensive component library based on Radix UI primitives
+The application is built as a single-page tool with:
+- **Main Component**: NecklineWizard.tsx - comprehensive calculator interface
+- **Gauge Input System**: Unit selection (inches/cm) with conversion from 4"/10cm to per-unit values  
+- **Calculation Engine**: 3-step neckline shaping formula implementation
+- **Instruction Generator**: Clear step-by-step text output for knitting practice
+- **SVG Schematic Generator**: Japanese-style technical diagrams with curved necklines
+- **Validation System**: Prevents NaN errors and handles edge cases gracefully
 
 ### Design System
-- **Color Palette**: Navy blue primary (#2c5282), teal accents (#4299e1), with semantic color tokens
-- **Typography**: Inter font family via Google Fonts with consistent scale
-- **Layout**: Mobile-first responsive design with Tailwind spacing primitives
-- **Visual Hierarchy**: Card-based layouts with subtle borders and shadows
+- **CSS Integration**: Uses existing sweater_planner_css.css for consistent styling
+- **Typography**: Inter font family via Google Fonts with clean, readable interface
+- **Layout**: Single-page design with gauge inputs, instructions, and schematic sections
+- **Visual Hierarchy**: Well-structured sections with clear headings and organized content
+- **Professional Styling**: Uses wizard-container, well_white, and text-primary CSS classes
 
 ### Backend Architecture
 - **Server**: Express.js with TypeScript
@@ -37,10 +40,10 @@ The application follows a modular component architecture with:
 - **API Structure**: RESTful endpoints with JSON responses
 
 ### Data Management
-- **Database**: PostgreSQL configured via Drizzle ORM
-- **Schema**: User authentication system with username/password
-- **Migrations**: Drizzle Kit for schema management and migrations
-- **Connection**: Neon Database serverless PostgreSQL integration
+- **Client-Side Calculator**: No database persistence needed - pure calculation tool
+- **Dynamic Updates**: All calculations update in real-time as gauge inputs change
+- **Validation**: Robust input validation prevents calculation errors
+- **Template System**: SVG uses placeholder replacement for dynamic values
 
 ### Build and Development
 - **Development Server**: Vite with hot reload and error overlay
