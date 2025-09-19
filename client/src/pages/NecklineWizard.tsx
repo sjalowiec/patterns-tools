@@ -74,14 +74,14 @@ export default function NecklineWizard() {
   const adjustedBindOff = bindOffSts + extraStitch;  // add remainder to center bind-off
   const scrapOffTotal = sideTotal + adjustedBindOff;  // stitches to scrap off
   
-  // Split per-side decreases into stair steps and singles
-  const perSideStair = Math.floor(perSideRemaining / 2);
-  const perSideSingle = perSideRemaining - perSideStair;
+  // Split per-side decreases into section patterns to match user terminology  
+  const section1Decreases = Math.floor(perSideRemaining / 2); // every other row decreases
+  const section2Decreases = perSideRemaining - section1Decreases; // every row decreases
   
   // Calculate shaping rows used per side
-  const stairStepRows = Math.ceil(perSideStair / 2.5); // approx 2-3 stitches per step
-  const singleDecreaseRows = perSideSingle; // one decrease per row
-  const shapingRows = stairStepRows + singleDecreaseRows;
+  const section1Rows = section1Decreases * 2; // every other row = 2 rows per decrease
+  const section2Rows = section2Decreases; // every row = 1 row per decrease  
+  const shapingRows = section1Rows + section2Rows;
   const remainingRows = Math.max(0, neckDepthRows - shapingRows);
   
   // Calculate total knitting rows for SVG
@@ -91,58 +91,42 @@ export default function NecklineWizard() {
   // Generate machine knitting text instructions
   const generateInstructions = () => {
     const unitLabel = units === 'inches' ? '"' : 'cm';
-    const initialStraightRows = bodyRows;
     
     return `
       <div class="well_white">
         <h3 class="text-primary">Complete Knitting Pattern</h3>
         
         <div style="margin-bottom: 20px;">
-          <strong>Cast on ${castOnSts} stitches</strong>
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-          <strong>Knit ${initialStraightRows} rows straight (${bodyHeight}${unitLabel})</strong>
+          <strong>Step 1:</strong><br>
+          • Cast on ${castOnSts} stitches<br>
+          • Knit ${bodyRows} rows
         </div>
         
         <div style="margin-bottom: 25px; padding: 15px; background: #fff3cd; border-left: 4px solid #ffeb3b; border-radius: 4px;">
-          <strong>⚠ In case of disaster, place a lifeline</strong><br>
+          <strong>IMPORTANT: In case of disaster, place a lifeline</strong><br>
           <small style="color: #666;">Place a thin yarn or thread through all active stitches to preserve your work before starting neckline shaping.</small>
         </div>
         
         <div style="margin-bottom: 20px;">
-          <strong>Neckline Shaping Setup:</strong><br>
-          • Total stitches on needle: ${castOnSts}<br>
-          • Initial bind off: ${adjustedBindOff} stitches (center${extraStitch ? ' + 1 remainder' : ''})<br>
-          • One side: ${sideTotal} stitches<br>
-          • Decreases per side: ${perSideRemaining}<br>
-          • Shaping rows: ${shapingRows}, Straight rows: ${remainingRows}
+          <strong>Step 2: Neckline Shaping Setup</strong><br><br>
+          Each side of the neckline is knit separately. You will scrap off one side, shape one side, then rehang and shape the 2nd side.<br><br>
+          • Scrap off ${sideTotal} stitches
         </div>
 
-        <div style="margin-bottom: 15px;">
-          <strong>STEP 1:</strong> Scrap off ${scrapOffTotal} stitches (${sideTotal} + ${adjustedBindOff})
+        <div style="margin-bottom: 20px;">
+          <strong>Step 3: Shape neck edge #1</strong><br>
+          • At neck edge, decrease 1 stitch every other row ${section1Decreases} times; decrease 1 stitch every row ${section2Decreases} times.<br>
+          • Knit ${remainingRows} rows<br>
+          • Bind off or scrap off remaining stitches
         </div>
 
-        <div style="margin-bottom: 15px;">
-          <strong>STEP 2:</strong> Shape the remaining ${sideTotal} stitches with ${perSideRemaining} decreases per side:<br>
-          • ${perSideStair} stitches in stair steps (2-3 stitch groups)<br>
-          • ${perSideSingle} stitches as single decreases<br>
-          • Total shaping rows: ${shapingRows}
-        </div>
-
-        <div style="margin-bottom: 15px;">
-          <strong>STEP 3:</strong> Knit the remaining ${remainingRows} rows and bind off
-        </div>
-
-        <div style="margin-bottom: 15px;">
-          <strong>STEP 4:</strong> Pick up the held stitches<br>
-          Bind off center ${adjustedBindOff} stitches when working the second side
-        </div>
-
-        <div style="margin-bottom: 15px;">
-          <strong>STEP 5:</strong> Reverse the shaping on the other side:<br>
-          • Work the same ${perSideStair} + ${perSideSingle} decrease sequence<br>
-          • Knit ${remainingRows} straight rows and bind off
+        <div style="margin-bottom: 20px;">
+          <strong>Step 4: Shape neck edge #2</strong><br>
+          • Rehang scrapped off stitches<br>
+          • Reattach working yarn and bind off ${adjustedBindOff} stitches<br>
+          • At neck edge, decrease 1 stitch every other row ${section1Decreases} times; decrease 1 stitch every row ${section2Decreases} times.<br>
+          • Knit ${remainingRows} rows<br>
+          • Bind off or scrap off remaining stitches
         </div>
 
       </div>
@@ -243,9 +227,71 @@ export default function NecklineWizard() {
 
   return (
     <div className="wizard-container">
-      <div className="wizard-header">
+      <div className="wizard-header" style={{ position: 'relative' }}>
         <h1 className="wizard-title">Neckline Practice Wizard</h1>
         <p className="wizard-subtitle">Learn neckline shaping with step-by-step instructions and technical diagrams</p>
+        
+        {/* Action buttons positioned in top-right corner */}
+        <div style={{ position: 'absolute', top: '20px', right: '20px', display: 'flex', gap: '10px' }}>
+          <div style={{ textAlign: 'center' }}>
+            <button 
+              type="button" 
+              className="btn-round btn-round-light"
+              onClick={() => {
+                setUnits('inches');
+                setStitchesIn4('20');
+                setRowsIn4('28');
+              }}
+              data-testid="button-start-over"
+              title="Start Over"
+            >
+              <i className="fas fa-undo-alt"></i>
+            </button>
+            <div className="btn-label" style={{ color: 'rgba(255,255,255,0.8)' }}>Start Over</div>
+          </div>
+          
+          {castOnSts > 0 && totalRows > 0 && neckSts > 0 && (
+            <div style={{ textAlign: 'center' }}>
+              <button 
+                type="button" 
+                className="btn-round btn-round-light"
+                onClick={() => {
+                  const printContent = `
+                    <html>
+                      <head>
+                        <title>Knitting Pattern - Neckline Practice</title>
+                        <style>
+                          body { font-family: Arial, sans-serif; margin: 20px; }
+                          .instructions { margin-bottom: 30px; }
+                          .schematic { text-align: center; }
+                          .well_white { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+                          .text-primary { color: #1E7E72; }
+                          @media print { body { margin: 0; } }
+                        </style>
+                      </head>
+                      <body>
+                        <div class="instructions">${generateInstructions()}</div>
+                        <div class="schematic">
+                          <h3>Diagram</h3>
+                          ${replacePlaceholders(generateSchematic())}
+                        </div>
+                      </body>
+                    </html>
+                  `;
+                  const printWindow = window.open('', '_blank');
+                  printWindow?.document.write(printContent);
+                  printWindow?.document.close();
+                  printWindow?.print();
+                }}
+                data-testid="button-download-print"
+                title="Download/Print"
+              >
+                <i className="fas fa-download"></i>
+              </button>
+              <div className="btn-label" style={{ color: 'rgba(255,255,255,0.8)' }}>Download/Print</div>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="content-area">
@@ -308,65 +354,6 @@ export default function NecklineWizard() {
               </div>
             </div>
             
-            {/* Action buttons positioned to the right above inputs */}
-            <div style={{ display: 'flex', gap: '15px', marginTop: '20px' }}>
-              <div style={{ textAlign: 'center' }}>
-                <button 
-                  type="button" 
-                  className="btn-round btn-round-secondary"
-                  onClick={() => {
-                    setUnits('inches');
-                    setStitchesIn4('20');
-                    setRowsIn4('28');
-                  }}
-                  data-testid="button-start-over"
-                >
-                  <i className="fas fa-undo-alt"></i>
-                </button>
-                <div className="btn-label">Start Over</div>
-              </div>
-              
-              {castOnSts > 0 && totalRows > 0 && neckSts > 0 && (
-                <div style={{ textAlign: 'center' }}>
-                  <button 
-                    type="button" 
-                    className="btn-round btn-round-primary"
-                    onClick={() => {
-                      const printContent = `
-                        <html>
-                          <head>
-                            <title>Knitting Pattern - Neckline Practice</title>
-                            <style>
-                              body { font-family: Arial, sans-serif; margin: 20px; }
-                              .instructions { margin-bottom: 30px; }
-                              .schematic { text-align: center; }
-                              .well_white { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-                              .text-primary { color: #1E7E72; }
-                              @media print { body { margin: 0; } }
-                            </style>
-                          </head>
-                          <body>
-                            <div class="instructions">${generateInstructions()}</div>
-                            <div class="schematic">
-                              <h3>Technical Schematic</h3>
-                              ${replacePlaceholders(generateSchematic())}
-                            </div>
-                          </body>
-                        </html>
-                      `;
-                      const printWindow = window.open('', '_blank');
-                      printWindow?.document.write(printContent);
-                      printWindow?.document.close();
-                      printWindow?.print();
-                    }}
-                    data-testid="button-download-print"
-                  >
-                    <i className="fas fa-download"></i>
-                  </button>
-                  <div className="btn-label">Download/Print</div>
-                </div>
-              )}
-            </div>
           </div>
           
         </div>
@@ -374,9 +361,9 @@ export default function NecklineWizard() {
         {/* Instructions */}
         <div id="instructions" dangerouslySetInnerHTML={{ __html: generateInstructions() }} />
 
-        {/* Schematic */}
+        {/* Diagram */}
         <div className="well_white">
-          <h3 className="text-primary">Technical Schematic</h3>
+          <h3 className="text-primary">Diagram</h3>
           <div id="schematic" style={{ textAlign: 'center', padding: '20px' }}>
             <div dangerouslySetInnerHTML={{ __html: replacePlaceholders(generateSchematic()) }} />
           </div>
