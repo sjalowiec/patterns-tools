@@ -315,9 +315,9 @@ export default function NecklineWizard() {
                   type="button" 
                   className="btn-round btn-round-secondary"
                   onClick={() => {
+                    setUnits('inches');
                     setStitchesIn4('20');
                     setRowsIn4('28');
-                    handleUnitsChange('inches');
                   }}
                   data-testid="button-start-over"
                 >
