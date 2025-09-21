@@ -145,6 +145,7 @@ export default function NecklineWizard() {
           <br>
           • At neck edge, decrease 1 stitch every other row ${section1Decreases} times; decrease 1 stitch every row ${section2Decreases} times.<br>
           • Knit ${remainingRows} rows<br>
+          • End with the carriage on the right.<br>
           <br>
           <strong>Step 4a: Shape shoulders</strong><br>
           • Set carriage to Hold.<br>
