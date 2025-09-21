@@ -381,3 +381,13 @@ a:hover {
     margin-bottom: 10px;
   }
 }
+
+/* ==============================
+   Row Counter Abbreviation Styling
+   ============================== */
+.rc-abbrev {
+  font-style: italic;   /* italics */
+  font-size: 0.85em;    /* smaller */
+  color: #777;          /* lighter gray */
+  margin-left: 6px;     /* small gap from main text */
+}
