@@ -84,6 +84,25 @@ export default function NecklineWizard() {
   const generateInstructions = () => {
     const unitLabel = units === 'inches' ? '"' : 'cm';
     
+    // Calculate shoulder shaping values
+    const shoulderSts = sideTotal - perSideRemaining; // stitches remaining per shoulder after neckline shaping
+    const shoulderDropRows = Math.round(rowsPerInch); // rows equal to 1"
+    
+    // Helper function to distribute values evenly
+    const distributeEvenly = (total: number, parts: number): number[] => {
+      const base = Math.floor(total / parts);
+      const remainder = total % parts;
+      const result: number[] = [];
+      
+      for (let i = 0; i < parts; i++) {
+        result.push(base + (i < remainder ? 1 : 0));
+      }
+      
+      return result;
+    };
+    
+    const turnBlocks = distributeEvenly(shoulderDropRows, shoulderSts);
+    
     return `
       <div class="well_white">
         <h3 class="text-primary">Complete Knitting Pattern</h3>
@@ -113,7 +132,7 @@ export default function NecklineWizard() {
           <strong>Step 3: Shape neck edge #1</strong><br>
           • At neck edge, decrease 1 stitch every other row ${section1Decreases} times; decrease 1 stitch every row ${section2Decreases} times.<br>
           • Knit ${remainingRows} rows<br>
-          • Bind off or scrap off remaining stitches
+          • Hold stitches for shoulder shaping
         </div>
 
         <div style="margin-bottom: 20px;">
@@ -122,7 +141,26 @@ export default function NecklineWizard() {
           • Re-attach working yarn and bind off ${adjustedBindOff} stitches<br>
           • At neck edge, decrease 1 stitch every other row ${section1Decreases} times; decrease 1 stitch every row ${section2Decreases} times.<br>
           • Knit ${remainingRows} rows<br>
-          • Bind off or scrap off remaining stitches
+          • Hold stitches for shoulder shaping
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <strong>Step 5: Shape Shoulder #1</strong><br>
+          • Work short rows over ${shoulderSts} stitches<br>
+          ${turnBlocks.map((block) => 
+            `• Turn after ${block} stitches<br>`
+          ).join('')}
+          • Bind off remaining stitches
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <strong>Step 6: Shape Shoulder #2</strong><br>
+          • Re-hang scrapped off stitches<br>
+          • Work short rows over ${shoulderSts} stitches<br>
+          ${turnBlocks.map((block) => 
+            `• Turn after ${block} stitches<br>`
+          ).join('')}
+          • Bind off remaining stitches
         </div>
 
       </div>

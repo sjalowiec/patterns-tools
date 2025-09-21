@@ -1,0 +1,53 @@
+const generateInstructions = () => {
+  return `
+    <div class="well_white">
+      <h3 class="text-primary">Complete Knitting Pattern</h3>
+
+      <div style="margin-bottom: 20px;">
+        <strong>Step 1:</strong><br>
+        • Cast on ${castOnSts} stitches<br>
+        • Knit ${bodyRows} rows
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <strong>Step 2: Neckline Shaping Setup</strong><br>
+        • Scrap off ${sideTotal} stitches
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <strong>Step 3: Shape Neck Edge #1</strong><br>
+        • At neck edge, decrease 1 st every other row ${section1Decreases} times; then 1 st every row ${section2Decreases} times.<br>
+        • Knit ${remainingRows} rows<br>
+        • Hold stitches for shoulder shaping
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <strong>Step 4: Shape Neck Edge #2</strong><br>
+        • Re-hang scrapped off sts<br>
+        • Bind off ${adjustedBindOff} sts at neck edge<br>
+        • At neck edge, decrease 1 st every other row ${section1Decreases} times; then 1 st every row ${section2Decreases} times.<br>
+        • Knit ${remainingRows} rows<br>
+        • Hold stitches for shoulder shaping
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <strong>Step 5: Shape Shoulder #1</strong><br>
+        • Work across ${shoulderSts} stitches<br>
+        ${turnBlocks.map((block) => 
+          `• Put ${block} stitches into hold, wrap, knit 1 row<br>`
+        ).join('')}
+        • Bind off remaining shoulder stitches
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <strong>Step 6: Shape Shoulder #2</strong><br>
+        • Re-hang scrapped off shoulder stitches<br>
+        • Work across ${shoulderSts} stitches<br>
+        ${turnBlocks.map((block) => 
+          `• Put ${block} stitches into hold, wrap, knit 1 row<br>`
+        ).join('')}
+        • Bind off remaining shoulder stitches
+      </div>
+    </div>
+  `;
+};
