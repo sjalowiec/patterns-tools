@@ -125,7 +125,8 @@ export default function NecklineWizard() {
         <div style="margin-bottom: 20px;">
           <strong>Step 4: Shape neck edge #2</strong><br>
           • Re-hang scrapped off stitches<br>
-          • Re-attach working yarn and bind off ${adjustedBindOff} stitches<br>
+          • Re-attach working yarn<br>
+          • Bind off ${adjustedBindOff} stitches<br>
           • At neck edge, decrease 1 stitch every other row ${section1Decreases} times; decrease 1 stitch every row ${section2Decreases} times.<br>
           • Knit ${remainingRows} rows<br>
           • Hold stitches for shoulder shaping
