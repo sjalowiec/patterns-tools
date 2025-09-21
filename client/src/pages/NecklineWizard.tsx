@@ -168,12 +168,12 @@ export default function NecklineWizard() {
     // Add remaining straight rows note (no RC needed for plain knitting)
     if (remainingRows > 0) {
       rightShapingInstructions += `<span class="bullet-indent">• Continue knitting ${remainingRows} plain rows</span><br>`;
-      rightShapingInstructions += `<span class="bullet-indent">• End COR (armhole side)</span><br>`;
+      rightShapingInstructions += `<span class="bullet-indent">${formatRC(rightSideRC)} – End COR (armhole side)</span><br>`;
+      rightSideRC++;
     }
     
     // Right shoulder shaping with event-based RC
-    let rightShoulderInstructions = `${formatRC(rightSideRC)} – Set carriage to Hold<br><br>`;
-    rightSideRC++;
+    let rightShoulderInstructions = `Set carriage to Hold<br><br>`;
     
     for (let i = 0; i < turnBlocks.length; i++) {
       rightShoulderInstructions += `${formatRC(rightSideRC)} – Put ${turnBlocks[i]} needles into Hold at armhole edge, knit, wrap, knit back<br>`;
