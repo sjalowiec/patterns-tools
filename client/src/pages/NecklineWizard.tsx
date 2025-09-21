@@ -125,7 +125,10 @@ export default function NecklineWizard() {
     leftShapingInstructions += `<span class="bullet-indent">• End COR (neck side)</span><br>`;
     leftShapingInstructions += `<strong>Reset row counter to 000</strong><br>`;
     
-    // Left shoulder shaping with event-based RC - continue from current count
+    // Reset RC to 000 for Step 3a
+    currentRC = 0;
+    
+    // Left shoulder shaping with event-based RC - start from 000
     let leftShoulderInstructions = `<span class="bullet-indent">Set carriage to Hold</span><br><br>`;
     
     // Show first 2 turn blocks, then instruct to repeat
@@ -145,12 +148,9 @@ export default function NecklineWizard() {
       currentRC += 2 * (turnBlocks.length - 2);
     }
     
-    leftShoulderInstructions += `<span class="bullet-indent">• Cancel Hold</span><br>`;
-    leftShoulderInstructions += `<span class="bullet-indent">• Break yarn leaving a tail for seaming</span><br>`;
-    leftShoulderInstructions += `<span class="bullet-indent">• Scrap off ${shoulderSts} stitches</span><br>`;
-    
-    // SET RC TO 000 after completing step 3
-    currentRC = 0;
+    leftShoulderInstructions += `<span class="bullet-indent">    • Cancel Hold</span><br>`;
+    leftShoulderInstructions += `<span class="bullet-indent">    • Break yarn leaving a tail for seaming</span><br>`;
+    leftShoulderInstructions += `<span class="bullet-indent">    • Scrap off ${shoulderSts} stitches</span><br>`;
     
     // RESTART RC TO 000 for right side after scrap off
     let rightSideRC = 0;
