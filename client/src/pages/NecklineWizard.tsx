@@ -120,7 +120,8 @@ export default function NecklineWizard() {
     
     // Add remaining straight rows note (no RC needed for plain knitting)
     if (remainingRows > 0) {
-      leftShapingInstructions += `<span class="bullet-indent">• Continue knitting ${remainingRows} plain rows, ending COL (neck side)</span><br>`;
+      leftShapingInstructions += `<span class="bullet-indent">• Continue knitting ${remainingRows} plain rows</span><br>`;
+      leftShapingInstructions += `<span class="bullet-indent">• End COL (neck side)</span><br>`;
     }
     
     // Left shoulder shaping with event-based RC
@@ -156,7 +157,8 @@ export default function NecklineWizard() {
     
     // Add remaining straight rows note (no RC needed for plain knitting)
     if (remainingRows > 0) {
-      rightShapingInstructions += `<span class="bullet-indent">• Continue knitting ${remainingRows} plain rows, ending COR (arm side)</span><br>`;
+      rightShapingInstructions += `<span class="bullet-indent">• Continue knitting ${remainingRows} plain rows</span><br>`;
+      rightShapingInstructions += `<span class="bullet-indent">• End COR (arm side)</span><br>`;
     }
     
     // Right shoulder shaping with event-based RC
