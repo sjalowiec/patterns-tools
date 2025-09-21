@@ -294,6 +294,30 @@ a:hover {
 }
 
 /* ==============================
+   Responsive Header Layout
+   ============================== */
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+  min-width: 200px;
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .header-content svg {
+    height: 80px !important;
+  }
+}
+
+/* ==============================
    Responsive Design
    ============================== */
 @media (max-width: 768px) {

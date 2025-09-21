@@ -224,7 +224,7 @@ export default function NecklineWizard() {
     <div className="wizard-container">
       <div className="wizard-header">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flex: 1, minWidth: '200px' }}>
+          <div className="header-content">
             <svg 
               className="logo-shadow"
               style={{ height: '135px', width: 'auto', flexShrink: 0, maxHeight: '20vh' }}
