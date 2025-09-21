@@ -93,8 +93,8 @@ export default function NecklineWizard() {
           • Knit ${bodyRows} rows
         </div>
         
-        <div style="margin-bottom: 25px; padding: 15px; background: #fff3cd; border-left: 4px solid #ffeb3b; border-radius: 4px;">
-          <strong>IMPORTANT: In case of disaster, place a lifeline</strong><br>
+        <div style="margin-bottom: 25px; padding: 15px; background: rgba(197, 81, 78, 0.1); border-left: 4px solid #C2514E; border-radius: 4px;">
+          <strong style="color: #C2514E;">IMPORTANT: In case of disaster, place a lifeline</strong><br>
           <small style="color: #666;">Place a thin yarn or thread through all active stitches to preserve your work before starting neckline shaping.</small>
         </div>
         
@@ -297,8 +297,8 @@ export default function NecklineWizard() {
 
       <div className="content-area">
         {/* Data Persistence Warning */}
-        <div style={{ marginBottom: '20px', padding: '15px', background: '#fff3cd', border: '1px solid #ffeaa7', borderRadius: '8px' }}>
-          <strong style={{ color: '#d63031' }}>IMPORTANT: Your pattern will not be saved on this site.</strong><br />
+        <div style={{ marginBottom: '20px', padding: '15px', background: 'rgba(197, 81, 78, 0.1)', border: '1px solid #C2514E', borderRadius: '8px' }}>
+          <strong style={{ color: '#C2514E' }}>IMPORTANT: Your pattern will not be saved on this site.</strong><br />
           <small style={{ color: '#666' }}>Please be sure to download and save your PDF — once you leave this page, your custom details won't be available again.</small>
         </div>
         
