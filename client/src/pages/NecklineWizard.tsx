@@ -119,13 +119,20 @@ export default function NecklineWizard() {
           <strong>Step 3: Shape neck edge #1</strong><br>
           • At neck edge, decrease 1 stitch every other row ${section1Decreases} times; decrease 1 stitch every row ${section2Decreases} times.<br>
           • Knit ${remainingRows} rows<br>
+          • End with the carriage on the left (neck side).<br>
           <br>
           <strong>Step 3a: Shape shoulders</strong><br>
-          • Work short rows over ${shoulderSts} stitches:<br>
-          ${turnBlocks.map((block) => 
-            `&nbsp;&nbsp;• Turn after ${block} stitches<br>`
+          • Set carriage to Hold.<br>
+          <br>
+          ${turnBlocks.map((block, index) => 
+            `• At the armhole (right edge), put the ${index === 0 ? 'first' : 'next'} group of ${block} needles into Hold.<br>
+            • Knit left → right. (the held needles won't knit)<br>
+            • Wrap the adjacent held needle, then knit right → left back to the neck.<br>
+            <br>`
           ).join('')}
-          • Scrap off remaining stitches
+          • Repeat this sequence until all specified armhole groups (${turnBlocks.length}) are held.<br>
+          <br>
+          • Cancel Hold. Scrap off all ${shoulderSts} stitches.
         </div>
 
         <div style="margin-bottom: 20px;">
@@ -137,11 +144,17 @@ export default function NecklineWizard() {
           • Knit ${remainingRows} rows<br>
           <br>
           <strong>Step 4a: Shape shoulders</strong><br>
-          • Work short rows over ${shoulderSts} stitches:<br>
-          ${turnBlocks.map((block) => 
-            `&nbsp;&nbsp;• Turn after ${block} stitches<br>`
+          • Set carriage to Hold.<br>
+          <br>
+          ${turnBlocks.map((block, index) => 
+            `• At the armhole (right edge), put the ${index === 0 ? 'first' : 'next'} group of ${block} needles into Hold.<br>
+            • Knit left → right. (the held needles won't knit)<br>
+            • Wrap the adjacent held needle, then knit right → left back to the neck.<br>
+            <br>`
           ).join('')}
-          • Scrap off remaining stitches
+          • Repeat this sequence until all specified armhole groups (${turnBlocks.length}) are held.<br>
+          <br>
+          • Cancel Hold. Scrap off all ${shoulderSts} stitches.
         </div>
 
       </div>
