@@ -177,7 +177,7 @@ export default function NecklineWizard() {
     if (remainingRows > 0) {
       rightShapingInstructions += `<span class="bullet-indent">• Continue knitting ${remainingRows} plain rows</span><br>`;
     }
-    rightShapingInstructions += `<span class="bullet-indent">End COR (armhole side)</span><br>`;
+    rightShapingInstructions += `<span class="bullet-indent">End COR (neck side)</span><br>`;
     
     // Right shoulder shaping with event-based RC
     let rightShoulderInstructions = `Set carriage to Hold<br><br>`;
