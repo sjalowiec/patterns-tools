@@ -160,17 +160,19 @@ export default function NecklineWizard() {
     
     if (section1Decreases > 0) {
       rightShapingInstructions += `<span class="bullet-indent">• Decrease 1 stitch every 2 rows, ${section1Decreases} times (${section1Decreases * 2} rows)</span><br>`;
+      rightSideRC += section1Decreases; // Each decrease is an RC event
     }
     if (section2Decreases > 0) {
       rightShapingInstructions += `<span class="bullet-indent">• Decrease 1 stitch every row, ${section2Decreases} times (${section2Decreases} rows)</span><br>`;
+      rightSideRC += section2Decreases; // Each decrease is an RC event
     }
     
     // Add remaining straight rows note (no RC needed for plain knitting)
     if (remainingRows > 0) {
       rightShapingInstructions += `<span class="bullet-indent">• Continue knitting ${remainingRows} plain rows</span><br>`;
-      rightShapingInstructions += `<span class="bullet-indent">${formatRC(rightSideRC)} – End COR (armhole side)</span><br>`;
-      rightSideRC++;
     }
+    rightShapingInstructions += `<span class="bullet-indent">${formatRC(rightSideRC)} – End COR (armhole side)</span><br>`;
+    rightSideRC++;
     
     // Right shoulder shaping with event-based RC
     let rightShoulderInstructions = `Set carriage to Hold<br><br>`;
