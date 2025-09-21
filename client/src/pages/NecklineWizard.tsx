@@ -222,12 +222,12 @@ export default function NecklineWizard() {
         </text>
         
         <!-- Right measurement line - neckline depth only -->
-        <line x1="${rectX + rectWidth + 15}" y1="${rectY}" x2="${rectX + rectWidth + 15}" y2="${rectY + neckDepthSvg * 1.3}" 
+        <line x1="${rectX + rectWidth + 15}" y1="${rectY}" x2="${rectX + rectWidth + 15}" y2="${rectY + neckDepthSvg}" 
               stroke="black" stroke-width="1"/>
         <circle cx="${rectX + rectWidth + 15}" cy="${rectY}" r="2" fill="black"/>
-        <circle cx="${rectX + rectWidth + 15}" cy="${rectY + neckDepthSvg * 1.3}" r="2" fill="black"/>
-        <text x="${rectX + rectWidth + 25}" y="${rectY + (neckDepthSvg * 1.3)/2}" text-anchor="start" font-size="11" fill="black" 
-              transform="rotate(90, ${rectX + rectWidth + 25}, ${rectY + (neckDepthSvg * 1.3)/2})">
+        <circle cx="${rectX + rectWidth + 15}" cy="${rectY + neckDepthSvg}" r="2" fill="black"/>
+        <text x="${rectX + rectWidth + 25}" y="${rectY + neckDepthSvg/2}" text-anchor="start" font-size="11" fill="black" 
+              transform="rotate(90, ${rectX + rectWidth + 25}, ${rectY + neckDepthSvg/2})">
           {{neckDepthRows}} rows ({{neckDepth}}${units === 'inches' ? '"' : 'cm'})
         </text>
       </svg>
