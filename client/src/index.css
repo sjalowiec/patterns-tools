@@ -2,15 +2,21 @@
    Color Variables
    ============================== */
 :root {
-  --primary-color: #2C3A57;      /* Navy - headings, secondary accents */
-  --secondary-color: #E2725B;    /* Coral - primary accents */
-  --success-color: #6B833D;      /* Green - success/completed steps */
-  --warning-color: #ED8936;      /* Orange - warnings */
+  --primary-color: #2C3A57;
+  /* Navy - headings, secondary accents */
+  --secondary-color: #E2725B;
+  /* Coral - primary accents */
+  --success-color: #6B833D;
+  /* Green - success/completed steps */
+  --warning-color: #ED8936;
+  /* Orange - warnings */
   --text-secondary: #6c757d;
 
   --background-gradient: linear-gradient(135deg, #7C9645 0%, #A1C063 100%);
-  --background-base: #F9F9F7; /* off-white */
-  --background-alt: #F2EEE9;  /* warm gray */
+  --background-base: #F9F9F7;
+  /* off-white */
+  --background-alt: #F2EEE9;
+  /* warm gray */
 }
 
 /* ==============================
@@ -18,7 +24,7 @@
    ============================== */
 body {
   font-family: 'Poppins', sans-serif;
-  font-weight: 400; /* Regular for body */
+  font-weight: 400;
   background: var(--background-gradient);
   min-height: 100vh;
   margin: 0;
@@ -27,9 +33,13 @@ body {
   line-height: 1.6;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600; /* Semi-bold headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
   color: var(--primary-color);
   margin-top: 0;
 }
@@ -39,13 +49,14 @@ a {
   font-weight: 500;
   text-decoration: none;
 }
+
 a:hover {
   text-decoration: underline;
 }
 
 .text-muted {
   color: var(--text-secondary);
-  font-weight: 300; /* Light for secondary text */
+  font-weight: 300;
 }
 
 /* ==============================
@@ -66,6 +77,7 @@ a:hover {
   background: var(--secondary-color);
   color: #fff;
 }
+
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(226, 114, 91, 0.4);
@@ -75,6 +87,7 @@ a:hover {
   background: var(--primary-color);
   color: #fff;
 }
+
 .btn-secondary:hover {
   background: #1E283A;
   transform: translateY(-2px);
@@ -82,7 +95,6 @@ a:hover {
 
 /* Round buttons */
 .btn-round {
-  font-family: 'Poppins', sans-serif;
   font-weight: 500;
   width: 50px;
   height: 50px;
@@ -90,29 +102,47 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   color: #fff;
+  transition: all 0.3s ease;
 }
+
 .btn-round-primary {
   background: linear-gradient(135deg, var(--secondary-color) 0%, #C85B46 100%);
 }
+
 .btn-round-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(226, 114, 91, 0.4);
 }
+
 .btn-round-secondary {
   background: linear-gradient(135deg, var(--primary-color) 0%, #1E283A 100%);
 }
+
 .btn-round-secondary:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(44, 58, 87, 0.4);
+}
+
+.btn-round-light {
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  color: #fff;
+}
+
+.btn-round-light:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.25);
+  border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 /* ==============================
    Forms
    ============================== */
 .form-control {
-  font-family: 'Poppins', sans-serif;
   font-weight: 400;
   border-radius: 6px;
   border: 2px solid #e9ecef;
@@ -123,6 +153,7 @@ a:hover {
   transition: all 0.3s ease;
   color: #333;
 }
+
 .form-control:focus {
   border-color: var(--secondary-color);
   box-shadow: 0 0 0 0.2rem rgba(44, 58, 87, 0.25);
