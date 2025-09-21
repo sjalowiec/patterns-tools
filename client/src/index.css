@@ -97,6 +97,13 @@ a:hover {
   border-radius: 8px;
   padding: 30px;
   margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+.well_white:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-color: rgba(124, 150, 69, 0.2);
 }
 
 /* ==============================
@@ -128,8 +135,10 @@ a:hover {
 
 .form-control:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 0.2rem rgba(197, 81, 78, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(197, 81, 78, 0.25), 0 0 15px rgba(197, 81, 78, 0.1);
   outline: none;
+  transform: scale(1.02);
+  transition: all 0.3s ease;
 }
 
 /* ==============================
@@ -212,10 +221,15 @@ a:hover {
 }
 
 .btn-round-light:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.05);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.5);
   background: rgba(255, 255, 255, 0.25);
   border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.btn-round-light:active {
+  transform: translateY(-1px) scale(1.03);
+  transition: all 0.1s ease;
 }
 
 .btn-label {
@@ -268,6 +282,21 @@ a:hover {
   font-weight: 400;
 }
 
+/* Result highlighting */
+.result-highlight {
+  background: rgba(124, 150, 69, 0.08);
+  border: 1px solid rgba(124, 150, 69, 0.2);
+  border-radius: 6px;
+  padding: 15px;
+  margin: 15px 0;
+}
+
+.result-number {
+  font-weight: 600;
+  color: var(--primary-color);
+  font-size: 1.1em;
+}
+
 /* ==============================
    Logo Styles
    ============================== */
@@ -314,6 +343,19 @@ a:hover {
   
   .header-content svg {
     height: 80px !important;
+  }
+}
+
+/* Mobile form improvements */
+@media (max-width: 480px) {
+  .form-row {
+    flex-direction: column !important;
+  }
+  
+  .form-row > div {
+    flex: none !important;
+    width: 100% !important;
+    margin-bottom: 15px;
   }
 }
 

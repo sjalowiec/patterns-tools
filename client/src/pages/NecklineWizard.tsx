@@ -365,7 +365,7 @@ export default function NecklineWizard() {
           </div>
 
           <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
-            <div style={{ display: 'flex', gap: '20px', flex: 1 }}>
+            <div className="form-row" style={{ display: 'flex', gap: '20px', flex: 1 }}>
               <div className="form-group" style={{ flex: 1 }}>
                 <label>Stitches in {units === 'inches' ? '4 inches' : '10 cm'}</label>
                 <input
