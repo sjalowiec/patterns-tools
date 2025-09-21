@@ -250,6 +250,14 @@ export default function NecklineWizard() {
           ${rightShoulderInstructions}
         </div>
 
+        <div style="margin-top: 25px; padding: 15px; background: rgba(0, 100, 0, 0.05); border: 1px solid #ddd; border-radius: 4px;">
+          <strong>Math Check:</strong><br>
+          <span style="font-size: 12px; color: #666;">
+            Started with ${castOnSts} stitches → Removed ${neckSts} stitches → Left with ${castOnSts - neckSts} stitches → ${shoulderSts} stitches per shoulder (${shoulderSts} × 2 = ${shoulderSts * 2})
+            ${castOnSts === neckSts + (shoulderSts * 2) ? '✓ Math checks out!' : '⚠️ Math error detected!'}
+          </span>
+        </div>
+
       </div>
     `;
   };
