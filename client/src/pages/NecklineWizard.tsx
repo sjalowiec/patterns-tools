@@ -188,7 +188,7 @@ export default function NecklineWizard() {
         
         <div style="margin-bottom: 20px;">
           <strong>About Neckline Shaping:</strong><br>
-          <em>Each side of the neckline is knit separately. You will scrap off one side, shape one side, then re-hang and shape the 2nd side.</em>
+          <span class="bullet-indent"><em>Each side of the neckline is knit separately. You will scrap off one side, shape one side, then re-hang and shape the 2nd side.</em></span>
         </div>
         
         <div style="margin-bottom: 20px;">
