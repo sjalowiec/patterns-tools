@@ -116,9 +116,11 @@ export default function NecklineWizard() {
         </div>
 
         <div style="margin-bottom: 20px;">
-          <strong>Step 3: Shape neck edge #1 with shoulder shaping</strong><br>
+          <strong>Step 3: Shape neck edge #1</strong><br>
           • At neck edge, decrease 1 stitch every other row ${section1Decreases} times; decrease 1 stitch every row ${section2Decreases} times.<br>
           • Knit ${remainingRows} rows<br>
+          <br>
+          <strong>Step 3a: Shape shoulders</strong><br>
           • Work short rows over ${shoulderSts} stitches:<br>
           ${turnBlocks.map((block) => 
             `&nbsp;&nbsp;• Turn after ${block} stitches<br>`
@@ -127,12 +129,14 @@ export default function NecklineWizard() {
         </div>
 
         <div style="margin-bottom: 20px;">
-          <strong>Step 4: Shape neck edge #2 with shoulder shaping</strong><br>
+          <strong>Step 4: Shape neck edge #2</strong><br>
           • Re-hang scrapped off stitches<br>
           • Re-attach working yarn<br>
           • Bind off ${adjustedBindOff} stitches<br>
           • At neck edge, decrease 1 stitch every other row ${section1Decreases} times; decrease 1 stitch every row ${section2Decreases} times.<br>
           • Knit ${remainingRows} rows<br>
+          <br>
+          <strong>Step 4a: Shape shoulders</strong><br>
           • Work short rows over ${shoulderSts} stitches:<br>
           ${turnBlocks.map((block) => 
             `&nbsp;&nbsp;• Turn after ${block} stitches<br>`
