@@ -95,7 +95,7 @@ export default function NecklineWizard() {
     const formatRC = (rc: number): string => {
       const paddedRC = rc.toString().padStart(3, '0');
       const position = rc % 2 === 0 ? 'COR' : 'COL';
-      return `RC:${paddedRC}<span class="rc-abbrev">(${position})</span>`;
+      return `RC:${paddedRC}<span class="rc-abbrev">${position}</span>`;
     };
     
     // Track RC for events only (not every carriage pass)
