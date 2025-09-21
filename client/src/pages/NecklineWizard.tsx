@@ -123,6 +123,7 @@ export default function NecklineWizard() {
       leftShapingInstructions += `<span class="bullet-indent">• Continue knitting ${remainingRows} plain rows</span><br>`;
     }
     leftShapingInstructions += `<span class="bullet-indent">• End COR (neck side)</span><br>`;
+    leftShapingInstructions += `<strong>Reset row counter to 000</strong><br>`;
     
     // Left shoulder shaping with event-based RC - continue from current count
     let leftShoulderInstructions = `<span class="bullet-indent">Set carriage to Hold</span><br><br>`;
@@ -144,7 +145,9 @@ export default function NecklineWizard() {
       currentRC += 2 * (turnBlocks.length - 2);
     }
     
-    leftShoulderInstructions += `<span class="bullet-indent">Cancel Hold, break yarn leaving a tail for seaming, scrap off ${shoulderSts} stitches</span><br>`;
+    leftShoulderInstructions += `<span class="bullet-indent">• Cancel Hold</span><br>`;
+    leftShoulderInstructions += `<span class="bullet-indent">• Break yarn leaving a tail for seaming</span><br>`;
+    leftShoulderInstructions += `<span class="bullet-indent">• Scrap off ${shoulderSts} stitches</span><br>`;
     
     // SET RC TO 000 after completing step 3
     currentRC = 0;
