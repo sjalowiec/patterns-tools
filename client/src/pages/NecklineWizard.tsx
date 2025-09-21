@@ -182,11 +182,18 @@ export default function NecklineWizard() {
         <rect x="${rectX}" y="${rectY}" width="${rectWidth}" height="${rectHeight}" 
               fill="none" stroke="black" stroke-width="1"/>
         
-        <!-- Red shoulder shaping areas -->
-        <rect x="${rectX}" y="${rectY}" width="${shoulderWidthSvg}" height="${shoulderDropSvg}" 
-              fill="rgba(255, 0, 0, 0.3)" stroke="red" stroke-width="1" stroke-dasharray="2,2"/>
-        <rect x="${rectX + rectWidth - shoulderWidthSvg}" y="${rectY}" width="${shoulderWidthSvg}" height="${shoulderDropSvg}" 
-              fill="rgba(255, 0, 0, 0.3)" stroke="red" stroke-width="1" stroke-dasharray="2,2"/>
+        <!-- Shoulder slope lines (match logo) -->
+        <line x1="${rectX}" y1="${rectY}" x2="${rectX + shoulderWidthSvg}" y2="${rectY + shoulderDropSvg}"
+              stroke="#C2514E" stroke-width="2" stroke-linecap="round" />
+        <line x1="${rectX + rectWidth}" y1="${rectY}" x2="${rectX + rectWidth - shoulderWidthSvg}" y2="${rectY + shoulderDropSvg}"
+              stroke="#C2514E" stroke-width="2" stroke-linecap="round" />
+        
+        <!-- Shoulder drop depth indicator -->
+        <line x1="${rectX + shoulderWidthSvg + 6}" y1="${rectY}" x2="${rectX + shoulderWidthSvg + 6}" y2="${rectY + shoulderDropSvg}"
+              stroke="#C2514E" stroke-width="1" />
+        <text x="${rectX + shoulderWidthSvg + 10}" y="${rectY + shoulderDropSvg/2}" font-size="10" fill="#C2514E">
+          Shoulder drop: ${shoulderDropRows} rows (${units === 'inches' ? '~1"' : '~2.54 cm'})
+        </text>
         
         <!-- Neckline curve -->
         <path d="M ${neckLeft} ${rectY} Q ${centerX} ${rectY + neckDepthSvg * 1.3} ${neckRight} ${rectY}" 
