@@ -130,17 +130,17 @@ export default function NecklineWizard() {
     
     // Show first 2 turn blocks, then instruct to repeat
     if (turnBlocks.length > 0) {
-      leftShoulderInstructions += `${formatRC(currentRC)} – Put ${turnBlocks[0]} needles into Hold at armhole edge, wrap, knit back<br>`;
+      leftShoulderInstructions += `${formatRC(currentRC)} – *Put ${turnBlocks[0]} needles into Hold at armhole edge, wrap, knit back<br>`;
       currentRC++;
     }
     if (turnBlocks.length > 1) {
-      leftShoulderInstructions += `${formatRC(currentRC)} – Put ${turnBlocks[1]} needles into Hold at armhole edge, wrap, knit back<br>`;
+      leftShoulderInstructions += `${formatRC(currentRC)} – Put ${turnBlocks[1]} needles into Hold at armhole edge, wrap, knit back*<br>`;
       currentRC++;
     }
     
     // If more than 2 blocks, instruct to repeat
     if (turnBlocks.length > 2) {
-      leftShoulderInstructions += `Repeat until all needles are in Hold<br>`;
+      leftShoulderInstructions += `Repeat from * to * until all needles are in hold<br>`;
     }
     
     leftShoulderInstructions += `${formatRC(currentRC)} – Cancel Hold, break yarn with tail, scrap off ${shoulderSts} stitches<br>`;
