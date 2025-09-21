@@ -48,8 +48,24 @@ export default function NecklineWizard() {
   const castOnSts = Math.round(garmentWidthIn * stitchesPerInch) || 0;
   const bodyRows = Math.round(bodyHeightIn * rowsPerInch) || 0;
   const totalRows = Math.round(totalGarmentHeightIn * rowsPerInch) || 0;
-  const neckSts = Math.round(necklineWidthIn * stitchesPerInch) || 0;
   const neckDepthRows = Math.round(necklineDepthIn * rowsPerInch) || 0;
+  
+  // Calculate neck stitches with parity adjustment to ensure even shoulder division
+  const neckFloat = necklineWidthIn * stitchesPerInch;
+  const neckRounded = Math.round(neckFloat) || 0;
+  
+  // Adjust neck stitches to ensure (castOnSts - neckSts) is even for balanced shoulders
+  let neckSts = neckRounded;
+  if (castOnSts > 0 && (castOnSts - neckRounded) % 2 !== 0) {
+    // Choose adjustment (+1 or -1) that stays closest to the original calculation
+    const neckPlusOne = Math.min(neckRounded + 1, castOnSts);
+    const neckMinusOne = Math.max(neckRounded - 1, 0);
+    
+    const diffPlusOne = Math.abs(neckFloat - neckPlusOne);
+    const diffMinusOne = Math.abs(neckFloat - neckMinusOne);
+    
+    neckSts = diffPlusOne <= diffMinusOne ? neckPlusOne : neckMinusOne;
+  }
   
   // Display dimensions in current units for labels  
   const garmentWidth = units === 'inches' ? garmentWidthIn : Math.round(garmentWidthIn * 2.54 * 10) / 10;
@@ -61,11 +77,14 @@ export default function NecklineWizard() {
   // Machine knitting neckline shaping calculations
   const bindOffSts = Math.floor(castOnSts / 3);  // initial bind off (center) - 1/3 of total cast-on
   const sideTotal = Math.floor(castOnSts / 2);  // total stitches per side
-  const totalDecreases = neckSts - bindOffSts;  // total stitches to decrease
+  const totalDecreases = Math.max(0, neckSts - bindOffSts);  // total stitches to decrease (clamped to prevent negative)
   const perSideRemaining = Math.floor(totalDecreases / 2);  // decreases per side 
   const extraStitch = totalDecreases % 2;  // remainder stitch (0 or 1)
   const adjustedBindOff = bindOffSts + extraStitch;  // add remainder to center bind-off
   const scrapOffTotal = sideTotal + adjustedBindOff;  // stitches to scrap off
+  
+  // Track if neck stitches were adjusted for UI transparency
+  const neckAdjusted = neckSts !== neckRounded;
   
   // Split per-side decreases into section patterns to match user terminology  
   const section1Decreases = Math.floor(perSideRemaining / 2); // every other row decreases
@@ -255,6 +274,7 @@ export default function NecklineWizard() {
           <span style="font-size: 12px; color: #666;">
             Started with ${castOnSts} stitches → Removed ${neckSts} stitches → Left with ${castOnSts - neckSts} stitches → ${shoulderSts} stitches per shoulder (${shoulderSts} × 2 = ${shoulderSts * 2})
             ${castOnSts === neckSts + (shoulderSts * 2) ? '✓ Math checks out!' : '⚠️ Math error detected!'}
+            ${neckAdjusted ? `<br><em style="color: #888; font-size: 11px;">Note: Adjusted neck stitches by ${neckSts - neckRounded > 0 ? '+' : ''}${neckSts - neckRounded} (from ${neckRounded}) to ensure even shoulder division.</em>` : ''}
           </span>
         </div>
 
