@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
-import '../sweater-planner.css';
 
 interface GaugeData {
   units: 'inches' | 'cm';
