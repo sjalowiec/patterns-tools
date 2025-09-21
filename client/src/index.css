@@ -387,7 +387,7 @@ a:hover {
    ============================== */
 .rc-abbrev {
   font-style: italic;   /* italics */
-  font-size: 0.85em;    /* smaller */
+  font-size: 0.75em;    /* smaller */
   color: #777;          /* lighter gray */
   margin-left: 6px;     /* small gap from main text */
 }
