@@ -133,11 +133,11 @@ export default function NecklineWizard() {
     
     // Show first 2 turn blocks, then instruct to repeat
     if (turnBlocks.length > 0) {
-      leftShoulderInstructions += `<span class="bullet-indent">${formatRC(currentRC)} – <span class="repeat-marker">*</span>Opposite the carriage (armhole edge), knit, wrap, knit back</span><br>`;
+      leftShoulderInstructions += `<span class="bullet-indent">${formatRC(currentRC)} – <span class="repeat-marker">*</span>Put ${turnBlocks[0]} needles into Hold opposite the carriage (armhole edge), knit, wrap, knit back</span><br>`;
       currentRC += 2; // Each turn block is 2 rows
     }
     if (turnBlocks.length > 1) {
-      leftShoulderInstructions += `<span class="bullet-indent">${formatRC(currentRC)} – Opposite the carriage (armhole edge), knit, wrap, knit back<span class="repeat-marker">*</span></span><br>`;
+      leftShoulderInstructions += `<span class="bullet-indent">${formatRC(currentRC)} – Put ${turnBlocks[1]} needles into Hold opposite the carriage (armhole edge), knit, wrap, knit back<span class="repeat-marker">*</span></span><br>`;
       currentRC += 2; // Each turn block is 2 rows
     }
     
@@ -184,11 +184,11 @@ export default function NecklineWizard() {
     
     // Show first 2 turn blocks, then instruct to repeat
     if (turnBlocks.length > 0) {
-      rightShoulderInstructions += `${formatRC(rightSideRC)} – <span class="repeat-marker">*</span>Opposite the carriage (armhole edge), knit, wrap, knit back<br>`;
+      rightShoulderInstructions += `${formatRC(rightSideRC)} – <span class="repeat-marker">*</span>Put ${turnBlocks[0]} needles into Hold opposite the carriage (armhole edge), knit, wrap, knit back<br>`;
       rightSideRC += 2; // Each turn block is 2 rows
     }
     if (turnBlocks.length > 1) {
-      rightShoulderInstructions += `${formatRC(rightSideRC)} – Opposite the carriage (armhole edge), knit, wrap, knit back<span class="repeat-marker">*</span><br>`;
+      rightShoulderInstructions += `${formatRC(rightSideRC)} – Put ${turnBlocks[1]} needles into Hold opposite the carriage (armhole edge), knit, wrap, knit back<span class="repeat-marker">*</span><br>`;
       rightSideRC += 2; // Each turn block is 2 rows
     }
     
