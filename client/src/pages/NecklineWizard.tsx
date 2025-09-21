@@ -82,7 +82,7 @@ export default function NecklineWizard() {
   const initialStraightRows = bodyRows; // 5" of straight knitting
   const totalKnittingRows = Math.min(initialStraightRows + shapingRows, totalRows); // Clamp to prevent SVG overflow
 
-  // Generate machine knitting text instructions
+  // Generate machine knitting text instructions with RC tracking
   const generateInstructions = () => {
     const unitLabel = units === 'inches' ? '"' : 'cm';
     
@@ -91,14 +91,153 @@ export default function NecklineWizard() {
     const shoulderDropRows = rowsForOneInch(rowsPerInch);
     const turnBlocks = distributeEvenly(shoulderDropRows, shoulderSts);
     
+    // RC helper functions
+    const formatRC = (rc: number): string => {
+      const paddedRC = rc.toString().padStart(3, '0');
+      const position = rc % 2 === 0 ? 'COR' : 'COL';
+      return `RC:${paddedRC} (${position})`;
+    };
+    
+    // Make even helper - ensures we end on an even RC when needed
+    const makeEven = (currentRC: number): { rc: number; extraRow: string } => {
+      if (currentRC % 2 === 0) {
+        return { rc: currentRC, extraRow: '' };
+      } else {
+        return { 
+          rc: currentRC + 1, 
+          extraRow: `${formatRC(currentRC)} – Knit across (make even)<br>` 
+        };
+      }
+    };
+    
+    // Track RC throughout pattern
+    let currentRC = 0;
+    
+    // Step 1 instructions with RC
+    let step1Instructions = `${formatRC(currentRC)} – Cast on ${castOnSts} stitches<br>`;
+    currentRC++;
+    
+    for (let i = 1; i <= bodyRows; i++) {
+      step1Instructions += `${formatRC(currentRC)} – Knit across<br>`;
+      currentRC++;
+    }
+    
+    // Make even after body rows for neckline shaping
+    const evenAfterBody = makeEven(currentRC);
+    step1Instructions += evenAfterBody.extraRow;
+    currentRC = evenAfterBody.rc;
+    if (evenAfterBody.extraRow !== '') {
+      currentRC++; // Increment after make even row
+    }
+    
+    // Step 3: Left side neckline shaping with RC
+    let leftShapingInstructions = '';
+    
+    // Section 1: Every other row decreases
+    for (let i = 0; i < section1Decreases; i++) {
+      leftShapingInstructions += `${formatRC(currentRC)} – Decrease 1 stitch at neck edge<br>`;
+      currentRC++;
+      leftShapingInstructions += `${formatRC(currentRC)} – Knit across<br>`;
+      currentRC++;
+    }
+    
+    // Section 2: Every row decreases  
+    for (let i = 0; i < section2Decreases; i++) {
+      leftShapingInstructions += `${formatRC(currentRC)} – Decrease 1 stitch at neck edge<br>`;
+      currentRC++;
+    }
+    
+    // Remaining straight rows
+    for (let i = 0; i < remainingRows; i++) {
+      leftShapingInstructions += `${formatRC(currentRC)} – Knit across<br>`;
+      currentRC++;
+    }
+    
+    // Make even before shoulder shaping (should end COL for left shoulder)
+    const evenBeforeLeftShoulder = makeEven(currentRC);
+    leftShapingInstructions += evenBeforeLeftShoulder.extraRow;
+    currentRC = evenBeforeLeftShoulder.rc;
+    if (evenBeforeLeftShoulder.extraRow !== '') {
+      currentRC++; // Increment after make even row
+    }
+    
+    // Left shoulder shaping with RC
+    let leftShoulderInstructions = `${formatRC(currentRC)} – Set carriage to Hold<br><br>`;
+    currentRC++;
+    
+    for (let i = 0; i < turnBlocks.length; i++) {
+      leftShoulderInstructions += `${formatRC(currentRC)} – Put ${turnBlocks[i]} needles into Hold at armhole edge<br>`;
+      currentRC++;
+      leftShoulderInstructions += `${formatRC(currentRC)} – Knit to armhole, wrap & turn<br>`;
+      currentRC++;
+    }
+    leftShoulderInstructions += `${formatRC(currentRC)} – Cancel Hold, break yarn with tail, scrap off ${shoulderSts} stitches<br>`;
+    currentRC++; // Increment after left shoulder completion
+    
+    // Continue RC for right side (no reset - maintain continuous numbering)
+    let rightSideRC = currentRC;
+    
+    // Step 4: Right side setup
+    let rightSetupInstructions = `${formatRC(rightSideRC)} – Re-hang scrapped stitches, re-attach yarn<br>`;
+    rightSideRC++;
+    rightSetupInstructions += `${formatRC(rightSideRC)} – Bind off ${adjustedBindOff} stitches<br>`;
+    rightSideRC++;
+    
+    // Right side neckline shaping with RC
+    let rightShapingInstructions = '';
+    
+    // Section 1: Every other row decreases
+    for (let i = 0; i < section1Decreases; i++) {
+      rightShapingInstructions += `${formatRC(rightSideRC)} – Decrease 1 stitch at neck edge<br>`;
+      rightSideRC++;
+      rightShapingInstructions += `${formatRC(rightSideRC)} – Knit across<br>`;
+      rightSideRC++;
+    }
+    
+    // Section 2: Every row decreases
+    for (let i = 0; i < section2Decreases; i++) {
+      rightShapingInstructions += `${formatRC(rightSideRC)} – Decrease 1 stitch at neck edge<br>`;
+      rightSideRC++;
+    }
+    
+    // Remaining straight rows
+    for (let i = 0; i < remainingRows; i++) {
+      rightShapingInstructions += `${formatRC(rightSideRC)} – Knit across<br>`;
+      rightSideRC++;
+    }
+    
+    // Make even before shoulder shaping (should end COR for right shoulder)
+    const evenBeforeRightShoulder = makeEven(rightSideRC);
+    rightShapingInstructions += evenBeforeRightShoulder.extraRow;
+    rightSideRC = evenBeforeRightShoulder.rc;
+    if (evenBeforeRightShoulder.extraRow !== '') {
+      rightSideRC++; // Increment after make even row
+    }
+    
+    // Right shoulder shaping with RC
+    let rightShoulderInstructions = `${formatRC(rightSideRC)} – Set carriage to Hold<br><br>`;
+    rightSideRC++;
+    
+    for (let i = 0; i < turnBlocks.length; i++) {
+      rightShoulderInstructions += `${formatRC(rightSideRC)} – Put ${turnBlocks[i]} needles into Hold at armhole edge<br>`;
+      rightSideRC++;
+      rightShoulderInstructions += `${formatRC(rightSideRC)} – Knit to armhole, wrap & turn<br>`;
+      rightSideRC++;
+    }
+    rightShoulderInstructions += `${formatRC(rightSideRC)} – Cancel Hold, break yarn with tail, scrap off ${shoulderSts} stitches<br>`;
+    
     return `
       <div class="well_white">
-        <h3 class="text-primary">Complete Knitting Pattern</h3>
+        <h3 class="text-primary">Complete Knitting Pattern with Row Counter</h3>
+        
+        <div style="margin-bottom: 25px; padding: 15px; background: rgba(0, 100, 0, 0.1); border-left: 4px solid #2F7D32; border-radius: 4px;">
+          <strong style="color: #2F7D32;">RC Convention:</strong> Even RC = COR (carriage on right), Odd RC = COL (carriage on left)<br>
+          <small style="color: #666;">Use "make even" rows to maintain proper carriage alignment when calculations require it.</small>
+        </div>
         
         <div style="margin-bottom: 20px;">
-          <strong>Step 1:</strong><br>
-          • Cast on ${castOnSts} stitches<br>
-          • Knit ${bodyRows} rows
+          <strong>Step 1: Foundation</strong><br>
+          ${step1Instructions}
         </div>
         
         <div style="margin-bottom: 25px; padding: 15px; background: rgba(197, 81, 78, 0.1); border-left: 4px solid #C2514E; border-radius: 4px;">
@@ -112,32 +251,25 @@ export default function NecklineWizard() {
         </div>
         
         <div style="margin-bottom: 20px;">
-          <strong>Step 2: Neckline Shaping Setup</strong><br>
-          • Scrap off ${sideTotal} stitches
+          <strong>Step 2: Neckline Setup</strong><br>
+          Scrap off ${sideTotal} stitches (set aside for Step 4)
         </div>
 
         <div style="margin-bottom: 20px;">
-          <strong>Step 3: Shape neck edge #1</strong><br>
-          • At neck edge, decrease 1 stitch every other row ${section1Decreases} times; decrease 1 stitch every row ${section2Decreases} times.<br>
-          • Knit ${remainingRows} rows<br>
-          • End with the carriage on the left (neck side).<br>
+          <strong>Step 3: Shape Left Side (Neck Edge #1)</strong><br>
+          ${leftShapingInstructions}
           <br>
-          <strong>Step 3a: Shape shoulders</strong><br>
-          ${generateLeftShoulderTemplate(turnBlocks, shoulderSts)}
+          <strong>Step 3a: Left Shoulder Shaping</strong><br>
+          ${leftShoulderInstructions}
         </div>
 
         <div style="margin-bottom: 20px;">
-          <strong>Step 4: Shape neck edge #2</strong><br>
-          • Re-hang scrapped off stitches<br>
-          • Re-attach working yarn<br>
-          • Bind off ${adjustedBindOff} stitches<br>
+          <strong>Step 4: Shape Right Side (Neck Edge #2)</strong><br>
+          ${rightSetupInstructions}
+          ${rightShapingInstructions}
           <br>
-          • At neck edge, decrease 1 stitch every other row ${section1Decreases} times; decrease 1 stitch every row ${section2Decreases} times.<br>
-          • Knit ${remainingRows} rows<br>
-          • End with the carriage on the right.<br>
-          <br>
-          <strong>Step 4a: Shape shoulders</strong><br>
-          ${generateRightShoulderTemplate(turnBlocks, shoulderSts)}
+          <strong>Step 4a: Right Shoulder Shaping</strong><br>
+          ${rightShoulderInstructions}
         </div>
 
       </div>
