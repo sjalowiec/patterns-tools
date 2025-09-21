@@ -82,7 +82,7 @@ export default function NecklineWizard() {
   const initialStraightRows = bodyRows; // 5" of straight knitting
   const totalKnittingRows = Math.min(initialStraightRows + shapingRows, totalRows); // Clamp to prevent SVG overflow
 
-  // Generate machine knitting text instructions with RC tracking
+  // Generate machine knitting text instructions with event-based RC tracking
   const generateInstructions = () => {
     const unitLabel = units === 'inches' ? '"' : 'cm';
     
@@ -91,137 +91,87 @@ export default function NecklineWizard() {
     const shoulderDropRows = rowsForOneInch(rowsPerInch);
     const turnBlocks = distributeEvenly(shoulderDropRows, shoulderSts);
     
-    // RC helper functions
+    // RC helper functions - only for actual events/actions
     const formatRC = (rc: number): string => {
       const paddedRC = rc.toString().padStart(3, '0');
       const position = rc % 2 === 0 ? 'COR' : 'COL';
       return `RC:${paddedRC} (${position})`;
     };
     
-    // Make even helper - ensures we end on an even RC when needed
-    const makeEven = (currentRC: number): { rc: number; extraRow: string } => {
-      if (currentRC % 2 === 0) {
-        return { rc: currentRC, extraRow: '' };
-      } else {
-        return { 
-          rc: currentRC + 1, 
-          extraRow: `${formatRC(currentRC)} – Knit across (make even)<br>` 
-        };
-      }
-    };
-    
-    // Track RC throughout pattern
+    // Track RC for events only (not every carriage pass)
     let currentRC = 0;
     
-    // Step 1 instructions with RC
-    let step1Instructions = `${formatRC(currentRC)} – Cast on ${castOnSts} stitches<br>`;
+    // Step 1 - Foundation (only major events get RC)
+    let step1Instructions = `${formatRC(currentRC)} – Cast on ${castOnSts} stitches, then knit ${bodyRows} rows<br>`;
     currentRC++;
     
-    for (let i = 1; i <= bodyRows; i++) {
-      step1Instructions += `${formatRC(currentRC)} – Knit across<br>`;
-      currentRC++;
-    }
-    
-    // Make even after body rows for neckline shaping
-    const evenAfterBody = makeEven(currentRC);
-    step1Instructions += evenAfterBody.extraRow;
-    currentRC = evenAfterBody.rc;
-    if (evenAfterBody.extraRow !== '') {
-      currentRC++; // Increment after make even row
-    }
-    
-    // Step 3: Left side neckline shaping with RC
+    // Step 3: Left side neckline shaping - only track decrease events
     let leftShapingInstructions = '';
     
-    // Section 1: Every other row decreases
+    // Section 1: Every other row decreases (2 decreases = 2 RC events)
     for (let i = 0; i < section1Decreases; i++) {
-      leftShapingInstructions += `${formatRC(currentRC)} – Decrease 1 stitch at neck edge<br>`;
-      currentRC++;
-      leftShapingInstructions += `${formatRC(currentRC)} – Knit across<br>`;
+      leftShapingInstructions += `${formatRC(currentRC)} – Decrease 1 stitch at neck edge, knit across, knit back plain<br>`;
       currentRC++;
     }
     
-    // Section 2: Every row decreases  
+    // Section 2: Every row decreases (2 decreases = 2 RC events) 
     for (let i = 0; i < section2Decreases; i++) {
       leftShapingInstructions += `${formatRC(currentRC)} – Decrease 1 stitch at neck edge<br>`;
       currentRC++;
     }
     
-    // Remaining straight rows
-    for (let i = 0; i < remainingRows; i++) {
-      leftShapingInstructions += `${formatRC(currentRC)} – Knit across<br>`;
-      currentRC++;
+    // Add remaining straight rows note (no RC needed for plain knitting)
+    if (remainingRows > 0) {
+      leftShapingInstructions += `Continue knitting ${remainingRows} plain rows, ending COL (neck side)<br>`;
     }
     
-    // Make even before shoulder shaping (should end COL for left shoulder)
-    const evenBeforeLeftShoulder = makeEven(currentRC);
-    leftShapingInstructions += evenBeforeLeftShoulder.extraRow;
-    currentRC = evenBeforeLeftShoulder.rc;
-    if (evenBeforeLeftShoulder.extraRow !== '') {
-      currentRC++; // Increment after make even row
-    }
-    
-    // Left shoulder shaping with RC
+    // Left shoulder shaping with event-based RC
     let leftShoulderInstructions = `${formatRC(currentRC)} – Set carriage to Hold<br><br>`;
     currentRC++;
     
     for (let i = 0; i < turnBlocks.length; i++) {
-      leftShoulderInstructions += `${formatRC(currentRC)} – Put ${turnBlocks[i]} needles into Hold at armhole edge<br>`;
-      currentRC++;
-      leftShoulderInstructions += `${formatRC(currentRC)} – Knit to armhole, wrap & turn<br>`;
+      leftShoulderInstructions += `${formatRC(currentRC)} – Put ${turnBlocks[i]} needles into Hold at armhole edge, wrap, knit back<br>`;
       currentRC++;
     }
     leftShoulderInstructions += `${formatRC(currentRC)} – Cancel Hold, break yarn with tail, scrap off ${shoulderSts} stitches<br>`;
-    currentRC++; // Increment after left shoulder completion
+    currentRC++;
     
-    // Continue RC for right side (no reset - maintain continuous numbering)
-    let rightSideRC = currentRC;
+    // RESTART RC TO 000 for right side after scrap off
+    let rightSideRC = 0;
     
-    // Step 4: Right side setup
-    let rightSetupInstructions = `${formatRC(rightSideRC)} – Re-hang scrapped stitches, re-attach yarn<br>`;
+    // Step 4: Right side setup with restarted RC
+    let rightSetupInstructions = `<strong>Reset row counter to 000</strong><br>`;
+    rightSetupInstructions += `${formatRC(rightSideRC)} – Re-hang scrapped stitches, re-attach yarn<br>`;
     rightSideRC++;
     rightSetupInstructions += `${formatRC(rightSideRC)} – Bind off ${adjustedBindOff} stitches<br>`;
     rightSideRC++;
     
-    // Right side neckline shaping with RC
+    // Right side neckline shaping - only track decrease events
     let rightShapingInstructions = '';
     
-    // Section 1: Every other row decreases
+    // Section 1: Every other row decreases (2 decreases = 2 RC events)
     for (let i = 0; i < section1Decreases; i++) {
-      rightShapingInstructions += `${formatRC(rightSideRC)} – Decrease 1 stitch at neck edge<br>`;
-      rightSideRC++;
-      rightShapingInstructions += `${formatRC(rightSideRC)} – Knit across<br>`;
+      rightShapingInstructions += `${formatRC(rightSideRC)} – Decrease 1 stitch at neck edge, knit across, knit back plain<br>`;
       rightSideRC++;
     }
     
-    // Section 2: Every row decreases
+    // Section 2: Every row decreases (2 decreases = 2 RC events)
     for (let i = 0; i < section2Decreases; i++) {
       rightShapingInstructions += `${formatRC(rightSideRC)} – Decrease 1 stitch at neck edge<br>`;
       rightSideRC++;
     }
     
-    // Remaining straight rows
-    for (let i = 0; i < remainingRows; i++) {
-      rightShapingInstructions += `${formatRC(rightSideRC)} – Knit across<br>`;
-      rightSideRC++;
+    // Add remaining straight rows note (no RC needed for plain knitting)
+    if (remainingRows > 0) {
+      rightShapingInstructions += `Continue knitting ${remainingRows} plain rows, ending COR (arm side)<br>`;
     }
     
-    // Make even before shoulder shaping (should end COR for right shoulder)
-    const evenBeforeRightShoulder = makeEven(rightSideRC);
-    rightShapingInstructions += evenBeforeRightShoulder.extraRow;
-    rightSideRC = evenBeforeRightShoulder.rc;
-    if (evenBeforeRightShoulder.extraRow !== '') {
-      rightSideRC++; // Increment after make even row
-    }
-    
-    // Right shoulder shaping with RC
+    // Right shoulder shaping with event-based RC
     let rightShoulderInstructions = `${formatRC(rightSideRC)} – Set carriage to Hold<br><br>`;
     rightSideRC++;
     
     for (let i = 0; i < turnBlocks.length; i++) {
-      rightShoulderInstructions += `${formatRC(rightSideRC)} – Put ${turnBlocks[i]} needles into Hold at armhole edge<br>`;
-      rightSideRC++;
-      rightShoulderInstructions += `${formatRC(rightSideRC)} – Knit to armhole, wrap & turn<br>`;
+      rightShoulderInstructions += `${formatRC(rightSideRC)} – Put ${turnBlocks[i]} needles into Hold at armhole edge, wrap, knit back<br>`;
       rightSideRC++;
     }
     rightShoulderInstructions += `${formatRC(rightSideRC)} – Cancel Hold, break yarn with tail, scrap off ${shoulderSts} stitches<br>`;
@@ -231,8 +181,8 @@ export default function NecklineWizard() {
         <h3 class="text-primary">Complete Knitting Pattern with Row Counter</h3>
         
         <div style="margin-bottom: 25px; padding: 15px; background: rgba(0, 100, 0, 0.1); border-left: 4px solid #2F7D32; border-radius: 4px;">
-          <strong style="color: #2F7D32;">RC Convention:</strong> Even RC = COR (carriage on right), Odd RC = COL (carriage on left)<br>
-          <small style="color: #666;">Use "make even" rows to maintain proper carriage alignment when calculations require it.</small>
+          <strong style="color: #2F7D32;">RC Convention:</strong> RC tracks events (decreases, wraps, binds), not every carriage pass<br>
+          <small style="color: #666;">Even RC = COR (carriage on right), Odd RC = COL (carriage on left)</small>
         </div>
         
         <div style="margin-bottom: 20px;">
