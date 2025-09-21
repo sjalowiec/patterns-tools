@@ -417,7 +417,7 @@ export default function NecklineWizard() {
               style={{ height: '135px', width: 'auto', flexShrink: 0, maxHeight: '20vh' }}
             />
             <div>
-              <h1 className="wizard-title">Neckline Practice Wizard</h1>
+              <h1 className="wizard-title">Neckline/Shoulder Practice Wizard</h1>
               <p className="wizard-subtitle">Master neckline shaping—and add shoulder shaping too</p>
               <p style={{ fontSize: '0.9rem', fontWeight: 300, opacity: 0.8, marginTop: '-10px' }}>Build confidence with short rows while shaping shoulders and refining your neckline skills</p>
             </div>
