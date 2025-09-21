@@ -134,7 +134,7 @@ export default function NecklineWizard() {
           <br>
           • Repeat this sequence until all specified armhole groups (${turnBlocks.length}) are held.<br>
           <br>
-          • Cancel Hold. Scrap off all ${shoulderSts} stitches.
+          • Cancel Hold. Break working yarn. Scrap off ${shoulderSts} stitches.
         </div>
 
         <div style="margin-bottom: 20px;">
@@ -160,7 +160,7 @@ export default function NecklineWizard() {
           <br>
           • Repeat this sequence until all specified armhole groups (${turnBlocks.length}) are held.<br>
           <br>
-          • Cancel Hold. Scrap off all ${shoulderSts} stitches.
+          • Cancel Hold. Break working yarn. Scrap off ${shoulderSts} stitches.
         </div>
 
       </div>
