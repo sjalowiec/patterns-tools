@@ -224,9 +224,17 @@ export default function NecklineWizard() {
     <div className="wizard-container">
       <div className="wizard-header">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px' }}>
-          <div style={{ flex: 1, minWidth: '200px' }}>
-            <h1 className="wizard-title">Neckline Practice Wizard</h1>
-            <p className="wizard-subtitle">Learn neckline shaping with step-by-step instructions and technical diagrams</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flex: 1, minWidth: '200px' }}>
+            <img 
+              src="/attached_assets/image_1758295577597.png" 
+              alt="Knit by Machine Logo" 
+              className="logo-shadow"
+              style={{ height: '60px', width: 'auto', flexShrink: 0 }}
+            />
+            <div>
+              <h1 className="wizard-title">Neckline Practice Wizard</h1>
+              <p className="wizard-subtitle">Learn neckline shaping with step-by-step instructions and technical diagrams</p>
+            </div>
           </div>
           
           {/* Action buttons - responsive positioning */}
