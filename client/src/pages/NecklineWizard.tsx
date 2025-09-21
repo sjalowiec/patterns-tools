@@ -101,11 +101,10 @@ export default function NecklineWizard() {
     // Track RC for events only (not every carriage pass)
     let currentRC = 0;
     
-    // Step 1 - Foundation (split into bullets)
-    let step1Instructions = `• ${formatRC(currentRC)} – Cast on ${castOnSts} stitches<br>`;
+    // Step 1 - Foundation 
+    let step1Instructions = `${formatRC(currentRC)} – Cast on ${castOnSts} stitches<br>`;
     currentRC++;
-    step1Instructions += `• ${formatRC(currentRC)} – Knit ${bodyRows} rows, ending COR (carriage on right)<br>`;
-    currentRC++;
+    step1Instructions += `Knit ${bodyRows} rows, ending COR<br>`;
     
     // Step 3: Left side neckline shaping - use summary format
     let leftShapingInstructions = '';
