@@ -106,8 +106,10 @@ export default function NecklineWizard() {
     currentRC++;
     step1Instructions += `<span class="bullet-indent">• Knit ${bodyRows} rows, ending COR</span><br>`;
     
-    // Step 3: Left side neckline shaping - use summary format
-    let leftShapingInstructions = '';
+    // Step 3: Left side neckline shaping - reset RC and use summary format
+    currentRC = 0; // Reset row counter for left side shaping
+    let leftShapingInstructions = `${formatRC(currentRC)} – Begin neckline shaping<br>`;
+    currentRC++;
     
     if (section1Decreases > 0) {
       leftShapingInstructions += `Decrease 1 stitch every 2 rows, ${section1Decreases} times (${section1Decreases * 2} rows)<br>`;
