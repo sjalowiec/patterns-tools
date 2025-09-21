@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
 import logoSvg from '@assets/shoulders.svg';
-import { calcShoulderWidth, rowsForOneInch, distributeEvenly } from '@shared/calculations';
+import { calcShoulderWidth, rowsForOneInch, distributeEvenly, generateLeftShoulderTemplate, generateRightShoulderTemplate } from '@shared/calculations';
 
 interface GaugeData {
   units: 'inches' | 'cm';
@@ -122,19 +122,7 @@ export default function NecklineWizard() {
           • End with the carriage on the left (neck side).<br>
           <br>
           <strong>Step 3a: Shape shoulders</strong><br>
-          • Set carriage to Hold.<br>
-          <br>
-          • At the armhole (right edge), put the first group of ${turnBlocks[0]} needles into Hold.<br>
-          • Knit left → right. (the held needles won't knit)<br>
-          • Wrap the adjacent held needle, then knit right → left back to the neck.<br>
-          <br>
-          • At the armhole (right edge), put the next group of ${turnBlocks[1] || turnBlocks[0]} needles into Hold.<br>
-          • Knit left → right. (the held needles won't knit)<br>
-          • Wrap the adjacent held needle, then knit right → left back to the neck.<br>
-          <br>
-          • Repeat this sequence until all specified armhole groups (${turnBlocks.length}) are held.<br>
-          <br>
-          • Cancel Hold. Break working yarn, leaving a tail for seaming. Scrap off ${shoulderSts} stitches.
+          ${generateLeftShoulderTemplate(turnBlocks, shoulderSts)}
         </div>
 
         <div style="margin-bottom: 20px;">
@@ -148,19 +136,7 @@ export default function NecklineWizard() {
           • End with the carriage on the right.<br>
           <br>
           <strong>Step 4a: Shape shoulders</strong><br>
-          • Set carriage to Hold.<br>
-          <br>
-          • At the armhole (left edge), put the first group of ${turnBlocks[0]} needles into Hold.<br>
-          • Knit right → left. (the held needles won't knit)<br>
-          • Wrap the adjacent held needle, then knit left → right back to the neck.<br>
-          <br>
-          • At the armhole (left edge), put the next group of ${turnBlocks[1] || turnBlocks[0]} needles into Hold.<br>
-          • Knit right → left. (the held needles won't knit)<br>
-          • Wrap the adjacent held needle, then knit left → right back to the neck.<br>
-          <br>
-          • Repeat this sequence until all specified armhole groups (${turnBlocks.length}) are held.<br>
-          <br>
-          • Cancel Hold. Break working yarn, leaving a tail for seaming. Scrap off ${shoulderSts} stitches.
+          ${generateRightShoulderTemplate(turnBlocks, shoulderSts)}
         </div>
 
       </div>
