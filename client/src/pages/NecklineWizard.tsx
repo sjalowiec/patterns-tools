@@ -308,10 +308,6 @@ export default function NecklineWizard() {
               font-size="10" fill="#C2514E" font-weight="bold">
           {{shoulderRows}} rows
         </text>
-        <text x="${rectX + rectWidth - shoulderWidthSvg/2}" y="${rectY + shoulderDropSvg/2 - 5}" text-anchor="middle" 
-              font-size="10" fill="#C2514E" font-weight="bold">
-          {{shoulderRows}} rows
-        </text>
         
         
         <!-- Neckline curve -->
