@@ -124,14 +124,25 @@ export default function NecklineWizard() {
       leftShapingInstructions += `<span class="bullet-indent">• End COL (neck side)</span><br>`;
     }
     
-    // Left shoulder shaping with event-based RC
+    // Left shoulder shaping with event-based RC - continue from current count
     let leftShoulderInstructions = `${formatRC(currentRC)} – Set carriage to Hold<br><br>`;
     currentRC++;
     
-    for (let i = 0; i < turnBlocks.length; i++) {
-      leftShoulderInstructions += `${formatRC(currentRC)} – Put ${turnBlocks[i]} needles into Hold at armhole edge, wrap, knit back<br>`;
+    // Show first 2 turn blocks, then instruct to repeat
+    if (turnBlocks.length > 0) {
+      leftShoulderInstructions += `${formatRC(currentRC)} – Put ${turnBlocks[0]} needles into Hold at armhole edge, wrap, knit back<br>`;
       currentRC++;
     }
+    if (turnBlocks.length > 1) {
+      leftShoulderInstructions += `${formatRC(currentRC)} – Put ${turnBlocks[1]} needles into Hold at armhole edge, wrap, knit back<br>`;
+      currentRC++;
+    }
+    
+    // If more than 2 blocks, instruct to repeat
+    if (turnBlocks.length > 2) {
+      leftShoulderInstructions += `Repeat until all needles are in Hold<br>`;
+    }
+    
     leftShoulderInstructions += `${formatRC(currentRC)} – Cancel Hold, break yarn with tail, scrap off ${shoulderSts} stitches<br>`;
     currentRC++;
     
