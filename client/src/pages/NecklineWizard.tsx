@@ -169,12 +169,24 @@ export default function NecklineWizard() {
     const centerX = rectX + rectWidth / 2;
     const neckLeft = centerX - neckWidthSvg / 2;
     const neckRight = centerX + neckWidthSvg / 2;
+    
+    // Calculate shoulder shaping dimensions for red visualization
+    const shoulderSts = calcShoulderWidth(castOnSts, neckSts);
+    const shoulderWidthSvg = (shoulderSts / castOnSts) * rectWidth;
+    const shoulderDropRows = rowsForOneInch(rowsPerInch);
+    const shoulderDropSvg = Math.min((shoulderDropRows / totalRows) * rectHeight, neckDepthSvg);
 
     return `
       <svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="width: 100%; max-width: 500px; height: auto;">
         <!-- Main rectangle -->
         <rect x="${rectX}" y="${rectY}" width="${rectWidth}" height="${rectHeight}" 
               fill="none" stroke="black" stroke-width="1"/>
+        
+        <!-- Red shoulder shaping areas -->
+        <rect x="${rectX}" y="${rectY}" width="${shoulderWidthSvg}" height="${shoulderDropSvg}" 
+              fill="rgba(255, 0, 0, 0.3)" stroke="red" stroke-width="1" stroke-dasharray="2,2"/>
+        <rect x="${rectX + rectWidth - shoulderWidthSvg}" y="${rectY}" width="${shoulderWidthSvg}" height="${shoulderDropSvg}" 
+              fill="rgba(255, 0, 0, 0.3)" stroke="red" stroke-width="1" stroke-dasharray="2,2"/>
         
         <!-- Neckline curve -->
         <path d="M ${neckLeft} ${rectY} Q ${centerX} ${rectY + neckDepthSvg * 1.3} ${neckRight} ${rectY}" 
