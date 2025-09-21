@@ -1,0 +1,188 @@
+/* ==============================
+   Font Import
+   ============================== */
+/* Add this in your HTML <head>:
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+*/
+
+/* ==============================
+   Color Variables
+   ============================== */
+:root {
+    --primary-color: #2C3A57;      /* Navy - headings, secondary accents */
+    --secondary-color: #E2725B;    /* Coral - primary accents */
+    --success-color: #6B833D;      /* Green - success/completed steps */
+    --warning-color: #ED8936;      /* Orange - warnings */
+    --text-secondary: #6c757d;
+
+    --background-gradient: linear-gradient(135deg, #7C9645 0%, #A1C063 100%);
+    --background-base: #F9F9F7; /* off-white */
+    --background-alt: #F2EEE9;  /* warm gray */
+}
+
+/* ==============================
+   Global
+   ============================== */
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400; /* Regular for body */
+    background: var(--background-gradient);
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px 0;
+    color: #333333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600; /* Semi-bold for headings */
+    color: var(--primary-color);
+}
+
+a {
+    color: var(--secondary-color);
+    font-weight: 500; /* Slight emphasis */
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* ==============================
+   Wizard Layout
+   ============================== */
+.wizard-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    overflow: hidden;
+    min-height: 600px;
+}
+
+.wizard-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.wizard-title {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 300; /* Light for contrast */
+}
+
+.wizard-subtitle {
+    font-size: 1.1rem;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+/* ==============================
+   Progress Steps
+   ============================== */
+.step-label {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+}
+.step.active .step-label {
+    color: var(--secondary-color);
+    font-weight: 600;
+}
+.step.completed .step-label {
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+/* ==============================
+   Forms
+   ============================== */
+.form-control {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    border-radius: 6px;
+    border: 2px solid #e9ecef;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #333;
+}
+.form-control:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.2rem rgba(44, 58, 87, 0.25);
+    outline: none;
+}
+.form-group label {
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+/* ==============================
+   Buttons
+   ============================== */
+.btn {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--secondary-color);
+    border: none;
+    border-radius: 6px;
+    padding: 12px 30px;
+    font-size: 16px;
+    color: #fff;
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(226, 114, 91, 0.4);
+}
+
+.btn-secondary {
+    background: var(--primary-color);
+    border: none;
+    border-radius: 6px;
+    padding: 12px 30px;
+    font-size: 16px;
+    color: #fff;
+}
+.btn-secondary:hover {
+    background: #1E283A;
+    transform: translateY(-2px);
+}
+
+/* Round Buttons */
+.btn-round {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    color: #fff;
+}
+
+/* ==============================
+   Utility
+   ============================== */
+.text-primary {
+    color: var(--primary-color) !important;
+    font-weight: 600;
+}
+
+.text-muted {
+    font-weight: 300; /* Lighter look */
+    color: var(--text-secondary);
+}
