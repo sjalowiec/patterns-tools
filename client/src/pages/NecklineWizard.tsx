@@ -142,6 +142,7 @@ export default function NecklineWizard() {
           • Re-hang scrapped off stitches<br>
           • Re-attach working yarn<br>
           • Bind off ${adjustedBindOff} stitches<br>
+          <br>
           • At neck edge, decrease 1 stitch every other row ${section1Decreases} times; decrease 1 stitch every row ${section2Decreases} times.<br>
           • Knit ${remainingRows} rows<br>
           <br>
