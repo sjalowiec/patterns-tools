@@ -178,9 +178,18 @@ export default function NecklineWizard() {
 
     return `
       <svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="width: 100%; max-width: 500px; height: auto;">
-        <!-- Main rectangle -->
-        <rect x="${rectX}" y="${rectY}" width="${rectWidth}" height="${rectHeight}" 
-              fill="none" stroke="black" stroke-width="1"/>
+        <!-- Main rectangle - draw individual sides to avoid shoulder interference -->
+        <line x1="${rectX}" y1="${rectY + shoulderDropSvg}" x2="${rectX}" y2="${rectY + rectHeight}" 
+              stroke="black" stroke-width="1"/>
+        <line x1="${rectX}" y1="${rectY + rectHeight}" x2="${rectX + rectWidth}" y2="${rectY + rectHeight}" 
+              stroke="black" stroke-width="1"/>
+        <line x1="${rectX + rectWidth}" y1="${rectY + rectHeight}" x2="${rectX + rectWidth}" y2="${rectY + shoulderDropSvg}" 
+              stroke="black" stroke-width="1"/>
+        <!-- Top edges only where shoulders don't interfere -->
+        <line x1="${rectX + shoulderWidthSvg}" y1="${rectY}" x2="${neckLeft}" y2="${rectY}" 
+              stroke="black" stroke-width="1"/>
+        <line x1="${neckRight}" y1="${rectY}" x2="${rectX + rectWidth - shoulderWidthSvg}" y2="${rectY}" 
+              stroke="black" stroke-width="1"/>
         
         <!-- Shoulder slope lines (match logo) -->
         <line x1="${rectX}" y1="${rectY + shoulderDropSvg}" x2="${rectX + shoulderWidthSvg}" y2="${rectY}"
@@ -226,8 +235,8 @@ export default function NecklineWizard() {
               stroke="black" stroke-width="1"/>
         <circle cx="${rectX + rectWidth + 15}" cy="${rectY}" r="2" fill="black"/>
         <circle cx="${rectX + rectWidth + 15}" cy="${rectY + neckDepthSvg}" r="2" fill="black"/>
-        <text x="${rectX + rectWidth + 25}" y="${rectY + neckDepthSvg/2}" text-anchor="start" font-size="11" fill="black" 
-              transform="rotate(90, ${rectX + rectWidth + 25}, ${rectY + neckDepthSvg/2})">
+        <text x="${rectX + rectWidth + 25}" y="${rectY + neckDepthSvg/2 - 5}" text-anchor="start" font-size="11" fill="black" 
+              transform="rotate(90, ${rectX + rectWidth + 25}, ${rectY + neckDepthSvg/2 - 5})">
           {{neckDepthRows}} rows ({{neckDepth}}${units === 'inches' ? '"' : 'cm'})
         </text>
       </svg>
