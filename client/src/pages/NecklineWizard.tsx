@@ -104,7 +104,7 @@ export default function NecklineWizard() {
     // Step 1 - Foundation 
     let step1Instructions = `${formatRC(currentRC)} – Cast on ${castOnSts} stitches<br>`;
     currentRC++;
-    step1Instructions += `Knit ${bodyRows} rows, ending COR<br>`;
+    step1Instructions += `&nbsp;&nbsp;• Knit ${bodyRows} rows, ending COR<br>`;
     
     // Step 3: Left side neckline shaping - use summary format
     let leftShapingInstructions = '';
