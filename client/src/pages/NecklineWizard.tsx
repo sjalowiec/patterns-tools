@@ -193,7 +193,7 @@ export default function NecklineWizard() {
       rightSideRC += 2 * (turnBlocks.length - 2);
     }
     
-    rightShoulderInstructions += `${formatRC(rightSideRC)} – Cancel Hold, break yarn with tail, scrap off ${shoulderSts} stitches<br>`;
+    rightShoulderInstructions += `Cancel Hold, break yarn with tail, scrap off ${shoulderSts} stitches<br>`;
     
     return `
       <div class="well_white">
