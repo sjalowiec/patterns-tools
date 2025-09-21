@@ -142,6 +142,7 @@ export default function NecklineWizard() {
       leftShapingInstructions += `<span class="bullet-indent">• Continue knitting ${remainingRows} plain rows</span><br>`;
     }
     leftShapingInstructions += `<span class="bullet-indent">• End COR (neck side)</span><br>`;
+    leftShapingInstructions += `<span class="bullet-indent"><strong>${shoulderSts} stitches remain on left side</strong></span><br>`;
     leftShapingInstructions += `<strong>Reset row counter to 000</strong><br>`;
     
     // Reset RC to 000 for Step 3a
@@ -197,6 +198,7 @@ export default function NecklineWizard() {
       rightShapingInstructions += `<span class="bullet-indent">• Continue knitting ${remainingRows} plain rows</span><br>`;
     }
     rightShapingInstructions += `<span class="bullet-indent">End COL (neck edge)</span><br>`;
+    rightShapingInstructions += `<span class="bullet-indent"><strong>${shoulderSts} stitches remain on right side</strong></span><br>`;
     
     // Right shoulder shaping with event-based RC
     let rightShoulderInstructions = `Set carriage to Hold<br><br>`;
