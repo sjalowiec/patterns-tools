@@ -227,7 +227,7 @@ export default function NecklineWizard() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flex: 1, minWidth: '200px' }}>
             <svg 
               className="logo-shadow"
-              style={{ height: '90px', width: 'auto', flexShrink: 0 }}
+              style={{ height: '135px', width: 'auto', flexShrink: 0, maxHeight: '20vh' }}
               xmlns="http://www.w3.org/2000/svg" 
               width="483.729" 
               height="486.595" 
