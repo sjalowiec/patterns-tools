@@ -101,8 +101,10 @@ export default function NecklineWizard() {
     // Track RC for events only (not every carriage pass)
     let currentRC = 0;
     
-    // Step 1 - Foundation (only major events get RC)
-    let step1Instructions = `${formatRC(currentRC)} – Cast on ${castOnSts} stitches, then knit ${bodyRows} rows<br>`;
+    // Step 1 - Foundation (split into bullets)
+    let step1Instructions = `• ${formatRC(currentRC)} – Cast on ${castOnSts} stitches<br>`;
+    currentRC++;
+    step1Instructions += `• ${formatRC(currentRC)} – Knit ${bodyRows} rows, ending COR (carriage on right)<br>`;
     currentRC++;
     
     // Step 3: Left side neckline shaping - use summary format
@@ -192,7 +194,10 @@ export default function NecklineWizard() {
         
         <div style="margin-bottom: 20px;">
           <strong>Step 2: Neckline Setup</strong><br>
-          Scrap off ${sideTotal} stitches (set aside for Step 4)
+          • Do not break yarn, remove working yarn from feeder and set aside<br>
+          • Thread up scrap yarn<br>
+          • Scrap off ${sideTotal} stitches, ending COR (carriage on right)<br>
+          • Set scrapped stitches aside for Step 4
         </div>
 
         <div style="margin-bottom: 20px;">
