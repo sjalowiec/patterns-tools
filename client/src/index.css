@@ -9,14 +9,16 @@
    Color Variables
    ============================== */
 :root {
-  --primary-color: #2C3A57;      /* Navy - headings, secondary accents */
-  --secondary-color: #E2725B;    /* Coral - primary accents */
-  --success-color: #6B833D;      /* Green - success/completed steps */
-  --warning-color: #ED8936;      /* Orange - warnings */
+  --green-1: #7C9645;            /* Primary green */
+  --green-2: #A1C063;            /* Secondary green */
+  --accent: #0079F2;             /* Blue accent */
+  --primary-color: var(--green-1);
+  --secondary-color: var(--accent);
+  --success-color: var(--green-2);
+  --warning-color: #ED8936;
   --text-secondary: #6c757d;
 
-  --background-gradient: linear-gradient(135deg, #2C3A57 0%, #E2725B 100%);
-  --background-base: #F9F9F7;    /* off-white */
+  --background-base: #ffffff;    /* white background */
   --background-alt: #F2EEE9;     /* warm gray */
 }
 
@@ -26,7 +28,7 @@
 body {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  background: var(--background-gradient);
+  background: var(--background-base);
   min-height: 100vh;
   margin: 0;
   padding: 20px 0;
@@ -64,7 +66,7 @@ a:hover {
 }
 
 .wizard-header {
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  background: linear-gradient(135deg, var(--green-1) 0%, var(--green-2) 100%);
   color: white;
   padding: 30px;
   text-align: center;
@@ -123,8 +125,8 @@ a:hover {
 }
 
 .form-control:focus {
-  border-color: var(--secondary-color);
-  box-shadow: 0 0 0 0.2rem rgba(44, 58, 87, 0.25);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 0.2rem rgba(0, 121, 242, 0.25);
   outline: none;
 }
 
@@ -149,7 +151,7 @@ a:hover {
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(226, 114, 91, 0.4);
+  box-shadow: 0 5px 15px rgba(0, 121, 242, 0.4);
 }
 
 .btn-secondary {
@@ -158,7 +160,7 @@ a:hover {
 }
 
 .btn-secondary:hover {
-  background: #1E283A;
+  background: #6B833D;
   transform: translateY(-2px);
 }
 
@@ -182,21 +184,21 @@ a:hover {
 }
 
 .btn-round-primary {
-  background: linear-gradient(135deg, var(--secondary-color) 0%, #C85B46 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, #0063C7 100%);
 }
 
 .btn-round-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(226, 114, 91, 0.4);
+  box-shadow: 0 6px 16px rgba(0, 121, 242, 0.4);
 }
 
 .btn-round-secondary {
-  background: linear-gradient(135deg, var(--primary-color) 0%, #1E283A 100%);
+  background: linear-gradient(135deg, var(--green-1) 0%, var(--green-2) 100%);
 }
 
 .btn-round-secondary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(44, 58, 87, 0.4);
+  box-shadow: 0 6px 16px rgba(124, 150, 69, 0.4);
 }
 
 .btn-round-light {
