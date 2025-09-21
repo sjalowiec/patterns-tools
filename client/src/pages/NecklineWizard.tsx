@@ -183,9 +183,9 @@ export default function NecklineWizard() {
               fill="none" stroke="black" stroke-width="1"/>
         
         <!-- Shoulder slope lines (match logo) -->
-        <line x1="${rectX}" y1="${rectY}" x2="${rectX + shoulderWidthSvg}" y2="${rectY + shoulderDropSvg}"
+        <line x1="${rectX}" y1="${rectY + shoulderDropSvg}" x2="${rectX + shoulderWidthSvg}" y2="${rectY}"
               stroke="#C2514E" stroke-width="2" stroke-linecap="round" />
-        <line x1="${rectX + rectWidth}" y1="${rectY}" x2="${rectX + rectWidth - shoulderWidthSvg}" y2="${rectY + shoulderDropSvg}"
+        <line x1="${rectX + rectWidth - shoulderWidthSvg}" y1="${rectY}" x2="${rectX + rectWidth}" y2="${rectY + shoulderDropSvg}"
               stroke="#C2514E" stroke-width="2" stroke-linecap="round" />
         
         <!-- Shoulder drop depth indicator -->
