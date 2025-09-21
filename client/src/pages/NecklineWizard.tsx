@@ -418,8 +418,8 @@ export default function NecklineWizard() {
             />
             <div>
               <h1 className="wizard-title">Neckline Practice Wizard</h1>
-              <p className="wizard-subtitle">Knit a practice piece and master the basics of neckline shaping</p>
-              <p style={{ fontSize: '0.9rem', fontWeight: 300, opacity: 0.8, marginTop: '-10px' }}>Knit a sample piece to focus on techniques</p>
+              <p className="wizard-subtitle">Knit a practice piece and master the basics of neckline and shoulder shaping</p>
+              <p style={{ fontSize: '0.9rem', fontWeight: 300, opacity: 0.8, marginTop: '-10px' }}>Build skills with a sample piece that includes short row shoulder shaping.</p>
             </div>
           </div>
           
