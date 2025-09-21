@@ -143,7 +143,7 @@ export default function NecklineWizard() {
       leftShoulderInstructions += `<span class="bullet-indent">Repeat from <span class="repeat-marker">*</span> to <span class="repeat-marker">*</span> until all needles are in hold</span><br>`;
     }
     
-    leftShoulderInstructions += `<span class="bullet-indent">${formatRC(currentRC)} – Cancel Hold, break yarn leaving a tail for seaming, scrap off ${shoulderSts} stitches</span><br>`;
+    leftShoulderInstructions += `<span class="bullet-indent">Cancel Hold, break yarn leaving a tail for seaming, scrap off ${shoulderSts} stitches</span><br>`;
     currentRC++;
     
     // RESTART RC TO 000 for right side after scrap off
