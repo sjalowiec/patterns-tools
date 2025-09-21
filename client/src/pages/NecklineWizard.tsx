@@ -75,7 +75,8 @@ export default function NecklineWizard() {
   const section1Rows = section1Decreases * 2; // every other row = 2 rows per decrease
   const section2Rows = section2Decreases; // every row = 1 row per decrease  
   const shapingRows = section1Rows + section2Rows;
-  const remainingRows = Math.max(0, neckDepthRows - shapingRows);
+  const shoulderRows = rowsForOneInch(rowsPerInch); // 1" worth of shoulder shaping rows
+  const remainingRows = Math.max(0, neckDepthRows - shapingRows - shoulderRows);
   
   // Calculate total knitting rows for SVG
   const initialStraightRows = bodyRows; // 5" of straight knitting
