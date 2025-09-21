@@ -188,12 +188,6 @@ export default function NecklineWizard() {
         <line x1="${rectX + rectWidth - shoulderWidthSvg}" y1="${rectY}" x2="${rectX + rectWidth}" y2="${rectY + shoulderDropSvg}"
               stroke="#C2514E" stroke-width="2" stroke-linecap="round" />
         
-        <!-- Shoulder drop depth indicator -->
-        <line x1="${rectX + shoulderWidthSvg + 6}" y1="${rectY}" x2="${rectX + shoulderWidthSvg + 6}" y2="${rectY + shoulderDropSvg}"
-              stroke="#C2514E" stroke-width="1" />
-        <text x="${rectX + shoulderWidthSvg + 10}" y="${rectY + shoulderDropSvg/2}" font-size="10" fill="#C2514E">
-          Shoulder drop: ${shoulderDropRows} rows (${units === 'inches' ? '~1"' : '~2.54 cm'})
-        </text>
         
         <!-- Neckline curve -->
         <path d="M ${neckLeft} ${rectY} Q ${centerX} ${rectY + neckDepthSvg * 1.3} ${neckRight} ${rectY}" 
