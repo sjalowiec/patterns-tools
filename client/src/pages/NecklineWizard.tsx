@@ -105,19 +105,14 @@ export default function NecklineWizard() {
     let step1Instructions = `${formatRC(currentRC)} – Cast on ${castOnSts} stitches, then knit ${bodyRows} rows<br>`;
     currentRC++;
     
-    // Step 3: Left side neckline shaping - only track decrease events
+    // Step 3: Left side neckline shaping - use summary format
     let leftShapingInstructions = '';
     
-    // Section 1: Every other row decreases (2 decreases = 2 RC events)
-    for (let i = 0; i < section1Decreases; i++) {
-      leftShapingInstructions += `${formatRC(currentRC)} – Decrease 1 stitch at neck edge, knit across, knit back plain<br>`;
-      currentRC++;
+    if (section1Decreases > 0) {
+      leftShapingInstructions += `Decrease 1 stitch every 2 rows, ${section1Decreases} times (${section1Decreases * 2} rows)<br>`;
     }
-    
-    // Section 2: Every row decreases (2 decreases = 2 RC events) 
-    for (let i = 0; i < section2Decreases; i++) {
-      leftShapingInstructions += `${formatRC(currentRC)} – Decrease 1 stitch at neck edge<br>`;
-      currentRC++;
+    if (section2Decreases > 0) {
+      leftShapingInstructions += `Decrease 1 stitch every row, ${section2Decreases} times (${section2Decreases} rows)<br>`;
     }
     
     // Add remaining straight rows note (no RC needed for plain knitting)
@@ -146,19 +141,14 @@ export default function NecklineWizard() {
     rightSetupInstructions += `${formatRC(rightSideRC)} – Bind off ${adjustedBindOff} stitches<br>`;
     rightSideRC++;
     
-    // Right side neckline shaping - only track decrease events
+    // Right side neckline shaping - use summary format
     let rightShapingInstructions = '';
     
-    // Section 1: Every other row decreases (2 decreases = 2 RC events)
-    for (let i = 0; i < section1Decreases; i++) {
-      rightShapingInstructions += `${formatRC(rightSideRC)} – Decrease 1 stitch at neck edge, knit across, knit back plain<br>`;
-      rightSideRC++;
+    if (section1Decreases > 0) {
+      rightShapingInstructions += `Decrease 1 stitch every 2 rows, ${section1Decreases} times (${section1Decreases * 2} rows)<br>`;
     }
-    
-    // Section 2: Every row decreases (2 decreases = 2 RC events)
-    for (let i = 0; i < section2Decreases; i++) {
-      rightShapingInstructions += `${formatRC(rightSideRC)} – Decrease 1 stitch at neck edge<br>`;
-      rightSideRC++;
+    if (section2Decreases > 0) {
+      rightShapingInstructions += `Decrease 1 stitch every row, ${section2Decreases} times (${section2Decreases} rows)<br>`;
     }
     
     // Add remaining straight rows note (no RC needed for plain knitting)
