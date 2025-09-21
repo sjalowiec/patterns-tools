@@ -393,7 +393,8 @@ a:hover {
 }
 
 .bullet-indent {
-  margin-left: 2ch;     /* indent equivalent to 2 characters */
+  display: block;       /* make it block-level */
+  padding-left: 2ch;    /* padding maintains indent on wrap */
 }
 
 .repeat-marker {
