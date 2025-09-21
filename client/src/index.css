@@ -393,8 +393,10 @@ a:hover {
 }
 
 .bullet-indent {
-  display: block;       /* make it block-level */
-  padding-left: 2ch;    /* padding maintains indent on wrap */
+  display: inline-block;  /* keeps line spacing tight */
+  width: 100%;           /* allows full width for wrapping */
+  padding-left: 2ch;     /* indent the entire block */
+  text-indent: 0;        /* no additional text indent */
 }
 
 .repeat-marker {
