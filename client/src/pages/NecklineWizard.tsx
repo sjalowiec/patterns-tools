@@ -124,12 +124,14 @@ export default function NecklineWizard() {
           <strong>Step 3a: Shape shoulders</strong><br>
           • Set carriage to Hold.<br>
           <br>
-          ${turnBlocks.map((block, index) => 
-            `• At the armhole (right edge), put the ${index === 0 ? 'first' : 'next'} group of ${block} needles into Hold.<br>
-            • Knit left → right. (the held needles won't knit)<br>
-            • Wrap the adjacent held needle, then knit right → left back to the neck.<br>
-            <br>`
-          ).join('')}
+          • At the armhole (right edge), put the first group of ${turnBlocks[0]} needles into Hold.<br>
+          • Knit left → right. (the held needles won't knit)<br>
+          • Wrap the adjacent held needle, then knit right → left back to the neck.<br>
+          <br>
+          • At the armhole (right edge), put the next group of ${turnBlocks[1] || turnBlocks[0]} needles into Hold.<br>
+          • Knit left → right. (the held needles won't knit)<br>
+          • Wrap the adjacent held needle, then knit right → left back to the neck.<br>
+          <br>
           • Repeat this sequence until all specified armhole groups (${turnBlocks.length}) are held.<br>
           <br>
           • Cancel Hold. Scrap off all ${shoulderSts} stitches.
@@ -146,12 +148,14 @@ export default function NecklineWizard() {
           <strong>Step 4a: Shape shoulders</strong><br>
           • Set carriage to Hold.<br>
           <br>
-          ${turnBlocks.map((block, index) => 
-            `• At the armhole (right edge), put the ${index === 0 ? 'first' : 'next'} group of ${block} needles into Hold.<br>
-            • Knit left → right. (the held needles won't knit)<br>
-            • Wrap the adjacent held needle, then knit right → left back to the neck.<br>
-            <br>`
-          ).join('')}
+          • At the armhole (right edge), put the first group of ${turnBlocks[0]} needles into Hold.<br>
+          • Knit left → right. (the held needles won't knit)<br>
+          • Wrap the adjacent held needle, then knit right → left back to the neck.<br>
+          <br>
+          • At the armhole (right edge), put the next group of ${turnBlocks[1] || turnBlocks[0]} needles into Hold.<br>
+          • Knit left → right. (the held needles won't knit)<br>
+          • Wrap the adjacent held needle, then knit right → left back to the neck.<br>
+          <br>
           • Repeat this sequence until all specified armhole groups (${turnBlocks.length}) are held.<br>
           <br>
           • Cancel Hold. Scrap off all ${shoulderSts} stitches.
