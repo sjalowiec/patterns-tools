@@ -165,11 +165,11 @@ export default function NecklineWizard() {
     let rightShapingInstructions = '';
     
     if (section1Decreases > 0) {
-      rightShapingInstructions += `<span class="bullet-indent">• Decrease 1 stitch every 2 rows, ${section1Decreases} times (${section1Decreases * 2} rows)</span><br>`;
+      rightShapingInstructions += `<span class="bullet-indent">• Decrease 1 stitch at neck edge every 2 rows, ${section1Decreases} times (${section1Decreases * 2} rows)</span><br>`;
       rightSideRC += section1Decreases; // Each decrease is an RC event
     }
     if (section2Decreases > 0) {
-      rightShapingInstructions += `<span class="bullet-indent">• Decrease 1 stitch every row, ${section2Decreases} times (${section2Decreases} rows)</span><br>`;
+      rightShapingInstructions += `<span class="bullet-indent">• Decrease 1 stitch at neck edge every row, ${section2Decreases} times (${section2Decreases} rows)</span><br>`;
       rightSideRC += section2Decreases; // Each decrease is an RC event
     }
     
