@@ -378,7 +378,7 @@ export default function NecklineWizard() {
         
         {/* Copyright Notice */}
         <div style={{ textAlign: 'center', padding: '20px', fontSize: '14px', color: '#666', borderTop: '1px solid #e0e0e0', marginTop: '30px' }}>
-          © {new Date().getFullYear()} Knit by Machine. All rights reserved. | Version {new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })} | Support: support@knitbymachine.com
+          © {new Date().getFullYear()} Knit by Machine. For personal use only. | Version {new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })} | support@knitbymachine.com
         </div>
       </div>
     </div>
