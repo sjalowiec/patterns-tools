@@ -125,25 +125,25 @@ export default function NecklineWizard() {
     }
     
     // Left shoulder shaping with event-based RC - continue from current count
-    let leftShoulderInstructions = `${formatRC(currentRC)} – Set carriage to Hold<br><br>`;
+    let leftShoulderInstructions = `<span class="bullet-indent">${formatRC(currentRC)} – Set carriage to Hold</span><br><br>`;
     currentRC++;
     
     // Show first 2 turn blocks, then instruct to repeat
     if (turnBlocks.length > 0) {
-      leftShoulderInstructions += `${formatRC(currentRC)} – <span class="repeat-marker">*</span>Put ${turnBlocks[0]} needles into Hold at armhole edge, wrap, knit back<br>`;
+      leftShoulderInstructions += `<span class="bullet-indent">${formatRC(currentRC)} – <span class="repeat-marker">*</span>Put ${turnBlocks[0]} needles into Hold at armhole edge, wrap, knit back</span><br>`;
       currentRC++;
     }
     if (turnBlocks.length > 1) {
-      leftShoulderInstructions += `${formatRC(currentRC)} – Put ${turnBlocks[1]} needles into Hold at armhole edge, wrap, knit back<span class="repeat-marker">*</span><br>`;
+      leftShoulderInstructions += `<span class="bullet-indent">${formatRC(currentRC)} – Put ${turnBlocks[1]} needles into Hold at armhole edge, wrap, knit back<span class="repeat-marker">*</span></span><br>`;
       currentRC++;
     }
     
     // If more than 2 blocks, instruct to repeat
     if (turnBlocks.length > 2) {
-      leftShoulderInstructions += `Repeat from * to * until all needles are in hold<br>`;
+      leftShoulderInstructions += `<span class="bullet-indent">Repeat from <span class="repeat-marker">*</span> to <span class="repeat-marker">*</span> until all needles are in hold</span><br>`;
     }
     
-    leftShoulderInstructions += `${formatRC(currentRC)} – Cancel Hold, break yarn with tail, scrap off ${shoulderSts} stitches<br>`;
+    leftShoulderInstructions += `<span class="bullet-indent">${formatRC(currentRC)} – Cancel Hold, break yarn leaving a tail for seaming, scrap off ${shoulderSts} stitches</span><br>`;
     currentRC++;
     
     // RESTART RC TO 000 for right side after scrap off
