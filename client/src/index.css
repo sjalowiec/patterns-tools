@@ -395,3 +395,9 @@ a:hover {
 .bullet-indent {
   margin-left: 2ch;     /* indent equivalent to 2 characters */
 }
+
+.repeat-marker {
+  font-weight: bold;    /* darker/bolder */
+  font-size: 1.2em;     /* larger */
+  color: #000;          /* pure black for maximum contrast */
+}
