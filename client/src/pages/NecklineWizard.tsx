@@ -84,23 +84,35 @@ export default function NecklineWizard() {
   const generateInstructions = () => {
     const unitLabel = units === 'inches' ? '"' : 'cm';
     
-    // Calculate shoulder shaping values
-    const shoulderSts = sideTotal - perSideRemaining; // stitches remaining per shoulder after neckline shaping
-    const shoulderDropRows = Math.round(rowsPerInch); // rows equal to 1"
+    // Calculate shoulder shaping values using magic formula
+    // Shoulder width = half the stitches left after subtracting neckline
+    const calcShoulderWidth = (totalCastOn: number, necklineSts: number): number => {
+      const remainingSts = totalCastOn - necklineSts;
+      return Math.floor(remainingSts / 2);
+    };
     
-    // Helper function to distribute values evenly
-    const distributeEvenly = (total: number, parts: number): number[] => {
-      const base = Math.floor(total / parts);
-      const remainder = total % parts;
+    // Convert 1 inch into rows based on row gauge
+    const rowsForOneInch = (rowGauge: number): number => {
+      return Math.max(1, Math.round(rowGauge * 1)); // 1" worth of rows
+    };
+    
+    // Distribute short-row shaping evenly across the shoulder
+    const distributeEvenly = (rows: number, stitches: number): number[] => {
+      if (rows <= 0 || stitches <= 0) return [];
+      
+      const perTurn = Math.floor(stitches / rows);
+      const extra = stitches % rows;
       const result: number[] = [];
       
-      for (let i = 0; i < parts; i++) {
-        result.push(base + (i < remainder ? 1 : 0));
+      for (let i = 0; i < rows; i++) {
+        result.push(perTurn + (i < extra ? 1 : 0));
       }
       
       return result;
     };
     
+    const shoulderSts = calcShoulderWidth(castOnSts, neckSts);
+    const shoulderDropRows = rowsForOneInch(rowsPerInch);
     const turnBlocks = distributeEvenly(shoulderDropRows, shoulderSts);
     
     return `
