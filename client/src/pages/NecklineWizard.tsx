@@ -304,9 +304,13 @@ export default function NecklineWizard() {
               stroke="#C2514E" stroke-width="2" stroke-linecap="round" />
         
         <!-- Shoulder shaping row indicators -->
-        <text x="${rectX + shoulderWidthSvg/2}" y="${rectY + shoulderDropSvg/2 - 5}" text-anchor="middle" 
+        <text x="${rectX + shoulderWidthSvg/2}" y="${rectY + shoulderDropSvg/2 - 10}" text-anchor="middle" 
               font-size="10" fill="#C2514E" font-weight="bold">
           {{shoulderRows}} rows
+        </text>
+        <text x="${rectX + shoulderWidthSvg/2}" y="${rectY + shoulderDropSvg/2 + 5}" text-anchor="middle" 
+              font-size="10" fill="#C2514E" font-weight="bold">
+          {{shoulderSts}} stitches
         </text>
         
         
@@ -362,6 +366,7 @@ export default function NecklineWizard() {
       : (totalKnittingRows / rowsPerInch * 2.54).toFixed(1);
     
     const shoulderRows = rowsForOneInch(rowsPerInch);
+    const shoulderSts = calcShoulderWidth(castOnSts, neckSts);
     
     return template
       .replace(/\{\{castOnSts\}\}/g, castOnSts.toString())
@@ -374,7 +379,8 @@ export default function NecklineWizard() {
       .replace(/\{\{neckWidth\}\}/g, necklineWidth.toFixed(1))
       .replace(/\{\{totalKnittingRows\}\}/g, totalKnittingRows.toString())
       .replace(/\{\{knittedHeight\}\}/g, knittedHeight)
-      .replace(/\{\{shoulderRows\}\}/g, shoulderRows.toString());
+      .replace(/\{\{shoulderRows\}\}/g, shoulderRows.toString())
+      .replace(/\{\{shoulderSts\}\}/g, shoulderSts.toString());
   };
 
   return (
