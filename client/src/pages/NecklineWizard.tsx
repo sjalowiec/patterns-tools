@@ -151,8 +151,7 @@ export default function NecklineWizard() {
     
     // Step 4: Right side setup with restarted RC
     let rightSetupInstructions = `<strong>Reset row counter to 000</strong><br>`;
-    rightSetupInstructions += `${formatRC(rightSideRC)} – Re-hang scrapped stitches, re-attach yarn<br>`;
-    rightSideRC++;
+    rightSetupInstructions += `Re-hang scrapped stitches, re-attach yarn<br>`;
     rightSetupInstructions += `${formatRC(rightSideRC)} – Bind off ${adjustedBindOff} stitches<br>`;
     rightSideRC++;
     
@@ -169,7 +168,7 @@ export default function NecklineWizard() {
     // Add remaining straight rows note (no RC needed for plain knitting)
     if (remainingRows > 0) {
       rightShapingInstructions += `<span class="bullet-indent">• Continue knitting ${remainingRows} plain rows</span><br>`;
-      rightShapingInstructions += `<span class="bullet-indent">• End COR (arm side)</span><br>`;
+      rightShapingInstructions += `<span class="bullet-indent">• End COR (armhole side)</span><br>`;
     }
     
     // Right shoulder shaping with event-based RC
