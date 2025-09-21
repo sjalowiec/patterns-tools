@@ -391,3 +391,7 @@ a:hover {
   color: #777;          /* lighter gray */
   margin-left: 6px;     /* small gap from main text */
 }
+
+.bullet-indent {
+  margin-left: 2ch;     /* indent equivalent to 2 characters */
+}

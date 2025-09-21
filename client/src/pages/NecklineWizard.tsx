@@ -104,7 +104,7 @@ export default function NecklineWizard() {
     // Step 1 - Foundation 
     let step1Instructions = `${formatRC(currentRC)} – Cast on ${castOnSts} stitches<br>`;
     currentRC++;
-    step1Instructions += `&nbsp;&nbsp;• Knit ${bodyRows} rows, ending COR<br>`;
+    step1Instructions += `<span class="bullet-indent">• Knit ${bodyRows} rows, ending COR</span><br>`;
     
     // Step 3: Left side neckline shaping - use summary format
     let leftShapingInstructions = '';
@@ -193,10 +193,10 @@ export default function NecklineWizard() {
         
         <div style="margin-bottom: 20px;">
           <strong>Step 2: Neckline Setup</strong><br>
-          • Do not break yarn, remove working yarn from feeder and set aside<br>
-          • Thread up scrap yarn<br>
-          • Scrap off ${sideTotal} stitches, ending COR (carriage on right)<br>
-          • Set scrapped stitches aside for Step 4
+          <span class="bullet-indent">• Do not break yarn, remove working yarn from feeder and set aside</span><br>
+          <span class="bullet-indent">• Thread up scrap yarn</span><br>
+          <span class="bullet-indent">• Scrap off ${sideTotal} stitches, ending COR</span><br>
+          <span class="bullet-indent">• Set scrapped stitches aside for Step 4</span>
         </div>
 
         <div style="margin-bottom: 20px;">
