@@ -130,11 +130,11 @@ export default function NecklineWizard() {
     
     // Show first 2 turn blocks, then instruct to repeat
     if (turnBlocks.length > 0) {
-      leftShoulderInstructions += `<span class="bullet-indent">${formatRC(currentRC)} – <span class="repeat-marker">*</span>Put ${turnBlocks[0]} needles into Hold at armhole edge, wrap, knit back</span><br>`;
+      leftShoulderInstructions += `<span class="bullet-indent">${formatRC(currentRC)} – <span class="repeat-marker">*</span>Put ${turnBlocks[0]} needles into Hold at armhole edge, knit, wrap, knit back</span><br>`;
       currentRC++;
     }
     if (turnBlocks.length > 1) {
-      leftShoulderInstructions += `<span class="bullet-indent">${formatRC(currentRC)} – Put ${turnBlocks[1]} needles into Hold at armhole edge, wrap, knit back<span class="repeat-marker">*</span></span><br>`;
+      leftShoulderInstructions += `<span class="bullet-indent">${formatRC(currentRC)} – Put ${turnBlocks[1]} needles into Hold at armhole edge, knit, wrap, knit back<span class="repeat-marker">*</span></span><br>`;
       currentRC++;
     }
     
@@ -177,7 +177,7 @@ export default function NecklineWizard() {
     rightSideRC++;
     
     for (let i = 0; i < turnBlocks.length; i++) {
-      rightShoulderInstructions += `${formatRC(rightSideRC)} – Put ${turnBlocks[i]} needles into Hold at armhole edge, wrap, knit back<br>`;
+      rightShoulderInstructions += `${formatRC(rightSideRC)} – Put ${turnBlocks[i]} needles into Hold at armhole edge, knit, wrap, knit back<br>`;
       rightSideRC++;
     }
     rightShoulderInstructions += `${formatRC(rightSideRC)} – Cancel Hold, break yarn with tail, scrap off ${shoulderSts} stitches<br>`;
