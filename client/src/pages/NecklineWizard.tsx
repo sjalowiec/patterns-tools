@@ -146,6 +146,9 @@ export default function NecklineWizard() {
     
     leftShoulderInstructions += `<span class="bullet-indent">Cancel Hold, break yarn leaving a tail for seaming, scrap off ${shoulderSts} stitches</span><br>`;
     
+    // SET RC TO 1 after completing step 3
+    currentRC = 1;
+    
     // RESTART RC TO 000 for right side after scrap off
     let rightSideRC = 0;
     
@@ -171,7 +174,7 @@ export default function NecklineWizard() {
     if (remainingRows > 0) {
       rightShapingInstructions += `<span class="bullet-indent">• Continue knitting ${remainingRows} plain rows</span><br>`;
     }
-    rightShapingInstructions += `<span class="bullet-indent">${formatRC(rightSideRC)} – End COR (armhole side)</span><br>`;
+    rightShapingInstructions += `<span class="bullet-indent">End COR (armhole side)</span><br>`;
     
     // Right shoulder shaping with event-based RC
     let rightShoulderInstructions = `Set carriage to Hold<br><br>`;
@@ -193,7 +196,7 @@ export default function NecklineWizard() {
       rightSideRC += 2 * (turnBlocks.length - 2);
     }
     
-    rightShoulderInstructions += `Cancel Hold, break yarn with tail, scrap off ${shoulderSts} stitches<br>`;
+    rightShoulderInstructions += `<span class="bullet-indent">Cancel Hold, break yarn with tail, scrap off ${shoulderSts} stitches</span><br>`;
     
     return `
       <div class="well_white">
