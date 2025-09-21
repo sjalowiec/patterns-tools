@@ -112,15 +112,15 @@ export default function NecklineWizard() {
     currentRC++;
     
     if (section1Decreases > 0) {
-      leftShapingInstructions += `Decrease 1 stitch every 2 rows, ${section1Decreases} times (${section1Decreases * 2} rows)<br>`;
+      leftShapingInstructions += `<span class="bullet-indent">• Decrease 1 stitch every 2 rows, ${section1Decreases} times (${section1Decreases * 2} rows)</span><br>`;
     }
     if (section2Decreases > 0) {
-      leftShapingInstructions += `Decrease 1 stitch every row, ${section2Decreases} times (${section2Decreases} rows)<br>`;
+      leftShapingInstructions += `<span class="bullet-indent">• Decrease 1 stitch every row, ${section2Decreases} times (${section2Decreases} rows)</span><br>`;
     }
     
     // Add remaining straight rows note (no RC needed for plain knitting)
     if (remainingRows > 0) {
-      leftShapingInstructions += `Continue knitting ${remainingRows} plain rows, ending COL (neck side)<br>`;
+      leftShapingInstructions += `<span class="bullet-indent">• Continue knitting ${remainingRows} plain rows, ending COL (neck side)</span><br>`;
     }
     
     // Left shoulder shaping with event-based RC
@@ -148,15 +148,15 @@ export default function NecklineWizard() {
     let rightShapingInstructions = '';
     
     if (section1Decreases > 0) {
-      rightShapingInstructions += `Decrease 1 stitch every 2 rows, ${section1Decreases} times (${section1Decreases * 2} rows)<br>`;
+      rightShapingInstructions += `<span class="bullet-indent">• Decrease 1 stitch every 2 rows, ${section1Decreases} times (${section1Decreases * 2} rows)</span><br>`;
     }
     if (section2Decreases > 0) {
-      rightShapingInstructions += `Decrease 1 stitch every row, ${section2Decreases} times (${section2Decreases} rows)<br>`;
+      rightShapingInstructions += `<span class="bullet-indent">• Decrease 1 stitch every row, ${section2Decreases} times (${section2Decreases} rows)</span><br>`;
     }
     
     // Add remaining straight rows note (no RC needed for plain knitting)
     if (remainingRows > 0) {
-      rightShapingInstructions += `Continue knitting ${remainingRows} plain rows, ending COR (arm side)<br>`;
+      rightShapingInstructions += `<span class="bullet-indent">• Continue knitting ${remainingRows} plain rows, ending COR (arm side)</span><br>`;
     }
     
     // Right shoulder shaping with event-based RC
