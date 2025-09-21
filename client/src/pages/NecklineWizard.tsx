@@ -125,26 +125,26 @@ export default function NecklineWizard() {
     }
     
     // Left shoulder shaping with event-based RC - continue from current count
-    let leftShoulderInstructions = `<span class="bullet-indent">${formatRC(currentRC)} – Set carriage to Hold</span><br><br>`;
-    currentRC++;
+    let leftShoulderInstructions = `<span class="bullet-indent">Set carriage to Hold</span><br><br>`;
     
     // Show first 2 turn blocks, then instruct to repeat
     if (turnBlocks.length > 0) {
       leftShoulderInstructions += `<span class="bullet-indent">${formatRC(currentRC)} – <span class="repeat-marker">*</span>Put ${turnBlocks[0]} needles into Hold at armhole edge, knit, wrap, knit back</span><br>`;
-      currentRC++;
+      currentRC += 2; // Each turn block is 2 rows
     }
     if (turnBlocks.length > 1) {
       leftShoulderInstructions += `<span class="bullet-indent">${formatRC(currentRC)} – Put ${turnBlocks[1]} needles into Hold at armhole edge, knit, wrap, knit back<span class="repeat-marker">*</span></span><br>`;
-      currentRC++;
+      currentRC += 2; // Each turn block is 2 rows
     }
     
     // If more than 2 blocks, instruct to repeat
     if (turnBlocks.length > 2) {
       leftShoulderInstructions += `<span class="bullet-indent">Repeat from <span class="repeat-marker">*</span> to <span class="repeat-marker">*</span> until all needles are in hold</span><br>`;
+      // Account for remaining turn blocks (2 rows each)
+      currentRC += 2 * (turnBlocks.length - 2);
     }
     
     leftShoulderInstructions += `<span class="bullet-indent">Cancel Hold, break yarn leaving a tail for seaming, scrap off ${shoulderSts} stitches</span><br>`;
-    currentRC++;
     
     // RESTART RC TO 000 for right side after scrap off
     let rightSideRC = 0;
@@ -172,7 +172,6 @@ export default function NecklineWizard() {
       rightShapingInstructions += `<span class="bullet-indent">• Continue knitting ${remainingRows} plain rows</span><br>`;
     }
     rightShapingInstructions += `<span class="bullet-indent">${formatRC(rightSideRC)} – End COR (armhole side)</span><br>`;
-    rightSideRC++;
     
     // Right shoulder shaping with event-based RC
     let rightShoulderInstructions = `Set carriage to Hold<br><br>`;
@@ -180,18 +179,18 @@ export default function NecklineWizard() {
     // Show first 2 turn blocks, then instruct to repeat
     if (turnBlocks.length > 0) {
       rightShoulderInstructions += `${formatRC(rightSideRC)} – <span class="repeat-marker">*</span>Put ${turnBlocks[0]} needles into Hold at armhole edge, knit, wrap, knit back<br>`;
-      rightSideRC++;
+      rightSideRC += 2; // Each turn block is 2 rows
     }
     if (turnBlocks.length > 1) {
       rightShoulderInstructions += `${formatRC(rightSideRC)} – Put ${turnBlocks[1]} needles into Hold at armhole edge, knit, wrap, knit back<span class="repeat-marker">*</span><br>`;
-      rightSideRC++;
+      rightSideRC += 2; // Each turn block is 2 rows
     }
     
     // If more than 2 blocks, instruct to repeat
     if (turnBlocks.length > 2) {
       rightShoulderInstructions += `Repeat from <span class="repeat-marker">*</span> to <span class="repeat-marker">*</span> until all needles are in hold<br>`;
-      // Add the remaining RC counts for the repeated blocks
-      rightSideRC += (turnBlocks.length - 2);
+      // Account for remaining turn blocks (2 rows each)
+      rightSideRC += 2 * (turnBlocks.length - 2);
     }
     
     rightShoulderInstructions += `${formatRC(rightSideRC)} – Cancel Hold, break yarn with tail, scrap off ${shoulderSts} stitches<br>`;
