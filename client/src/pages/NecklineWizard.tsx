@@ -246,7 +246,8 @@ export default function NecklineWizard() {
             </svg>
             <div>
               <h1 className="wizard-title">Neckline Practice Wizard</h1>
-              <p className="wizard-subtitle">Learn neckline shaping with step-by-step instructions and technical diagrams</p>
+              <p className="wizard-subtitle">Knit a practice piece and master the basics of neckline shaping</p>
+              <p style={{ fontSize: '0.9rem', fontWeight: 300, opacity: 0.8, marginTop: '5px' }}>Knit a sample piece to focus on techniques</p>
             </div>
           </div>
           
