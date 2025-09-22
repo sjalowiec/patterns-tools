@@ -227,7 +227,6 @@ export default function NecklineWizard() {
         <h3 class="text-primary">Complete Knitting Pattern with Row Counter</h3>
         
         <div style="margin-bottom: 25px; padding: 15px; background: rgba(0, 100, 0, 0.1); border-left: 4px solid #2F7D32; border-radius: 4px;">
-          <strong style="color: #2F7D32;">RC Convention:</strong> RC tracks events (decreases, wraps, binds), not every carriage pass<br>
           <small style="color: #666;">Even rows = COR (carriage on right), Odd rows = COL (carriage on left)</small>
         </div>
         
