@@ -16,6 +16,12 @@ export default function BlanketWizard() {
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [customSize, setCustomSize] = useState<{length: string, width: string}>({length: '', width: ''});
   const [useCustomSize, setUseCustomSize] = useState<boolean>(false);
+  
+  // Yarn calculation state
+  const [calculateYarn, setCalculateYarn] = useState<boolean>(false);
+  const [swatchWidth, setSwatchWidth] = useState<string>('');
+  const [swatchLength, setSwatchLength] = useState<string>('');
+  const [swatchWeight, setSwatchWeight] = useState<string>('');
 
   // Warn user before leaving page if they have entered data
   useEffect(() => {
@@ -55,14 +61,42 @@ export default function BlanketWizard() {
   const sizeOptions = getSizeOptions();
   const categories = Array.from(new Set(sizeOptions.map(opt => opt.category)));
 
-  // Calculate yarn needed (rough estimate for worsted weight)
+  // Calculate yarn needed based on swatch or rough estimate
   const calculateYarnNeeded = () => {
-    if (!sizeSelection || !widthSts || !lengthRows) return 0;
+    if (!sizeSelection || !widthSts || !lengthRows) return { yards: 0, method: 'none' };
     
-    // Rough estimate: 1 yard per 4 stitches for worsted weight
     const totalStitches = widthSts * lengthRows;
+    
+    // If yarn calculation is enabled and we have complete swatch data
+    if (calculateYarn && swatchWidth && swatchLength && swatchWeight) {
+      const swatchWidthNum = parseFloat(swatchWidth);
+      const swatchLengthNum = parseFloat(swatchLength);
+      const swatchWeightNum = parseFloat(swatchWeight);
+      
+      if (swatchWidthNum > 0 && swatchLengthNum > 0 && swatchWeightNum > 0) {
+        // Calculate stitches per unit area from gauge
+        const unitSize = units === 'inches' ? 4 : 10;
+        const stitchesPerUnit = parseFloat(stitchesIn4);
+        const rowsPerUnit = parseFloat(rowsIn4);
+        
+        // Calculate swatch area in square units and convert to total stitches in swatch
+        const swatchAreaInUnits = (swatchWidthNum / unitSize) * (swatchLengthNum / unitSize);
+        const swatchStitches = swatchAreaInUnits * stitchesPerUnit * rowsPerUnit;
+        
+        // Calculate grams per stitch, then total weight needed
+        const gramsPerStitch = swatchWeightNum / swatchStitches;
+        const totalWeightNeeded = totalStitches * gramsPerStitch;
+        
+        // Convert to yards (rough estimate: 1 gram = 1.1 yards for worsted weight)
+        const yardsNeeded = Math.round(totalWeightNeeded * 1.1);
+        
+        return { yards: yardsNeeded, method: 'swatch' };
+      }
+    }
+    
+    // Fallback to rough estimate: 1 yard per 4 stitches for worsted weight
     const yardsNeeded = Math.round(totalStitches / 4);
-    return yardsNeeded;
+    return { yards: yardsNeeded, method: 'estimate' };
   };
 
   // Generate SVG diagram
@@ -122,7 +156,7 @@ export default function BlanketWizard() {
   // Replace placeholders in diagram
   const replacePlaceholders = (template: string) => {
     const totalStitches = widthSts * lengthRows;
-    const yarnNeeded = calculateYarnNeeded();
+    const yarnCalculation = calculateYarnNeeded();
     
     return template
       .replace(/\{\{widthSts\}\}/g, widthSts.toString())
@@ -131,7 +165,7 @@ export default function BlanketWizard() {
       .replace(/\{\{length\}\}/g, sizeSelection?.dimensions.length.toString() || '0')
       .replace(/\{\{sizeName\}\}/g, sizeSelection?.size || 'Custom')
       .replace(/\{\{totalStitches\}\}/g, totalStitches.toString())
-      .replace(/\{\{yarnNeeded\}\}/g, yarnNeeded.toString());
+      .replace(/\{\{yarnNeeded\}\}/g, yarnCalculation.method === 'none' ? 'Calculate yarn to see estimate' : `~${yarnCalculation.yards} yards${yarnCalculation.method === 'swatch' ? ' (swatch-based)' : ' (estimate)'}`);
   };
 
   // Generate pattern instructions
@@ -141,7 +175,14 @@ export default function BlanketWizard() {
     }
 
     const unitLabel = units === 'inches' ? '"' : 'cm';
-    const yarnNeeded = calculateYarnNeeded();
+    const unitSize = units === 'inches' ? '4"' : '10cm';
+    const yarnCalculation = calculateYarnNeeded();
+    
+    const yarnText = yarnCalculation.method === 'none' 
+      ? 'Use "Calculate yarn needed" section for estimate'
+      : yarnCalculation.method === 'swatch' 
+        ? `${yarnCalculation.yards} yards (based on your swatch measurements)`
+        : `~${yarnCalculation.yards} yards (rough estimate)`;
     
     return `
       <div class="well_white">
@@ -156,8 +197,8 @@ export default function BlanketWizard() {
           <strong>Materials Needed:</strong>
           <div style="margin-left: 20px;">
             • Machine: Any knitting machine<br>
-            • Yarn: Worsted weight yarn (~${yarnNeeded} yards)<br>
-            • Gauge: ${stitchesIn4} stitches and ${rowsIn4} rows = 4${unitLabel}
+            • Yarn: Worsted weight yarn (${yarnText})<br>
+            • Gauge: ${stitchesIn4} stitches and ${rowsIn4} rows = ${unitSize}
           </div>
         </div>
         
@@ -184,7 +225,7 @@ export default function BlanketWizard() {
           <small style="color: #666;">
             Cast on ${widthSts} stitches, knit ${lengthRows} rows, bind off. 
             Finished size: ${sizeSelection.dimensions.width}${unitLabel} × ${sizeSelection.dimensions.length}${unitLabel}<br>
-            Yarn needed: ~${yarnNeeded} yards
+            Yarn needed: ${yarnText}
           </small>
         </div>
       </div>
