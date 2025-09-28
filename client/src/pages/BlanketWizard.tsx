@@ -63,12 +63,14 @@ export default function BlanketWizard() {
 
   // Calculate yarn needed based on swatch or rough estimate
   const calculateYarnNeeded = () => {
-    if (!sizeSelection || !widthSts || !lengthRows) return { yards: 0, method: 'none' };
+    if (!sizeSelection || !widthSts || !lengthRows || !calculateYarn) {
+      return { yards: 0, method: 'none' };
+    }
     
     const totalStitches = widthSts * lengthRows;
     
     // If yarn calculation is enabled and we have complete swatch data
-    if (calculateYarn && swatchWidth && swatchLength && swatchWeight) {
+    if (swatchWidth && swatchLength && swatchWeight) {
       const swatchWidthNum = parseFloat(swatchWidth);
       const swatchLengthNum = parseFloat(swatchLength);
       const swatchWeightNum = parseFloat(swatchWeight);
@@ -94,7 +96,7 @@ export default function BlanketWizard() {
       }
     }
     
-    // Fallback to rough estimate: 1 yard per 4 stitches for worsted weight
+    // Fallback to rough estimate only if calculation is enabled
     const yardsNeeded = Math.round(totalStitches / 4);
     return { yards: yardsNeeded, method: 'estimate' };
   };
@@ -179,10 +181,10 @@ export default function BlanketWizard() {
     const yarnCalculation = calculateYarnNeeded();
     
     const yarnText = yarnCalculation.method === 'none' 
-      ? 'Use "Calculate yarn needed" section for estimate'
+      ? 'Worsted weight yarn'
       : yarnCalculation.method === 'swatch' 
-        ? `${yarnCalculation.yards} yards (based on your swatch measurements)`
-        : `~${yarnCalculation.yards} yards (rough estimate)`;
+        ? `Worsted weight yarn (${yarnCalculation.yards} yards based on your swatch measurements)`
+        : `Worsted weight yarn (~${yarnCalculation.yards} yards rough estimate)`;
     
     return `
       <div class="well_white">
@@ -224,8 +226,7 @@ export default function BlanketWizard() {
           <strong style="color: #C2514E;">Pattern Summary:</strong><br>
           <small style="color: #666;">
             Cast on ${widthSts} stitches, knit ${lengthRows} rows, bind off. 
-            Finished size: ${sizeSelection.dimensions.width}${unitLabel} × ${sizeSelection.dimensions.length}${unitLabel}<br>
-            Yarn needed: ${yarnText}
+            Finished size: ${sizeSelection.dimensions.width}${unitLabel} × ${sizeSelection.dimensions.length}${unitLabel}${yarnCalculation.method !== 'none' ? `<br>Yarn needed: ${yarnCalculation.method === 'swatch' ? `${yarnCalculation.yards} yards (based on your swatch)` : `~${yarnCalculation.yards} yards (rough estimate)`}` : ''}
           </small>
         </div>
       </div>
