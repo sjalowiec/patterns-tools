@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
 import logoSvg from '@assets/knitting-brand.svg';
-import { getSizeOptions, createSizeSelection, getSizeData, type SizeSelection } from '@shared/sizing';
+import { getSizeOptions, createSizeSelection, type SizeSelection } from '@shared/sizing';
 
 interface GaugeData {
   units: 'inches' | 'cm';
@@ -435,198 +435,91 @@ export default function BlanketWizard() {
           <h2 className="text-primary">Blanket Size</h2>
           
           <div className="form-group">
-            <label>Select Size</label>
-            
-            {/* Size Pills Grid */}
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-              gap: '12px', 
-              marginTop: '15px' 
-            }}>
-              {sizeOptions.map(option => {
-                const isSelected = selectedSize === option.key && !useCustomSize;
-                const unitLabel = units === 'inches' ? '"' : 'cm';
-                const sizeData = getSizeData(option.key);
-                if (!sizeData) return null;
-                
-                return (
-                  <button
-                    key={option.key}
-                    type="button"
-                    onClick={() => {
-                      setSelectedSize(option.key);
-                      setUseCustomSize(false);
-                    }}
-                    data-testid={`pill-size-${option.key}`}
-                    style={{
-                      padding: '16px 20px',
-                      borderRadius: '12px',
-                      border: isSelected ? '2px solid #1E7E72' : '2px solid #e0e0e0',
-                      background: isSelected ? '#1E7E72' : 'white',
-                      color: isSelected ? 'white' : '#333',
-                      cursor: 'pointer',
-                      textAlign: 'left',
-                      transition: 'all 0.2s ease',
-                      fontSize: '14px',
-                      fontFamily: 'inherit'
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!isSelected) {
-                        e.currentTarget.style.borderColor = '#1E7E72';
-                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(30, 126, 114, 0.15)';
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!isSelected) {
-                        e.currentTarget.style.borderColor = '#e0e0e0';
-                        e.currentTarget.style.boxShadow = 'none';
-                      }
-                    }}
-                  >
-                    <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
-                      {sizeData.name}
-                    </div>
-                    <div style={{ 
-                      fontSize: '12px', 
-                      opacity: isSelected ? 0.9 : 0.7 
-                    }}>
-                      {sizeData.width}{unitLabel} × {sizeData.length}{unitLabel}
-                    </div>
-                  </button>
-                );
-              })}
-              
-              {/* Custom Size Pill */}
-              <button
-                type="button"
-                onClick={() => {
-                  setUseCustomSize(true);
-                  setSelectedSize('');
-                }}
-                data-testid="pill-custom-size"
-                style={{
-                  padding: '16px 20px',
-                  borderRadius: '12px',
-                  border: useCustomSize ? '2px solid #1E7E72' : '2px dashed #C2514E',
-                  background: useCustomSize ? '#1E7E72' : 'white',
-                  color: useCustomSize ? 'white' : '#C2514E',
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  transition: 'all 0.2s ease',
-                  fontSize: '14px',
-                  fontFamily: 'inherit',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px'
-                }}
-                onMouseEnter={(e) => {
-                  if (!useCustomSize) {
-                    e.currentTarget.style.borderColor = '#C2514E';
-                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(197, 81, 78, 0.15)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!useCustomSize) {
-                    e.currentTarget.style.borderColor = '#C2514E';
-                    e.currentTarget.style.boxShadow = 'none';
-                  }
-                }}
-              >
-                <span style={{ fontSize: '16px' }}>+</span>
-                <div>
-                  <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
-                    Custom Size
-                  </div>
-                  <div style={{ 
-                    fontSize: '12px', 
-                    opacity: useCustomSize ? 0.9 : 0.7 
-                  }}>
-                    Enter your dimensions
-                  </div>
-                </div>
-              </button>
+            <label>Size Type</label>
+            <div style={{ display: 'flex', gap: '20px', marginTop: '8px' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                <input
+                  type="radio"
+                  name="sizeType"
+                  value="standard"
+                  checked={!useCustomSize}
+                  onChange={() => setUseCustomSize(false)}
+                  data-testid="radio-standard-size"
+                />
+                Standard Size
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                <input
+                  type="radio"
+                  name="sizeType"
+                  value="custom"
+                  checked={useCustomSize}
+                  onChange={() => setUseCustomSize(true)}
+                  data-testid="radio-custom-size"
+                />
+                Custom Size
+              </label>
             </div>
           </div>
 
-          {/* Custom Size Inputs */}
-          {useCustomSize && (
-            <div className="form-group" style={{ marginTop: '20px' }}>
-              <div style={{ 
-                padding: '20px', 
-                background: '#f8f9fa', 
-                borderRadius: '12px', 
-                border: '1px solid #e9ecef' 
-              }}>
-                <h4 style={{ marginBottom: '15px', color: '#1E7E72', fontSize: '16px' }}>
-                  Custom Dimensions
-                </h4>
+          {!useCustomSize ? (
+            <div className="form-group">
+              <label>Select Standard Size</label>
+              <select 
+                className="form-control"
+                value={selectedSize}
+                onChange={(e) => setSelectedSize(e.target.value)}
+                data-testid="select-blanket-size"
+                style={{ marginTop: '8px' }}
+              >
+                <option value="">Choose blanket size</option>
+                {categories.map(category => (
+                  <optgroup key={category} label={category}>
+                    {sizeOptions
+                      .filter(opt => opt.category === category)
+                      .map(option => (
+                        <option key={option.key} value={option.key}>
+                          {option.label}
+                        </option>
+                      ))}
+                  </optgroup>
+                ))}
+              </select>
                 
-                <div style={{ 
-                  display: 'grid', 
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', 
-                  gap: '15px', 
-                  marginBottom: '15px' 
-                }}>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>
-                      Width ({units === 'inches' ? 'inches' : 'cm'})
-                    </label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      value={customSize.width}
-                      onChange={(e) => setCustomSize(prev => ({...prev, width: e.target.value}))}
-                      placeholder={units === 'inches' ? '48' : '122'}
-                      data-testid="input-custom-width"
-                      style={{ 
-                        borderRadius: '8px', 
-                        padding: '10px 12px',
-                        border: '1px solid #ddd',
-                        fontSize: '14px'
-                      }}
-                    />
-                  </div>
-                  
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>
-                      Length ({units === 'inches' ? 'inches' : 'cm'})
-                    </label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      value={customSize.length}
-                      onChange={(e) => setCustomSize(prev => ({...prev, length: e.target.value}))}
-                      placeholder={units === 'inches' ? '60' : '152'}
-                      data-testid="input-custom-length"
-                      style={{ 
-                        borderRadius: '8px', 
-                        padding: '10px 12px',
-                        border: '1px solid #ddd',
-                        fontSize: '14px'
-                      }}
-                    />
-                  </div>
+              {sizeSelection && (
+                <div style={{ marginTop: '15px', padding: '10px', background: '#f5f5f5', borderRadius: '4px' }}>
+                  <strong>{sizeSelection.category}</strong><br />
+                  <small>
+                    {sizeSelection.dimensions.width}{units === 'inches' ? '"' : 'cm'} × {sizeSelection.dimensions.length}{units === 'inches' ? '"' : 'cm'}
+                  </small>
                 </div>
-                
-                {/* Live Calculations */}
-                {customSize.width && customSize.length && (
-                  <div style={{ 
-                    padding: '12px 15px', 
-                    background: 'rgba(30, 126, 114, 0.1)', 
-                    borderRadius: '8px',
-                    border: '1px solid rgba(30, 126, 114, 0.2)'
-                  }}>
-                    <div style={{ fontSize: '14px', fontWeight: '500', color: '#1E7E72', marginBottom: '5px' }}>
-                      Live Calculations:
-                    </div>
-                    <div style={{ fontSize: '13px', color: '#666' }}>
-                      • Cast on: {widthSts} stitches<br />
-                      • Knit: {lengthRows} rows<br />
-                      • Finished size: {customSize.width}{units === 'inches' ? '"' : 'cm'} × {customSize.length}{units === 'inches' ? '"' : 'cm'}
-                    </div>
-                  </div>
-                )}
+              )}
+            </div>
+          ) : (
+            <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+              <div className="form-row" style={{ display: 'flex', gap: '20px', flex: 1 }}>
+                <div className="form-group" style={{ flex: 1 }}>
+                  <label>Width ({units === 'inches' ? 'inches' : 'cm'})</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={customSize.width}
+                    onChange={(e) => setCustomSize(prev => ({...prev, width: e.target.value}))}
+                    placeholder="48"
+                    data-testid="input-custom-width"
+                  />
+                </div>
+                <div className="form-group" style={{ flex: 1 }}>
+                  <label>Length ({units === 'inches' ? 'inches' : 'cm'})</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={customSize.length}
+                    onChange={(e) => setCustomSize(prev => ({...prev, length: e.target.value}))}
+                    placeholder="60"
+                    data-testid="input-custom-length"
+                  />
+                </div>
               </div>
             </div>
           )}
