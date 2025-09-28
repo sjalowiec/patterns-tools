@@ -11,7 +11,7 @@
  * @param {number} params.neckWidthSts - Width of neck opening in stitches
  * @returns {Object} Neckline shaping instructions
  */
-function necklineRound({ widthSts, depthRows, startRow, neckWidthSts }) {
+export function necklineRound({ widthSts, depthRows, startRow, neckWidthSts }) {
   // Ensure even shoulder division by adjusting neck width if needed
   let adjustedNeckSts = neckWidthSts;
   if ((widthSts - neckWidthSts) % 2 !== 0) {
@@ -99,7 +99,7 @@ function necklineRound({ widthSts, depthRows, startRow, neckWidthSts }) {
  * @param {number} stitches - Total stitches to distribute
  * @returns {Array} Array of stitches per group
  */
-function distributeEvenly(groups, stitches) {
+export function distributeEvenly(groups, stitches) {
   if (groups <= 0 || stitches <= 0) return [];
   
   const perGroup = Math.floor(stitches / groups);
@@ -119,13 +119,7 @@ function distributeEvenly(groups, stitches) {
  * @param {number} neckSts - Neck opening stitches
  * @returns {number} Stitches per shoulder
  */
-function calcShoulderWidth(totalSts, neckSts) {
+export function calcShoulderWidth(totalSts, neckSts) {
   const remainingSts = totalSts - neckSts;
   return Math.floor(remainingSts / 2);
 }
-
-module.exports = {
-  necklineRound,
-  distributeEvenly,
-  calcShoulderWidth
-};

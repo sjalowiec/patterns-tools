@@ -8,7 +8,7 @@
  * @param {number} gaugeSts - Stitches per centimeter
  * @returns {number} Number of stitches (rounded)
  */
-function cmToStitches(cm, gaugeSts) {
+export function cmToStitches(cm, gaugeSts) {
   return Math.round(cm * gaugeSts);
 }
 
@@ -18,7 +18,7 @@ function cmToStitches(cm, gaugeSts) {
  * @param {number} gaugeRows - Rows per centimeter
  * @returns {number} Number of rows (rounded)
  */
-function cmToRows(cm, gaugeRows) {
+export function cmToRows(cm, gaugeRows) {
   return Math.round(cm * gaugeRows);
 }
 
@@ -28,7 +28,7 @@ function cmToRows(cm, gaugeRows) {
  * @param {number} gaugeSts - Stitches per inch
  * @returns {number} Number of stitches (rounded)
  */
-function inchesToStitches(inches, gaugeSts) {
+export function inchesToStitches(inches, gaugeSts) {
   return Math.round(inches * gaugeSts);
 }
 
@@ -38,7 +38,7 @@ function inchesToStitches(inches, gaugeSts) {
  * @param {number} gaugeRows - Rows per inch  
  * @returns {number} Number of rows (rounded)
  */
-function inchesToRows(inches, gaugeRows) {
+export function inchesToRows(inches, gaugeRows) {
   return Math.round(inches * gaugeRows);
 }
 
@@ -48,7 +48,7 @@ function inchesToRows(inches, gaugeRows) {
  * @param {number} units - Width of swatch in units (cm or inches)
  * @returns {number} Stitches per unit
  */
-function calculateStitchGauge(stitches, units) {
+export function calculateStitchGauge(stitches, units) {
   return stitches / units;
 }
 
@@ -58,15 +58,6 @@ function calculateStitchGauge(stitches, units) {
  * @param {number} units - Height of swatch in units (cm or inches)
  * @returns {number} Rows per unit
  */
-function calculateRowGauge(rows, units) {
+export function calculateRowGauge(rows, units) {
   return rows / units;
 }
-
-module.exports = {
-  cmToStitches,
-  cmToRows,
-  inchesToStitches,
-  inchesToRows,
-  calculateStitchGauge,
-  calculateRowGauge
-};

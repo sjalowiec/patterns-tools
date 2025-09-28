@@ -3,9 +3,9 @@
  * Interactive console application for calculating knitting neckline patterns
  */
 
-const readline = require('readline');
-const { cmToStitches, cmToRows, calculateStitchGauge, calculateRowGauge } = require('./modules/gauge');
-const { necklineRound } = require('./modules/neckline');
+import readline from 'readline';
+import { cmToStitches, cmToRows, calculateStitchGauge, calculateRowGauge } from './modules/gauge.js';
+import { necklineRound } from './modules/neckline.js';
 
 // Create readline interface for user input
 const rl = readline.createInterface({
@@ -92,8 +92,8 @@ process.on('SIGINT', () => {
 });
 
 // Run the application
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch(console.error);
 }
 
-module.exports = { main };
+export { main };
