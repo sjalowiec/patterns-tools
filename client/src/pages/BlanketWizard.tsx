@@ -107,12 +107,33 @@ export default function BlanketWizard() {
       return `<div style="padding: 20px; text-align: center; color: #666;">Enter valid gauge values to see the diagram</div>`;
     }
 
+    // Calculate proportional dimensions based on blanket aspect ratio
+    const blanketWidth = sizeSelection.dimensions.width;
+    const blanketLength = sizeSelection.dimensions.length;
+    const aspectRatio = blanketWidth / blanketLength;
+    
+    // Set SVG container size
     const svgWidth = 400;
     const svgHeight = 300;
-    const rectWidth = 200;
-    const rectHeight = 120;
-    const rectX = 100;
-    const rectY = 90;
+    
+    // Calculate rectangle dimensions to fit proportionally within SVG
+    const maxRectWidth = 250;
+    const maxRectHeight = 200;
+    
+    let rectWidth, rectHeight;
+    if (aspectRatio > 1) {
+      // Blanket is wider than tall (landscape)
+      rectWidth = maxRectWidth;
+      rectHeight = maxRectWidth / aspectRatio;
+    } else {
+      // Blanket is taller than wide (portrait) - typical for blankets
+      rectHeight = maxRectHeight;
+      rectWidth = maxRectHeight * aspectRatio;
+    }
+    
+    // Center the rectangle in the SVG
+    const rectX = (svgWidth - rectWidth) / 2;
+    const rectY = (svgHeight - rectHeight) / 2;
     
     const unitLabel = units === 'inches' ? '"' : 'cm';
     
@@ -154,10 +175,34 @@ export default function BlanketWizard() {
   const replacePlaceholders = (template: string) => {
     const yarnCalculation = calculateYarnNeeded();
     
+    // Calculate rectangle dimensions for yarn text positioning (same logic as generateDiagram)
+    if (!sizeSelection) return template;
+    
+    const blanketWidth = sizeSelection.dimensions.width;
+    const blanketLength = sizeSelection.dimensions.length;
+    const aspectRatio = blanketWidth / blanketLength;
+    
+    const svgWidth = 400;
+    const svgHeight = 300;
+    const maxRectWidth = 250;
+    const maxRectHeight = 200;
+    
+    let rectWidth, rectHeight;
+    if (aspectRatio > 1) {
+      rectWidth = maxRectWidth;
+      rectHeight = maxRectWidth / aspectRatio;
+    } else {
+      rectHeight = maxRectHeight;
+      rectWidth = maxRectHeight * aspectRatio;
+    }
+    
+    const rectX = (svgWidth - rectWidth) / 2;
+    const rectY = (svgHeight - rectHeight) / 2;
+    
     // Only show yarn text if calculation is enabled and has valid data
     const yarnTextElement = calculateYarn && yarnCalculation.method !== 'none' 
-      ? `<text x="${100 + 200/2}" y="${90 + 120/2 + 15}" text-anchor="middle" font-size="12" fill="#666">
-          ~${yarnCalculation.yards} yards needed${yarnCalculation.method === 'swatch' ? ' (swatch-based)' : ' (estimate)'}
+      ? `<text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 + 15}" text-anchor="middle" font-size="12" fill="#666">
+          ~${yarnCalculation.yards} yards needed${yarnCalculation.method === 'swatch' ? ' (swatch-based)' : ' (approx)'}
         </text>`
       : '';
     
@@ -184,7 +229,7 @@ export default function BlanketWizard() {
       ? 'Worsted weight yarn'
       : yarnCalculation.method === 'swatch' 
         ? `Worsted weight yarn (${yarnCalculation.yards} yards based on your swatch measurements)`
-        : `Worsted weight yarn (~${yarnCalculation.yards} yards rough estimate)`;
+        : `Worsted weight yarn (~${yarnCalculation.yards} yards approx)`;
     
     return `
       <div class="well_white">
@@ -226,7 +271,7 @@ export default function BlanketWizard() {
           <strong style="color: #C2514E;">Pattern Summary:</strong><br>
           <small style="color: #666;">
             Cast on ${widthSts} stitches, knit ${lengthRows} rows, bind off. 
-            Finished size: ${sizeSelection.dimensions.width}${unitLabel} × ${sizeSelection.dimensions.length}${unitLabel}${yarnCalculation.method !== 'none' ? `<br>Yarn needed: ${yarnCalculation.method === 'swatch' ? `${yarnCalculation.yards} yards (based on your swatch)` : `~${yarnCalculation.yards} yards (rough estimate)`}` : ''}
+            Finished size: ${sizeSelection.dimensions.width}${unitLabel} × ${sizeSelection.dimensions.length}${unitLabel}${yarnCalculation.method !== 'none' ? `<br>Yarn needed: ${yarnCalculation.method === 'swatch' ? `${yarnCalculation.yards} yards (based on your swatch)` : `~${yarnCalculation.yards} yards (approx)`}` : ''}
           </small>
         </div>
       </div>
