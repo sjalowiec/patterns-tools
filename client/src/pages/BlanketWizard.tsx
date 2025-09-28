@@ -1,10 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import html2pdf from 'html2pdf.js';
 import logoSvg from '@assets/knitting-brand.svg';
 import { getSizeOptions, createSizeSelection, type SizeSelection } from '@shared/sizing';
@@ -194,177 +188,190 @@ export default function BlanketWizard() {
         </div>
       </div>
 
-      <div className="wizard-content">
-        <div className="input-section">
-          <Card>
-            <CardHeader>
-              <CardTitle>Gauge Information</CardTitle>
-              <CardDescription>Enter your gauge swatch measurements</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center space-x-4">
-                <Label>Units:</Label>
-                <div className="flex space-x-2">
-                  <Button 
-                    variant={units === 'inches' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setUnits('inches')}
-                    data-testid="button-units-inches"
-                  >
-                    Inches
-                  </Button>
-                  <Button 
-                    variant={units === 'cm' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setUnits('cm')}
-                    data-testid="button-units-cm"
-                  >
-                    Centimeters
-                  </Button>
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="stitches-gauge">
-                    Stitches in 4{units === 'inches' ? '"' : 'cm'}
-                  </Label>
-                  <Input
-                    id="stitches-gauge"
-                    type="number"
-                    value={stitchesIn4}
-                    onChange={(e) => setStitchesIn4(e.target.value)}
-                    placeholder="20"
-                    data-testid="input-stitches-gauge"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="rows-gauge">
-                    Rows in 4{units === 'inches' ? '"' : 'cm'}
-                  </Label>
-                  <Input
-                    id="rows-gauge"
-                    type="number"
-                    value={rowsIn4}
-                    onChange={(e) => setRowsIn4(e.target.value)}
-                    placeholder="28"
-                    data-testid="input-rows-gauge"
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+      <div className="content-area">
+        {/* Data Persistence Warning */}
+        <div style={{ marginBottom: '20px', padding: '15px', background: 'rgba(197, 81, 78, 0.1)', border: '1px solid #C2514E', borderRadius: '8px' }}>
+          <strong style={{ color: '#C2514E' }}>IMPORTANT: Your pattern will not be saved on this site.</strong><br />
+          <small style={{ color: '#666' }}>Please be sure to download and save your PDF — once you leave this page, your custom details won't be available again.</small>
+        </div>
+        
+        {/* Input Form */}
+        <div className="well_white">
+          <h2 className="text-primary">Your Gauge</h2>
+          
+          <div className="form-group">
+            <label>Measurement Units</label>
+            <div style={{ display: 'flex', gap: '20px', marginTop: '8px' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                <input
+                  type="radio"
+                  name="units"
+                  value="inches"
+                  checked={units === 'inches'}
+                  onChange={(e) => setUnits(e.target.value as 'inches' | 'cm')}
+                  data-testid="radio-inches"
+                />
+                Inches
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                <input
+                  type="radio"
+                  name="units"
+                  value="cm"
+                  checked={units === 'cm'}
+                  onChange={(e) => setUnits(e.target.value as 'inches' | 'cm')}
+                  data-testid="radio-cm"
+                />
+                Centimeters
+              </label>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Blanket Size</CardTitle>
-              <CardDescription>Choose a standard size or enter custom dimensions</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center space-x-4">
-                <Button 
-                  variant={!useCustomSize ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setUseCustomSize(false)}
-                  data-testid="button-standard-size"
-                >
-                  Standard Size
-                </Button>
-                <Button 
-                  variant={useCustomSize ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setUseCustomSize(true)}
-                  data-testid="button-custom-size"
-                >
-                  Custom Size
-                </Button>
+          <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+            <div className="form-row" style={{ display: 'flex', gap: '20px', flex: 1 }}>
+              <div className="form-group" style={{ flex: 1 }}>
+                <label>Stitches in {units === 'inches' ? '4 inches' : '10 cm'}</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={stitchesIn4}
+                  onChange={(e) => setStitchesIn4(e.target.value)}
+                  placeholder={units === 'inches' ? 'e.g., 20' : 'e.g., 20'}
+                  data-testid="input-stitches"
+                />
               </div>
 
-              {!useCustomSize ? (
-                <div>
-                  <Label htmlFor="size-select">Select Size</Label>
-                  <Select value={selectedSize} onValueChange={setSelectedSize}>
-                    <SelectTrigger data-testid="select-blanket-size">
-                      <SelectValue placeholder="Choose blanket size" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map(category => (
-                        <div key={category}>
-                          <div className="px-2 py-1 text-sm font-semibold text-muted-foreground">
-                            {category}
-                          </div>
-                          {sizeOptions
-                            .filter(opt => opt.category === category)
-                            .map(option => (
-                              <SelectItem key={option.key} value={option.key}>
-                                {option.label}
-                              </SelectItem>
-                            ))}
-                        </div>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  
-                  {sizeSelection && (
-                    <div className="mt-2 p-2 bg-muted rounded">
-                      <Badge variant="secondary">{sizeSelection.category}</Badge>
-                      <p className="text-sm mt-1">
-                        {sizeSelection.dimensions.width}{units === 'inches' ? '"' : 'cm'} × {sizeSelection.dimensions.length}{units === 'inches' ? '"' : 'cm'}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="custom-width">
-                      Width ({units === 'inches' ? 'inches' : 'cm'})
-                    </Label>
-                    <Input
-                      id="custom-width"
-                      type="number"
-                      value={customSize.width}
-                      onChange={(e) => setCustomSize(prev => ({...prev, width: e.target.value}))}
-                      placeholder="48"
-                      data-testid="input-custom-width"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="custom-length">
-                      Length ({units === 'inches' ? 'inches' : 'cm'})
-                    </Label>
-                    <Input
-                      id="custom-length"
-                      type="number"
-                      value={customSize.length}
-                      onChange={(e) => setCustomSize(prev => ({...prev, length: e.target.value}))}
-                      placeholder="60"
-                      data-testid="input-custom-length"
-                    />
-                  </div>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+              <div className="form-group" style={{ flex: 1 }}>
+                <label>Rows in {units === 'inches' ? '4 inches' : '10 cm'}</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={rowsIn4}
+                  onChange={(e) => setRowsIn4(e.target.value)}
+                  placeholder="e.g., 28"
+                  data-testid="input-rows"
+                />
+              </div>
+            </div>
+            
+          </div>
+          
         </div>
 
-        <div className="pattern-section">
-          {sizeSelection && widthSts > 0 && lengthRows > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Your Pattern</CardTitle>
-                <CardDescription>
-                  {sizeSelection.size} blanket: {widthSts} stitches × {lengthRows} rows
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div 
-                  dangerouslySetInnerHTML={{ __html: generateInstructions() }}
-                  className="pattern-content"
+        {/* Blanket Size Selection */}
+        <div className="well_white">
+          <h2 className="text-primary">Blanket Size</h2>
+          
+          <div className="form-group">
+            <label>Size Type</label>
+            <div style={{ display: 'flex', gap: '20px', marginTop: '8px' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                <input
+                  type="radio"
+                  name="sizeType"
+                  value="standard"
+                  checked={!useCustomSize}
+                  onChange={() => setUseCustomSize(false)}
+                  data-testid="radio-standard-size"
                 />
-              </CardContent>
-            </Card>
+                Standard Size
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                <input
+                  type="radio"
+                  name="sizeType"
+                  value="custom"
+                  checked={useCustomSize}
+                  onChange={() => setUseCustomSize(true)}
+                  data-testid="radio-custom-size"
+                />
+                Custom Size
+              </label>
+            </div>
+          </div>
+
+          {!useCustomSize ? (
+            <div className="form-group">
+              <label>Select Standard Size</label>
+              <div style={{ marginTop: '8px' }}>
+                {categories.map(category => (
+                  <div key={category} style={{ marginBottom: '15px' }}>
+                    <h4 style={{ margin: '10px 0 5px 0', color: '#1E7E72', fontSize: '14px' }}>{category}</h4>
+                    {sizeOptions
+                      .filter(opt => opt.category === category)
+                      .map(option => (
+                        <label key={option.key} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginBottom: '5px' }}>
+                          <input
+                            type="radio"
+                            name="blanketSize"
+                            value={option.key}
+                            checked={selectedSize === option.key}
+                            onChange={(e) => setSelectedSize(e.target.value)}
+                            data-testid={`radio-size-${option.key}`}
+                          />
+                          {option.label}
+                        </label>
+                      ))}
+                  </div>
+                ))}
+                
+                {sizeSelection && (
+                  <div style={{ marginTop: '15px', padding: '10px', background: '#f5f5f5', borderRadius: '4px' }}>
+                    <strong>{sizeSelection.category}</strong><br />
+                    <small>
+                      {sizeSelection.dimensions.width}{units === 'inches' ? '"' : 'cm'} × {sizeSelection.dimensions.length}{units === 'inches' ? '"' : 'cm'}
+                    </small>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+              <div className="form-row" style={{ display: 'flex', gap: '20px', flex: 1 }}>
+                <div className="form-group" style={{ flex: 1 }}>
+                  <label>Width ({units === 'inches' ? 'inches' : 'cm'})</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={customSize.width}
+                    onChange={(e) => setCustomSize(prev => ({...prev, width: e.target.value}))}
+                    placeholder="48"
+                    data-testid="input-custom-width"
+                  />
+                </div>
+                <div className="form-group" style={{ flex: 1 }}>
+                  <label>Length ({units === 'inches' ? 'inches' : 'cm'})</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={customSize.length}
+                    onChange={(e) => setCustomSize(prev => ({...prev, length: e.target.value}))}
+                    placeholder="60"
+                    data-testid="input-custom-length"
+                  />
+                </div>
+              </div>
+            </div>
           )}
+        </div>
+
+        {/* Pattern Results */}
+        {sizeSelection && widthSts > 0 && lengthRows > 0 && (
+          <div className="well_white">
+            <h3 className="text-primary">Your Pattern</h3>
+            <p style={{ marginBottom: '20px', color: '#666' }}>
+              {sizeSelection.size} blanket: {widthSts} stitches × {lengthRows} rows
+            </p>
+            <div 
+              dangerouslySetInnerHTML={{ __html: generateInstructions() }}
+              className="pattern-content"
+            />
+          </div>
+        )}
+        
+        {/* Copyright Notice */}
+        <div style={{ textAlign: 'center', padding: '20px', fontSize: '14px', color: '#666', borderTop: '1px solid #e0e0e0', marginTop: '30px' }}>
+          © {new Date().getFullYear()} Knit by Machine. For personal use only. | Version {new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })} | support@knitbymachine.com
         </div>
       </div>
     </div>
