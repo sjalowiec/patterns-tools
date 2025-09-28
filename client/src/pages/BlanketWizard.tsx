@@ -140,23 +140,24 @@ export default function BlanketWizard() {
         </text>
         
         <!-- Center label -->
-        <text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 - 10}" text-anchor="middle" font-size="14" fill="#1E7E72" font-weight="bold">
+        <text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 - 5}" text-anchor="middle" font-size="14" fill="#1E7E72" font-weight="bold">
           {{sizeName}} Blanket
         </text>
-        <text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 + 10}" text-anchor="middle" font-size="12" fill="#666">
-          {{totalStitches}} total stitches
-        </text>
-        <text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 + 25}" text-anchor="middle" font-size="12" fill="#666">
-          {{yarnNeeded}}
-        </text>
+        {{yarnText}}
       </svg>
     `;
   };
 
   // Replace placeholders in diagram
   const replacePlaceholders = (template: string) => {
-    const totalStitches = widthSts * lengthRows;
     const yarnCalculation = calculateYarnNeeded();
+    
+    // Only show yarn text if calculation is enabled and has valid data
+    const yarnTextElement = calculateYarn && yarnCalculation.method !== 'none' 
+      ? `<text x="${100 + 200/2}" y="${90 + 120/2 + 15}" text-anchor="middle" font-size="12" fill="#666">
+          ~${yarnCalculation.yards} yards needed${yarnCalculation.method === 'swatch' ? ' (swatch-based)' : ' (estimate)'}
+        </text>`
+      : '';
     
     return template
       .replace(/\{\{widthSts\}\}/g, widthSts.toString())
@@ -164,8 +165,7 @@ export default function BlanketWizard() {
       .replace(/\{\{width\}\}/g, sizeSelection?.dimensions.width.toString() || '0')
       .replace(/\{\{length\}\}/g, sizeSelection?.dimensions.length.toString() || '0')
       .replace(/\{\{sizeName\}\}/g, sizeSelection?.size || 'Custom')
-      .replace(/\{\{totalStitches\}\}/g, totalStitches.toString())
-      .replace(/\{\{yarnNeeded\}\}/g, yarnCalculation.method === 'none' ? 'Calculate yarn to see estimate' : `~${yarnCalculation.yards} yards needed${yarnCalculation.method === 'swatch' ? ' (swatch-based)' : ' (estimate)'}`);
+      .replace(/\{\{yarnText\}\}/g, yarnTextElement);
   };
 
   // Generate pattern instructions
@@ -481,24 +481,21 @@ export default function BlanketWizard() {
 
         {/* Yarn Calculation (Optional) */}
         <div className="well_white">
-          <h2 className="text-primary">Calculate Yarn Needed?</h2>
-          <div className="form-group">
-            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-              <input
-                type="checkbox"
-                checked={calculateYarn}
-                onChange={(e) => setCalculateYarn(e.target.checked)}
-                data-testid="checkbox-calculate-yarn"
-              />
-              Get accurate yarn estimate based on your swatch measurements
-            </label>
-            <small style={{ color: '#666', display: 'block', marginTop: '5px' }}>
-              {calculateYarn 
-                ? 'Enter your swatch measurements below for a more accurate estimate'
-                : 'Leave unchecked for a rough estimate (~1 yard per 4 stitches)'
-              }
-            </small>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
+            <input
+              type="checkbox"
+              checked={calculateYarn}
+              onChange={(e) => setCalculateYarn(e.target.checked)}
+              data-testid="checkbox-calculate-yarn"
+            />
+            <h2 className="text-primary" style={{ margin: 0 }}>Calculate Yarn Needed</h2>
           </div>
+          
+          {calculateYarn && (
+            <p style={{ fontSize: '14px', color: '#666', marginBottom: '15px' }}>
+              Get accurate yarn estimate based on your swatch measurements.
+            </p>
+          )}
 
           {calculateYarn && (
             <div style={{ marginTop: '20px', padding: '15px', background: '#f8f9fa', borderRadius: '4px', border: '1px solid #e9ecef' }}>
