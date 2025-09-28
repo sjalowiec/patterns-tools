@@ -1,0 +1,84 @@
+# Knitting Pattern Generator - Wizard Index
+
+## Overview
+Modular knitting pattern generator system with reusable "lego block" architecture. Each wizard shares core modules while having pattern-specific logic.
+
+## Existing Wizards
+
+### 1. Neckline/Shoulder Practice Wizard
+- **File**: `client/src/pages/NecklineWizard.tsx`
+- **Route**: `/` (home page)
+- **Purpose**: Learn neckline shaping techniques with step-by-step instructions
+- **Features**: Fixed 10-unit wide × 5-unit tall garment section, Japanese-style SVG schematics
+- **Dependencies**: 
+  - `shared/calculations.ts` - gauge calculations
+  - `modules/neckline.js` - neckline shaping formulas
+  - Custom SVG generation for curved necklines
+
+### 2. Blanket Pattern Wizard  
+- **File**: `client/src/pages/BlanketWizard.tsx`
+- **Route**: `/blanket`
+- **Purpose**: Generate simple blanket knitting patterns with optional yarn calculations
+- **Features**: Multiple blanket sizes, proportional SVG diagrams, swatch-based yarn estimates
+- **Dependencies**:
+  - `shared/sizing.ts` - standard blanket dimensions
+  - `shared/calculations.ts` - gauge and yarn calculations
+  - `modules/gauge.js` - unit conversions
+  - PDF export functionality
+
+## Reusable Modules
+
+### Core Calculation Modules
+- **`shared/calculations.ts`**: Gauge math, stitch/row calculations, yarn estimates
+- **`shared/sizing.ts`**: Standard blanket/garment size definitions
+- **`shared/schema.ts`**: TypeScript types and Drizzle schemas
+- **`modules/gauge.js`**: Unit conversions (inches/cm, 4"/10cm gauge standards)
+- **`modules/neckline.js`**: Specialized neckline shaping calculations
+
+### UI Components (Reusable)
+- **`client/src/components/GaugeInput.tsx`**: Standard gauge input interface
+- **SVG Generation Patterns**: Both wizards use similar SVG templating approaches
+- **PDF Export**: Pattern available in BlanketWizard, can be adapted for other wizards
+
+### Styling System
+- **Brand Colors**: Green primary, coral accent `#C2514E`
+- **CSS Classes**: `wizard-container`, `well_white`, `text-primary` 
+- **Design**: Professional knitting industry aesthetic with clear hierarchy
+
+## Architecture Notes
+
+### Adding New Wizards
+1. Create new page component in `client/src/pages/`
+2. Add route in `client/src/App.tsx`
+3. **Reuse existing modules** - check `shared/` and `modules/` first
+4. Follow established patterns for gauge input, SVG generation, styling
+5. Update this index when complete
+
+### Module Dependencies
+- All wizards should use `shared/calculations.ts` for gauge math
+- Use `shared/sizing.ts` for any standard dimensions
+- Import brand colors and CSS classes for consistency
+- SVG generation should follow proportional sizing patterns from BlanketWizard
+
+## Usage for New Chat Sessions
+
+When starting a new chat to add wizards:
+
+**Prompt Template:**
+```
+I have a modular knitting pattern generator. See WIZARD_INDEX.md for existing wizards and reusable modules. 
+
+Current wizards: [list from index]
+Reusable modules: [list key modules]
+
+Please build a [NEW_WIZARD_TYPE] wizard using the existing shared modules and following the established architecture patterns.
+```
+
+## Development Guidelines
+- **Reuse First**: Always check existing modules before writing new code
+- **Consistent Styling**: Use established brand colors and CSS classes
+- **Modular Design**: Keep pattern-specific logic separate from shared calculations
+- **Update Index**: Add new wizards and modules to this index when complete
+
+---
+*Last Updated: [Current Date] - After completing Neckline and Blanket wizards*
