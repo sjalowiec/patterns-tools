@@ -147,7 +147,7 @@ export default function BlanketWizard() {
           {{totalStitches}} total stitches
         </text>
         <text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 + 25}" text-anchor="middle" font-size="12" fill="#666">
-          ~{{yarnNeeded}} yards needed
+          {{yarnNeeded}}
         </text>
       </svg>
     `;
@@ -165,7 +165,7 @@ export default function BlanketWizard() {
       .replace(/\{\{length\}\}/g, sizeSelection?.dimensions.length.toString() || '0')
       .replace(/\{\{sizeName\}\}/g, sizeSelection?.size || 'Custom')
       .replace(/\{\{totalStitches\}\}/g, totalStitches.toString())
-      .replace(/\{\{yarnNeeded\}\}/g, yarnCalculation.method === 'none' ? 'Calculate yarn to see estimate' : `~${yarnCalculation.yards} yards${yarnCalculation.method === 'swatch' ? ' (swatch-based)' : ' (estimate)'}`);
+      .replace(/\{\{yarnNeeded\}\}/g, yarnCalculation.method === 'none' ? 'Calculate yarn to see estimate' : `~${yarnCalculation.yards} yards needed${yarnCalculation.method === 'swatch' ? ' (swatch-based)' : ' (estimate)'}`);
   };
 
   // Generate pattern instructions
@@ -475,6 +475,92 @@ export default function BlanketWizard() {
                   />
                 </div>
               </div>
+            </div>
+          )}
+        </div>
+
+        {/* Yarn Calculation (Optional) */}
+        <div className="well_white">
+          <h2 className="text-primary">Calculate Yarn Needed?</h2>
+          <div className="form-group">
+            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+              <input
+                type="checkbox"
+                checked={calculateYarn}
+                onChange={(e) => setCalculateYarn(e.target.checked)}
+                data-testid="checkbox-calculate-yarn"
+              />
+              Get accurate yarn estimate based on your swatch measurements
+            </label>
+            <small style={{ color: '#666', display: 'block', marginTop: '5px' }}>
+              {calculateYarn 
+                ? 'Enter your swatch measurements below for a more accurate estimate'
+                : 'Leave unchecked for a rough estimate (~1 yard per 4 stitches)'
+              }
+            </small>
+          </div>
+
+          {calculateYarn && (
+            <div style={{ marginTop: '20px', padding: '15px', background: '#f8f9fa', borderRadius: '4px', border: '1px solid #e9ecef' }}>
+              <h4 style={{ marginBottom: '15px', color: '#1E7E72' }}>Swatch Measurements</h4>
+              <p style={{ fontSize: '14px', color: '#666', marginBottom: '15px' }}>
+                Measure your gauge swatch and weigh it to get the most accurate yarn estimate.
+              </p>
+              
+              <div className="form-row" style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+                <div className="form-group" style={{ flex: '1', minWidth: '120px' }}>
+                  <label>Swatch Width ({units === 'inches' ? 'inches' : 'cm'})</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={swatchWidth}
+                    onChange={(e) => setSwatchWidth(e.target.value)}
+                    placeholder={units === 'inches' ? '4' : '10'}
+                    step="0.1"
+                    data-testid="input-swatch-width"
+                  />
+                </div>
+                
+                <div className="form-group" style={{ flex: '1', minWidth: '120px' }}>
+                  <label>Swatch Length ({units === 'inches' ? 'inches' : 'cm'})</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={swatchLength}
+                    onChange={(e) => setSwatchLength(e.target.value)}
+                    placeholder={units === 'inches' ? '4' : '10'}
+                    step="0.1"
+                    data-testid="input-swatch-length"
+                  />
+                </div>
+                
+                <div className="form-group" style={{ flex: '1', minWidth: '120px' }}>
+                  <label>Swatch Weight (grams)</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={swatchWeight}
+                    onChange={(e) => setSwatchWeight(e.target.value)}
+                    placeholder="8"
+                    step="0.1"
+                    data-testid="input-swatch-weight"
+                  />
+                </div>
+              </div>
+              
+              {swatchWidth && swatchLength && swatchWeight && (
+                <div style={{ marginTop: '15px', padding: '10px', background: 'rgba(30, 126, 114, 0.1)', borderRadius: '4px' }}>
+                  <strong style={{ color: '#1E7E72' }}>Calculation Preview:</strong><br />
+                  <small style={{ color: '#666' }}>
+                    {(() => {
+                      const calc = calculateYarnNeeded();
+                      return calc.method === 'swatch' 
+                        ? `Your blanket will need approximately ${calc.yards} yards of yarn based on your swatch.`
+                        : 'Complete all swatch measurements to see the calculation.';
+                    })()}
+                  </small>
+                </div>
+              )}
             </div>
           )}
         </div>
