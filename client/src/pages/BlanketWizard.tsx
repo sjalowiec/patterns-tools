@@ -244,7 +244,7 @@ export default function BlanketWizard() {
           <strong>Materials Needed:</strong>
           <div style="margin-left: 20px;">
             • Machine: Any knitting machine<br>
-            • Yarn: Worsted weight yarn (${yarnText})<br>
+            • Yarn: ${yarnText}<br>
             • Gauge: ${stitchesIn4} stitches and ${rowsIn4} rows = ${unitSize}
           </div>
         </div>
