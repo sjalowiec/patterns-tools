@@ -55,6 +55,85 @@ export default function BlanketWizard() {
   const sizeOptions = getSizeOptions();
   const categories = Array.from(new Set(sizeOptions.map(opt => opt.category)));
 
+  // Calculate yarn needed (rough estimate for worsted weight)
+  const calculateYarnNeeded = () => {
+    if (!sizeSelection || !widthSts || !lengthRows) return 0;
+    
+    // Rough estimate: 1 yard per 4 stitches for worsted weight
+    const totalStitches = widthSts * lengthRows;
+    const yardsNeeded = Math.round(totalStitches / 4);
+    return yardsNeeded;
+  };
+
+  // Generate SVG diagram
+  const generateDiagram = () => {
+    if (!sizeSelection || !widthSts || !lengthRows) {
+      return `<div style="padding: 20px; text-align: center; color: #666;">Enter valid gauge values to see the diagram</div>`;
+    }
+
+    const svgWidth = 400;
+    const svgHeight = 300;
+    const rectWidth = 200;
+    const rectHeight = 120;
+    const rectX = 100;
+    const rectY = 90;
+    
+    const unitLabel = units === 'inches' ? '"' : 'cm';
+    
+    return `
+      <svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="width: 100%; max-width: 500px; height: auto;">
+        <!-- Main rectangle -->
+        <rect x="${rectX}" y="${rectY}" width="${rectWidth}" height="${rectHeight}" 
+              fill="none" stroke="black" stroke-width="2"/>
+        
+        <!-- Width measurement line -->
+        <line x1="${rectX}" y1="${rectY + rectHeight + 25}" x2="${rectX + rectWidth}" y2="${rectY + rectHeight + 25}" 
+              stroke="black" stroke-width="1"/>
+        <circle cx="${rectX}" cy="${rectY + rectHeight + 25}" r="3" fill="black"/>
+        <circle cx="${rectX + rectWidth}" cy="${rectY + rectHeight + 25}" r="3" fill="black"/>
+        <text x="${rectX + rectWidth/2}" y="${rectY + rectHeight + 45}" text-anchor="middle" font-size="12" fill="black">
+          {{widthSts}} stitches ({{width}}${unitLabel})
+        </text>
+        
+        <!-- Height measurement line -->
+        <line x1="${rectX - 25}" y1="${rectY}" x2="${rectX - 25}" y2="${rectY + rectHeight}" 
+              stroke="black" stroke-width="1"/>
+        <circle cx="${rectX - 25}" cy="${rectY}" r="3" fill="black"/>
+        <circle cx="${rectX - 25}" cy="${rectY + rectHeight}" r="3" fill="black"/>
+        <text x="${rectX - 35}" y="${rectY + rectHeight/2}" text-anchor="middle" font-size="12" fill="black" 
+              transform="rotate(-90, ${rectX - 35}, ${rectY + rectHeight/2})">
+          {{lengthRows}} rows ({{length}}${unitLabel})
+        </text>
+        
+        <!-- Center label -->
+        <text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 - 10}" text-anchor="middle" font-size="14" fill="#1E7E72" font-weight="bold">
+          {{sizeName}} Blanket
+        </text>
+        <text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 + 10}" text-anchor="middle" font-size="12" fill="#666">
+          {{totalStitches}} total stitches
+        </text>
+        <text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 + 25}" text-anchor="middle" font-size="12" fill="#666">
+          ~{{yarnNeeded}} yards needed
+        </text>
+      </svg>
+    `;
+  };
+
+  // Replace placeholders in diagram
+  const replacePlaceholders = (template: string) => {
+    const totalStitches = widthSts * lengthRows;
+    const yarnNeeded = calculateYarnNeeded();
+    
+    return template
+      .replace(/\{\{widthSts\}\}/g, widthSts.toString())
+      .replace(/\{\{lengthRows\}\}/g, lengthRows.toString())
+      .replace(/\{\{width\}\}/g, sizeSelection?.dimensions.width.toString() || '0')
+      .replace(/\{\{length\}\}/g, sizeSelection?.dimensions.length.toString() || '0')
+      .replace(/\{\{sizeName\}\}/g, sizeSelection?.size || 'Custom')
+      .replace(/\{\{totalStitches\}\}/g, totalStitches.toString())
+      .replace(/\{\{yarnNeeded\}\}/g, yarnNeeded.toString());
+  };
+
   // Generate pattern instructions
   const generateInstructions = () => {
     if (!sizeSelection || !widthSts || !lengthRows) {
@@ -62,6 +141,7 @@ export default function BlanketWizard() {
     }
 
     const unitLabel = units === 'inches' ? '"' : 'cm';
+    const yarnNeeded = calculateYarnNeeded();
     
     return `
       <div class="well_white">
@@ -76,7 +156,7 @@ export default function BlanketWizard() {
           <strong>Materials Needed:</strong>
           <div style="margin-left: 20px;">
             • Machine: Any knitting machine<br>
-            • Yarn: Worsted weight yarn<br>
+            • Yarn: Worsted weight yarn (~${yarnNeeded} yards)<br>
             • Gauge: ${stitchesIn4} stitches and ${rowsIn4} rows = 4${unitLabel}
           </div>
         </div>
@@ -103,7 +183,8 @@ export default function BlanketWizard() {
           <strong style="color: #C2514E;">Pattern Summary:</strong><br>
           <small style="color: #666;">
             Cast on ${widthSts} stitches, knit ${lengthRows} rows, bind off. 
-            Finished size: ${sizeSelection.dimensions.width}${unitLabel} × ${sizeSelection.dimensions.length}${unitLabel}
+            Finished size: ${sizeSelection.dimensions.width}${unitLabel} × ${sizeSelection.dimensions.length}${unitLabel}<br>
+            Yarn needed: ~${yarnNeeded} yards
           </small>
         </div>
       </div>
@@ -162,7 +243,11 @@ export default function BlanketWizard() {
                           <h1 style="color: #1E7E72; margin: 0; font-size: 28px;">Blanket Pattern Wizard</h1>
                           <p style="color: #666; margin: 5px 0 0 0; font-size: 16px;">Custom ${sizeSelection.size} Blanket Pattern</p>
                         </div>
-                        ${generateInstructions()}
+                        <div style="margin-bottom: 30px;">${generateInstructions()}</div>
+                        <div style="text-align: center;">
+                          <h3 style="color: #1E7E72;">Diagram</h3>
+                          ${replacePlaceholders(generateDiagram())}
+                        </div>
                       </div>
                     `;
                     
@@ -293,37 +378,35 @@ export default function BlanketWizard() {
           {!useCustomSize ? (
             <div className="form-group">
               <label>Select Standard Size</label>
-              <div style={{ marginTop: '8px' }}>
+              <select 
+                className="form-control"
+                value={selectedSize}
+                onChange={(e) => setSelectedSize(e.target.value)}
+                data-testid="select-blanket-size"
+                style={{ marginTop: '8px' }}
+              >
+                <option value="">Choose blanket size</option>
                 {categories.map(category => (
-                  <div key={category} style={{ marginBottom: '15px' }}>
-                    <h4 style={{ margin: '10px 0 5px 0', color: '#1E7E72', fontSize: '14px' }}>{category}</h4>
+                  <optgroup key={category} label={category}>
                     {sizeOptions
                       .filter(opt => opt.category === category)
                       .map(option => (
-                        <label key={option.key} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginBottom: '5px' }}>
-                          <input
-                            type="radio"
-                            name="blanketSize"
-                            value={option.key}
-                            checked={selectedSize === option.key}
-                            onChange={(e) => setSelectedSize(e.target.value)}
-                            data-testid={`radio-size-${option.key}`}
-                          />
+                        <option key={option.key} value={option.key}>
                           {option.label}
-                        </label>
+                        </option>
                       ))}
-                  </div>
+                  </optgroup>
                 ))}
+              </select>
                 
-                {sizeSelection && (
-                  <div style={{ marginTop: '15px', padding: '10px', background: '#f5f5f5', borderRadius: '4px' }}>
-                    <strong>{sizeSelection.category}</strong><br />
-                    <small>
-                      {sizeSelection.dimensions.width}{units === 'inches' ? '"' : 'cm'} × {sizeSelection.dimensions.length}{units === 'inches' ? '"' : 'cm'}
-                    </small>
-                  </div>
-                )}
-              </div>
+              {sizeSelection && (
+                <div style={{ marginTop: '15px', padding: '10px', background: '#f5f5f5', borderRadius: '4px' }}>
+                  <strong>{sizeSelection.category}</strong><br />
+                  <small>
+                    {sizeSelection.dimensions.width}{units === 'inches' ? '"' : 'cm'} × {sizeSelection.dimensions.length}{units === 'inches' ? '"' : 'cm'}
+                  </small>
+                </div>
+              )}
             </div>
           ) : (
             <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
@@ -355,17 +438,18 @@ export default function BlanketWizard() {
           )}
         </div>
 
-        {/* Pattern Results */}
+        {/* Instructions */}
+        {sizeSelection && widthSts > 0 && lengthRows > 0 && (
+          <div id="instructions" dangerouslySetInnerHTML={{ __html: generateInstructions() }} />
+        )}
+
+        {/* Diagram */}
         {sizeSelection && widthSts > 0 && lengthRows > 0 && (
           <div className="well_white">
-            <h3 className="text-primary">Your Pattern</h3>
-            <p style={{ marginBottom: '20px', color: '#666' }}>
-              {sizeSelection.size} blanket: {widthSts} stitches × {lengthRows} rows
-            </p>
-            <div 
-              dangerouslySetInnerHTML={{ __html: generateInstructions() }}
-              className="pattern-content"
-            />
+            <h3 className="text-primary">Diagram</h3>
+            <div id="schematic" style={{ textAlign: 'center', padding: '20px' }}>
+              <div dangerouslySetInnerHTML={{ __html: replacePlaceholders(generateDiagram()) }} />
+            </div>
           </div>
         )}
         
