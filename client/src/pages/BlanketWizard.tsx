@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import html2pdf from 'html2pdf.js';
-import logoSvg from '@assets/shoulders.svg';
+import logoSvg from '@assets/knitting-brand.svg';
 import { getSizeOptions, createSizeSelection, type SizeSelection } from '@shared/sizing';
 
 interface GaugeData {
