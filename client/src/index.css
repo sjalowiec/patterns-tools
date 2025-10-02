@@ -459,6 +459,13 @@ a:hover {
 }
 
 /* ==============================
+   Radio Button Styling
+   ============================== */
+input[type="radio"] {
+  accent-color: #52682d;
+}
+
+/* ==============================
    Size Card Selector Styling
    ============================== */
 .size-card {
@@ -471,10 +478,6 @@ a:hover {
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-}
-
-.size-card input[type="radio"] {
-  accent-color: #52682d;
 }
 
 .size-card:hover {
