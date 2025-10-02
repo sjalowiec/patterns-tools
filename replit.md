@@ -21,6 +21,7 @@ Preferred communication style: Simple, everyday language.
 The system provides reusable wizard components in `client/src/components/lego/`:
 - **GaugeInputs**: Gauge measurement inputs with dynamic placeholders (per 4"/10cm)
 - **RadioGroup**: Styled radio groups with olive green accent color
+- **SchematicWrapper**: Centered SVG diagram wrapper with consistent padding and proper sizing
 - **SizeSelector**: Card-based size selector with category grouping and selection states
 - **RoundIconButton**: 56px mobile-friendly icon buttons with labels
 - **WizardActionBar**: Flex layout with warning box + action buttons
