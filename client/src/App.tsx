@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NecklineWizard from "@/pages/NecklineWizard";
+import NecklineShapingWizard from "@/pages/NecklineShapingWizard";
 import BlanketWizard from "@/pages/BlanketWizard";
 import RectangleWizard from "@/pages/RectangleWizard";
 import NotFound from "@/pages/not-found";
@@ -55,6 +56,32 @@ function Navigation() {
           }}
         >
           Neckline/Shoulder Practice
+        </Link>
+        <Link
+          href="/neckline-shaping"
+          data-testid="link-neckline-shaping-wizard"
+          style={{
+            color: 'white',
+            textDecoration: 'none',
+            padding: '0.5rem 1rem',
+            borderRadius: '4px',
+            backgroundColor: location === '/neckline-shaping' ? 'rgba(255,255,255,0.2)' : 'transparent',
+            transition: 'background-color 0.2s',
+            fontFamily: 'Poppins, sans-serif',
+            fontWeight: 500
+          }}
+          onMouseEnter={(e) => {
+            if (location !== '/neckline-shaping') {
+              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (location !== '/neckline-shaping') {
+              e.currentTarget.style.backgroundColor = 'transparent';
+            }
+          }}
+        >
+          Neckline Shaping
         </Link>
         <Link
           href="/blanket"
@@ -117,6 +144,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={NecklineWizard}/>
+      <Route path="/neckline-shaping" component={NecklineShapingWizard}/>
       <Route path="/blanket" component={BlanketWizard}/>
       <Route path="/rectangle" component={RectangleWizard}/>
       {/* Fallback to 404 */}
