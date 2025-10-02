@@ -148,6 +148,12 @@ a:hover {
   transition: all 0.3s ease;
 }
 
+.form-control::placeholder {
+  font-size: 13px;
+  color: #999;
+  font-weight: 400;
+}
+
 /* ==============================
    Buttons
    ============================== */
