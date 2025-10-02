@@ -30,10 +30,10 @@ export function WizardActionBar({
           alignItems: 'center',
           gap: '10px',
           padding: '12px 16px',
-          background: 'rgba(237, 137, 54, 0.1)',
-          border: '1px solid rgba(237, 137, 54, 0.3)',
+          background: 'rgba(82, 104, 45, 0.1)',
+          border: '1px solid rgba(82, 104, 45, 0.3)',
           borderRadius: '6px',
-          color: '#C2514E',
+          color: '#52682d',
           fontSize: '14px'
         }}>
           {warning.icon && <i className={warning.icon} style={{ fontSize: '18px' }} />}
