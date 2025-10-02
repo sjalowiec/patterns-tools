@@ -19,13 +19,13 @@ export function WizardActionBar({
       display: 'flex', 
       gap: '20px', 
       alignItems: 'center',
-      justifyContent: 'space-between',
-      flexWrap: 'wrap'
+      justifyContent: 'space-between'
     }}>
       {/* Warning Box */}
       {warning?.show && (
         <div style={{
-          flex: '1 1 auto',
+          flex: '1 1 0',
+          minWidth: 0,
           display: 'flex',
           alignItems: 'center',
           gap: '10px',
@@ -45,7 +45,8 @@ export function WizardActionBar({
       <div style={{ 
         display: 'flex', 
         gap: '15px',
-        alignItems: 'center'
+        alignItems: 'center',
+        flexShrink: 0
       }}>
         {actions.map((action) => (
           <RoundIconButton

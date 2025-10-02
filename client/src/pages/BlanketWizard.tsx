@@ -323,7 +323,7 @@ export default function BlanketWizard() {
       label: 'Start Over',
       icon: 'fas fa-redo',
       onClick: handleStartOver,
-      className: 'btn-round-gray',
+      className: 'btn-round-wizard',
       testId: 'button-start-over'
     }
   ];
@@ -336,7 +336,7 @@ export default function BlanketWizard() {
         label: 'Print',
         icon: 'fas fa-print',
         onClick: () => window.print(),
-        className: 'btn-round-primary',
+        className: 'btn-round-wizard',
         testId: 'button-print'
       },
       {
@@ -344,7 +344,7 @@ export default function BlanketWizard() {
         label: 'Download PDF',
         icon: 'fas fa-download',
         onClick: handleDownloadPDF,
-        className: 'btn-round-primary',
+        className: 'btn-round-wizard',
         testId: 'button-download-pdf'
       }
     );
