@@ -199,7 +199,7 @@ export default function BlanketWizard() {
     // Only show yarn text if calculation is enabled and has valid data
     const yarnTextElement = calculateYarn && yarnCalculation.method !== 'none' 
       ? `<text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 + 15}" text-anchor="middle" font-size="12" fill="#666">
-          ${yarnCalculation.grams}g (~${yarnCalculation.balls} balls)
+          ${yarnCalculation.grams}g
         </text>`
       : '';
     
@@ -223,8 +223,8 @@ export default function BlanketWizard() {
     const yarnCalculation = calculateYarnNeeded();
     
     const yarnText = yarnCalculation.method === 'none' 
-      ? 'Worsted weight yarn'
-      : `Worsted weight yarn (${yarnCalculation.grams}g or ~${yarnCalculation.balls} balls of 100g, based on your swatch)`;
+      ? 'Yarn'
+      : `${yarnCalculation.grams}g (based on your swatch)`;
     
     return `
       <div class="well_white">
@@ -248,7 +248,7 @@ export default function BlanketWizard() {
           <strong>Pattern Instructions:</strong>
           <div style="margin-left: 20px;">
             1. Cast on ${widthSts} stitches<br>
-            2. Knit every row for ${lengthRows} rows<br>
+            2. Knit in pattern for ${lengthRows} rows<br>
             3. Bind off all stitches
           </div>
         </div>
@@ -266,7 +266,7 @@ export default function BlanketWizard() {
           <strong style="color: #52682d;">Pattern Summary:</strong><br>
           <small style="color: #666;">
             Cast on ${widthSts} stitches, knit ${lengthRows} rows, bind off. 
-            Finished size: ${sizeSelection.dimensions.width}${unitLabel} × ${sizeSelection.dimensions.length}${unitLabel}${yarnCalculation.method !== 'none' ? `<br>Yarn needed: ${yarnCalculation.grams}g (~${yarnCalculation.balls} balls of 100g)` : ''}
+            Finished size: ${sizeSelection.dimensions.width}${unitLabel} × ${sizeSelection.dimensions.length}${unitLabel}${yarnCalculation.method !== 'none' ? `<br>Yarn needed: ${yarnCalculation.grams}g` : ''}
           </small>
         </div>
       </div>
@@ -622,7 +622,7 @@ export default function BlanketWizard() {
                     {(() => {
                       const calc = calculateYarnNeeded();
                       return calc.method === 'swatch' 
-                        ? `Your blanket will need approximately ${calc.grams}g of yarn (~${calc.balls} balls of 100g) based on your swatch.`
+                        ? `Your blanket will need approximately ${calc.grams}g of yarn based on your swatch.`
                         : 'Complete all swatch measurements to see the calculation.';
                     })()}
                   </small>

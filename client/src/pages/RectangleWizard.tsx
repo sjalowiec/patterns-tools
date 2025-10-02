@@ -76,13 +76,13 @@ export default function RectangleWizard() {
     // Calculate proportional dimensions based on rectangle aspect ratio
     const aspectRatio = widthNum / lengthNum;
     
-    // Set SVG container size
-    const svgWidth = 600;
-    const svgHeight = 500;
+    // Set SVG container size (increased for better readability)
+    const svgWidth = 900;
+    const svgHeight = 750;
     
     // Calculate rectangle dimensions to fit proportionally within SVG
-    const maxRectWidth = 400;
-    const maxRectHeight = 350;
+    const maxRectWidth = 600;
+    const maxRectHeight = 525;
     
     let rectWidth, rectHeight;
     if (aspectRatio > 1) {
@@ -102,32 +102,32 @@ export default function RectangleWizard() {
     const unitLabel = units === 'inches' ? '"' : 'cm';
     
     return `
-      <svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="width: 100%; max-width: 800px; height: auto;">
+      <svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="width: 100%; max-width: 1200px; height: auto;">
         <!-- Main rectangle -->
         <rect x="${rectX}" y="${rectY}" width="${rectWidth}" height="${rectHeight}" 
-              fill="none" stroke="black" stroke-width="2"/>
+              fill="none" stroke="black" stroke-width="3"/>
         
         <!-- Width measurement line -->
-        <line x1="${rectX}" y1="${rectY + rectHeight + 25}" x2="${rectX + rectWidth}" y2="${rectY + rectHeight + 25}" 
-              stroke="black" stroke-width="1"/>
-        <circle cx="${rectX}" cy="${rectY + rectHeight + 25}" r="3" fill="black"/>
-        <circle cx="${rectX + rectWidth}" cy="${rectY + rectHeight + 25}" r="3" fill="black"/>
-        <text x="${rectX + rectWidth/2}" y="${rectY + rectHeight + 45}" text-anchor="middle" font-size="12" fill="black">
+        <line x1="${rectX}" y1="${rectY + rectHeight + 40}" x2="${rectX + rectWidth}" y2="${rectY + rectHeight + 40}" 
+              stroke="black" stroke-width="2"/>
+        <circle cx="${rectX}" cy="${rectY + rectHeight + 40}" r="5" fill="black"/>
+        <circle cx="${rectX + rectWidth}" cy="${rectY + rectHeight + 40}" r="5" fill="black"/>
+        <text x="${rectX + rectWidth/2}" y="${rectY + rectHeight + 65}" text-anchor="middle" font-size="18" fill="black">
           {{widthSts}} stitches ({{width}}${unitLabel})
         </text>
         
         <!-- Height measurement line -->
-        <line x1="${rectX - 25}" y1="${rectY}" x2="${rectX - 25}" y2="${rectY + rectHeight}" 
-              stroke="black" stroke-width="1"/>
-        <circle cx="${rectX - 25}" cy="${rectY}" r="3" fill="black"/>
-        <circle cx="${rectX - 25}" cy="${rectY + rectHeight}" r="3" fill="black"/>
-        <text x="${rectX - 35}" y="${rectY + rectHeight/2}" text-anchor="middle" font-size="12" fill="black" 
-              transform="rotate(-90, ${rectX - 35}, ${rectY + rectHeight/2})">
+        <line x1="${rectX - 40}" y1="${rectY}" x2="${rectX - 40}" y2="${rectY + rectHeight}" 
+              stroke="black" stroke-width="2"/>
+        <circle cx="${rectX - 40}" cy="${rectY}" r="5" fill="black"/>
+        <circle cx="${rectX - 40}" cy="${rectY + rectHeight}" r="5" fill="black"/>
+        <text x="${rectX - 55}" y="${rectY + rectHeight/2}" text-anchor="middle" font-size="18" fill="black" 
+              transform="rotate(-90, ${rectX - 55}, ${rectY + rectHeight/2})">
           {{lengthRows}} rows ({{length}}${unitLabel})
         </text>
         
         <!-- Center label -->
-        <text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 - 5}" text-anchor="middle" font-size="14" fill="#52682d" font-weight="bold">
+        <text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 - 10}" text-anchor="middle" font-size="20" fill="#52682d" font-weight="bold">
           Rectangle Pattern
         </text>
         {{yarnText}}
@@ -143,10 +143,10 @@ export default function RectangleWizard() {
     if (!widthNum || !lengthNum) return template;
     
     const aspectRatio = widthNum / lengthNum;
-    const svgWidth = 600;
-    const svgHeight = 500;
-    const maxRectWidth = 400;
-    const maxRectHeight = 350;
+    const svgWidth = 900;
+    const svgHeight = 750;
+    const maxRectWidth = 600;
+    const maxRectHeight = 525;
     
     let rectWidth, rectHeight;
     if (aspectRatio > 1) {
@@ -162,8 +162,8 @@ export default function RectangleWizard() {
     
     // Only show yarn text if calculation is enabled and has valid data
     const yarnTextElement = calculateYarn && yarnCalculation.method !== 'none' 
-      ? `<text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 + 15}" text-anchor="middle" font-size="12" fill="#666">
-          ${yarnCalculation.grams}g (~${yarnCalculation.balls} balls)
+      ? `<text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 + 20}" text-anchor="middle" font-size="16" fill="#666">
+          ${yarnCalculation.grams}g
         </text>`
       : '';
     
@@ -186,8 +186,8 @@ export default function RectangleWizard() {
     const yarnCalculation = calculateYarnNeeded();
     
     const yarnText = yarnCalculation.method === 'none' 
-      ? 'Worsted weight yarn'
-      : `Worsted weight yarn (${yarnCalculation.grams}g or ~${yarnCalculation.balls} balls of 100g, based on your swatch)`;
+      ? 'Yarn'
+      : `${yarnCalculation.grams}g (based on your swatch)`;
     
     return `
       <div class="well_white">
@@ -211,7 +211,7 @@ export default function RectangleWizard() {
           <strong>Pattern Instructions:</strong>
           <div style="margin-left: 20px;">
             1. Cast on ${widthSts} stitches<br>
-            2. Knit every row for ${lengthRows} rows<br>
+            2. Knit in pattern for ${lengthRows} rows<br>
             3. Bind off all stitches
           </div>
         </div>
@@ -229,7 +229,7 @@ export default function RectangleWizard() {
           <strong style="color: #52682d;">Pattern Summary:</strong><br>
           <small style="color: #666;">
             Cast on ${widthSts} stitches, knit ${lengthRows} rows, bind off. 
-            Finished size: ${widthNum}${unitLabel} × ${lengthNum}${unitLabel}${yarnCalculation.method !== 'none' ? `<br>Yarn needed: ${yarnCalculation.grams}g (~${yarnCalculation.balls} balls of 100g)` : ''}
+            Finished size: ${widthNum}${unitLabel} × ${lengthNum}${unitLabel}${yarnCalculation.method !== 'none' ? `<br>Yarn needed: ${yarnCalculation.grams}g` : ''}
           </small>
         </div>
       </div>
@@ -476,7 +476,7 @@ export default function RectangleWizard() {
                     {(() => {
                       const calc = calculateYarnNeeded();
                       return calc.method === 'swatch' 
-                        ? `Your rectangle will need approximately ${calc.grams}g of yarn (~${calc.balls} balls of 100g) based on your swatch.`
+                        ? `Your rectangle will need approximately ${calc.grams}g of yarn based on your swatch.`
                         : 'Complete all swatch measurements to see the calculation.';
                     })()}
                   </small>
