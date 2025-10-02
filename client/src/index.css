@@ -22,11 +22,11 @@
   --background-alt: #F2EEE9;     /* warm gray */
 
   /* Wizard Theme Colors - Uniform across all wizards */
-  --wizard-primary: #5c7978;     /* Teal-grey */
-  --wizard-primary-dark: #4a6160;
-  --wizard-accent-bg: rgba(92, 121, 120, 0.2);
+  --wizard-primary: #52682d;     /* Olive green */
+  --wizard-primary-dark: #3d4d21;
+  --wizard-accent-bg: rgba(82, 104, 45, 0.2);
   --wizard-label-color: #999;
-  --wizard-lifeline-bg: rgba(92, 121, 120, 0.2);
+  --wizard-lifeline-bg: rgba(82, 104, 45, 0.2);
 }
 
 /* ==============================
@@ -255,7 +255,7 @@ a:hover {
 
 .btn-round-wizard:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(92, 121, 120, 0.4);
+  box-shadow: 0 6px 16px rgba(82, 104, 45, 0.4);
 }
 
 /* ==============================
