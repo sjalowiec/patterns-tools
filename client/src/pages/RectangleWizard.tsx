@@ -492,12 +492,7 @@ export default function RectangleWizard() {
             
             <div className="well_white">
               <h3 className="text-primary">Schematic Diagram</h3>
-              <div style={{ 
-                display: 'flex', 
-                justifyContent: 'center', 
-                alignItems: 'center',
-                padding: '20px 0'
-              }}>
+              <div id="schematic" style={{ textAlign: 'center', padding: '20px' }}>
                 <div dangerouslySetInnerHTML={{ __html: replacePlaceholders(generateDiagram()) }} />
               </div>
             </div>
