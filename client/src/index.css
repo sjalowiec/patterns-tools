@@ -540,10 +540,89 @@ input[type="radio"] {
 }
 
 /* ==============================
+   Wizard Button Styles (Reusable)
+   ============================== */
+.wizard-top-section {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.wizard-btn {
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  white-space: nowrap;
+}
+
+.wizard-btn i {
+  font-size: 16px;
+}
+
+.wizard-btn-primary {
+  background-color: #52682d;
+  color: white;
+}
+
+.wizard-btn-primary:hover {
+  background-color: #3d4f21;
+}
+
+.wizard-btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.wizard-btn-secondary:hover {
+  background-color: #545b62;
+}
+
+.wizard-action-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Desktop: Start Over separated from Print/Download */
+@media (min-width: 768px) {
+  .wizard-action-buttons .wizard-btn-secondary {
+    margin-right: 20px;
+  }
+}
+
+/* Mobile: Natural wrapping */
+@media (max-width: 767px) {
+  .wizard-top-section {
+    flex-direction: column;
+  }
+  
+  .wizard-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .wizard-action-buttons {
+    width: 100%;
+  }
+}
+
+/* ==============================
    Print Styles
    ============================== */
 @media print {
-  .action-buttons {
+  .wizard-action-buttons,
+  .wizard-warning-box {
     display: none !important;
   }
 }
