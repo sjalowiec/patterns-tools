@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
-import { WizardActionBar } from '@/components/lego';
-import type { WizardAction } from '@shared/types/wizard';
+import { WizardActionBar, GaugeInputs, RadioGroup } from '@/components/lego';
+import type { WizardAction, Units } from '@shared/types/wizard';
 
 export default function RectangleWizard() {
-  const [units, setUnits] = useState<'inches' | 'cm'>('inches');
+  const [units, setUnits] = useState<Units>('inches');
   const [stitchesIn4, setStitchesIn4] = useState<string>('');
   const [rowsIn4, setRowsIn4] = useState<string>('');
+  const [hasGaugeError, setHasGaugeError] = useState<boolean>(false);
   const [width, setWidth] = useState<string>('');
   const [length, setLength] = useState<string>('');
   
@@ -76,12 +77,12 @@ export default function RectangleWizard() {
     const aspectRatio = widthNum / lengthNum;
     
     // Set SVG container size
-    const svgWidth = 400;
-    const svgHeight = 300;
+    const svgWidth = 600;
+    const svgHeight = 500;
     
     // Calculate rectangle dimensions to fit proportionally within SVG
-    const maxRectWidth = 250;
-    const maxRectHeight = 200;
+    const maxRectWidth = 400;
+    const maxRectHeight = 350;
     
     let rectWidth, rectHeight;
     if (aspectRatio > 1) {
@@ -101,7 +102,7 @@ export default function RectangleWizard() {
     const unitLabel = units === 'inches' ? '"' : 'cm';
     
     return `
-      <svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="width: 100%; max-width: 500px; height: auto;">
+      <svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="width: 100%; max-width: 800px; height: auto;">
         <!-- Main rectangle -->
         <rect x="${rectX}" y="${rectY}" width="${rectWidth}" height="${rectHeight}" 
               fill="none" stroke="black" stroke-width="2"/>
@@ -142,10 +143,10 @@ export default function RectangleWizard() {
     if (!widthNum || !lengthNum) return template;
     
     const aspectRatio = widthNum / lengthNum;
-    const svgWidth = 400;
-    const svgHeight = 300;
-    const maxRectWidth = 250;
-    const maxRectHeight = 200;
+    const svgWidth = 600;
+    const svgHeight = 500;
+    const maxRectWidth = 400;
+    const maxRectHeight = 350;
     
     let rectWidth, rectHeight;
     if (aspectRatio > 1) {
@@ -237,7 +238,7 @@ export default function RectangleWizard() {
 
   // Define action buttons
   const hasUserData = !!(stitchesIn4 && rowsIn4);
-  const hasValidPattern = widthNum > 0 && lengthNum > 0 && widthSts > 0 && lengthRows > 0;
+  const hasValidPattern = !hasGaugeError && widthNum > 0 && lengthNum > 0 && widthSts > 0 && lengthRows > 0;
 
   const handleDownloadPDF = async () => {
     if (!hasValidPattern) return;
@@ -332,60 +333,26 @@ export default function RectangleWizard() {
         <div className="well_white">
           <h2 className="text-primary">Your Gauge</h2>
           
-          <div className="form-group">
-            <label>Measurement Units</label>
-            <div style={{ display: 'flex', gap: '20px', marginTop: '8px' }}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                <input
-                  type="radio"
-                  name="units"
-                  value="inches"
-                  checked={units === 'inches'}
-                  onChange={(e) => setUnits(e.target.value as 'inches' | 'cm')}
-                  data-testid="radio-inches"
-                />
-                Inches
-              </label>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                <input
-                  type="radio"
-                  name="units"
-                  value="cm"
-                  checked={units === 'cm'}
-                  onChange={(e) => setUnits(e.target.value as 'inches' | 'cm')}
-                  data-testid="radio-cm"
-                />
-                Centimeters
-              </label>
-            </div>
-          </div>
+          <RadioGroup
+            label="Measurement Units"
+            options={[
+              { value: 'inches', label: 'Inches' },
+              { value: 'cm', label: 'Centimeters' }
+            ]}
+            selectedValue={units}
+            onChange={(value) => setUnits(value as Units)}
+            name="units"
+          />
 
           <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
-            <div className="form-row" style={{ display: 'flex', gap: '20px', flex: 1 }}>
-              <div className="form-group" style={{ flex: 1 }}>
-                <label>Stitch Gauge</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  value={stitchesIn4}
-                  onChange={(e) => setStitchesIn4(e.target.value)}
-                  placeholder={units === 'inches' ? 'stitches per 4"' : 'stitches per 10cm'}
-                  data-testid="input-stitches"
-                />
-              </div>
-
-              <div className="form-group" style={{ flex: 1 }}>
-                <label>Row Gauge</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  value={rowsIn4}
-                  onChange={(e) => setRowsIn4(e.target.value)}
-                  placeholder={units === 'inches' ? 'rows per 4"' : 'rows per 10cm'}
-                  data-testid="input-rows"
-                />
-              </div>
-            </div>
+            <GaugeInputs
+              units={units}
+              stitchesIn4={stitchesIn4}
+              rowsIn4={rowsIn4}
+              onStitchesChange={setStitchesIn4}
+              onRowsChange={setRowsIn4}
+              onValidationChange={setHasGaugeError}
+            />
           </div>
         </div>
 
@@ -469,7 +436,7 @@ export default function RectangleWizard() {
                     className="form-control"
                     value={swatchWidth}
                     onChange={(e) => setSwatchWidth(e.target.value)}
-                    placeholder={units === 'inches' ? '4' : '10'}
+                    placeholder="Swatch Width"
                     step="0.1"
                     data-testid="input-swatch-width"
                   />
@@ -482,7 +449,7 @@ export default function RectangleWizard() {
                     className="form-control"
                     value={swatchLength}
                     onChange={(e) => setSwatchLength(e.target.value)}
-                    placeholder={units === 'inches' ? '4' : '10'}
+                    placeholder="Swatch Length"
                     step="0.1"
                     data-testid="input-swatch-length"
                   />
@@ -495,7 +462,7 @@ export default function RectangleWizard() {
                     className="form-control"
                     value={swatchWeight}
                     onChange={(e) => setSwatchWeight(e.target.value)}
-                    placeholder="8"
+                    placeholder="Swatch Weight"
                     step="0.1"
                     data-testid="input-swatch-weight"
                   />

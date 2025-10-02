@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
 import logoSvg from '@assets/knitting-brand.svg';
 import { getSizeOptions, createSizeSelection, getSizeData, type SizeSelection } from '@shared/sizing';
-import { WizardActionBar } from '@/components/lego';
-import type { WizardAction } from '@shared/types/wizard';
+import { WizardActionBar, GaugeInputs, RadioGroup } from '@/components/lego';
+import type { WizardAction, Units } from '@shared/types/wizard';
 
 interface GaugeData {
   units: 'inches' | 'cm';
@@ -12,9 +12,10 @@ interface GaugeData {
 }
 
 export default function BlanketWizard() {
-  const [units, setUnits] = useState<'inches' | 'cm'>('inches');
+  const [units, setUnits] = useState<Units>('inches');
   const [stitchesIn4, setStitchesIn4] = useState<string>('');
   const [rowsIn4, setRowsIn4] = useState<string>('');
+  const [hasGaugeError, setHasGaugeError] = useState<boolean>(false);
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [customSize, setCustomSize] = useState<{length: string, width: string}>({length: '', width: ''});
   const [useCustomSize, setUseCustomSize] = useState<boolean>(false);
@@ -274,7 +275,7 @@ export default function BlanketWizard() {
 
   // Define action buttons
   const hasUserData = !!(stitchesIn4 && rowsIn4);
-  const hasValidPattern = sizeSelection && widthSts > 0 && lengthRows > 0;
+  const hasValidPattern = !hasGaugeError && sizeSelection && widthSts > 0 && lengthRows > 0;
 
   const handleDownloadPDF = async () => {
     if (!sizeSelection) return;
@@ -370,61 +371,26 @@ export default function BlanketWizard() {
         <div className="well_white">
           <h2 className="text-primary">Your Gauge</h2>
           
-          <div className="form-group">
-            <label>Measurement Units</label>
-            <div style={{ display: 'flex', gap: '20px', marginTop: '8px' }}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                <input
-                  type="radio"
-                  name="units"
-                  value="inches"
-                  checked={units === 'inches'}
-                  onChange={(e) => setUnits(e.target.value as 'inches' | 'cm')}
-                  data-testid="radio-inches"
-                />
-                Inches
-              </label>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                <input
-                  type="radio"
-                  name="units"
-                  value="cm"
-                  checked={units === 'cm'}
-                  onChange={(e) => setUnits(e.target.value as 'inches' | 'cm')}
-                  data-testid="radio-cm"
-                />
-                Centimeters
-              </label>
-            </div>
-          </div>
+          <RadioGroup
+            label="Measurement Units"
+            options={[
+              { value: 'inches', label: 'Inches' },
+              { value: 'cm', label: 'Centimeters' }
+            ]}
+            selectedValue={units}
+            onChange={(value) => setUnits(value as Units)}
+            name="units"
+          />
 
           <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
-            <div className="form-row" style={{ display: 'flex', gap: '20px', flex: 1 }}>
-              <div className="form-group" style={{ flex: 1 }}>
-                <label>Stitch Gauge</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  value={stitchesIn4}
-                  onChange={(e) => setStitchesIn4(e.target.value)}
-                  placeholder={units === 'inches' ? 'stitches per 4"' : 'stitches per 10cm'}
-                  data-testid="input-stitches"
-                />
-              </div>
-
-              <div className="form-group" style={{ flex: 1 }}>
-                <label>Row Gauge</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  value={rowsIn4}
-                  onChange={(e) => setRowsIn4(e.target.value)}
-                  placeholder={units === 'inches' ? 'rows per 4"' : 'rows per 10cm'}
-                  data-testid="input-rows"
-                />
-              </div>
-            </div>
-            
+            <GaugeInputs
+              units={units}
+              stitchesIn4={stitchesIn4}
+              rowsIn4={rowsIn4}
+              onStitchesChange={setStitchesIn4}
+              onRowsChange={setRowsIn4}
+              onValidationChange={setHasGaugeError}
+            />
           </div>
           
         </div>
@@ -616,7 +582,7 @@ export default function BlanketWizard() {
                     className="form-control"
                     value={swatchWidth}
                     onChange={(e) => setSwatchWidth(e.target.value)}
-                    placeholder={units === 'inches' ? '4' : '10'}
+                    placeholder={`Swatch Width`}
                     step="0.1"
                     data-testid="input-swatch-width"
                   />
@@ -629,7 +595,7 @@ export default function BlanketWizard() {
                     className="form-control"
                     value={swatchLength}
                     onChange={(e) => setSwatchLength(e.target.value)}
-                    placeholder={units === 'inches' ? '4' : '10'}
+                    placeholder={`Swatch Length`}
                     step="0.1"
                     data-testid="input-swatch-length"
                   />
@@ -642,7 +608,7 @@ export default function BlanketWizard() {
                     className="form-control"
                     value={swatchWeight}
                     onChange={(e) => setSwatchWeight(e.target.value)}
-                    placeholder="8"
+                    placeholder="Swatch Weight"
                     step="0.1"
                     data-testid="input-swatch-weight"
                   />

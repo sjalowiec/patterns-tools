@@ -14,6 +14,7 @@ export default function NecklineWizard() {
   const [units, setUnits] = useState<Units>('inches');
   const [stitchesIn4, setStitchesIn4] = useState<string>('');
   const [rowsIn4, setRowsIn4] = useState<string>('');
+  const [hasGaugeError, setHasGaugeError] = useState<boolean>(false);
 
   // Warn user before leaving page if they have entered data
   useEffect(() => {
@@ -405,7 +406,7 @@ export default function NecklineWizard() {
 
   // Define action buttons
   const hasUserData = !!(stitchesIn4 && rowsIn4);
-  const hasValidPattern = castOnSts > 0 && totalRows > 0 && neckSts > 0;
+  const hasValidPattern = !hasGaugeError && castOnSts > 0 && totalRows > 0 && neckSts > 0;
 
   const handleDownloadPDF = async () => {
     const content = `
@@ -515,6 +516,7 @@ export default function NecklineWizard() {
               rowsIn4={rowsIn4}
               onStitchesChange={setStitchesIn4}
               onRowsChange={setRowsIn4}
+              onValidationChange={setHasGaugeError}
               stitchesTestId="input-stitches"
               rowsTestId="input-rows"
             />
