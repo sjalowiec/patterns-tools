@@ -185,9 +185,9 @@ export default function RectangleWizard() {
     const unitSize = units === 'inches' ? '4"' : '10cm';
     const yarnCalculation = calculateYarnNeeded();
     
-    const yarnText = yarnCalculation.method === 'none' 
-      ? 'Yarn'
-      : `${yarnCalculation.grams}g (based on your swatch)`;
+    const yarnLine = yarnCalculation.method !== 'none' 
+      ? `• Yarn: ${yarnCalculation.grams}g (based on your swatch)<br>`
+      : '';
     
     return `
       <div class="well_white">
@@ -202,8 +202,7 @@ export default function RectangleWizard() {
           <strong>Materials Needed:</strong>
           <div style="margin-left: 20px;">
             • Machine: Any knitting machine<br>
-            • Yarn: ${yarnText}<br>
-            • Gauge: ${stitchesIn4} stitches and ${rowsIn4} rows = ${unitSize}
+            ${yarnLine}• Gauge: ${stitchesIn4} stitches and ${rowsIn4} rows = ${unitSize}
           </div>
         </div>
         
