@@ -406,78 +406,76 @@ export default function NecklineWizard() {
   return (
     <div className="wizard-container">
       {/* Action buttons only - no header */}
-      <div style={{ display: 'flex', gap: '15px', justifyContent: 'flex-end', padding: '20px 20px 0 20px' }}>
-        <button 
-          type="button" 
-          style={{ 
-            backgroundColor: '#5c7978',
-            color: 'white',
-            border: 'none',
-            padding: '10px 20px',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontSize: '14px',
-            fontWeight: '500'
-          }}
-          onClick={() => {
-            setUnits('inches');
-            setStitchesIn4('20');
-            setRowsIn4('28');
-          }}
-          data-testid="button-start-over"
-          title="Start Over"
-        >
-          Start Over
-        </button>
-        
-        {castOnSts > 0 && totalRows > 0 && neckSts > 0 && (
+      <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', padding: '20px 20px 0 20px', flexShrink: 0 }}>
+        <div style={{ textAlign: 'center' }}>
           <button 
             type="button" 
+            className="btn-round"
             style={{ 
-              backgroundColor: '#5c7978',
-              color: 'white',
+              background: `linear-gradient(135deg, #5c7978 0%, #4a6160 100%)`,
               border: 'none',
-              padding: '10px 20px',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: '500'
+              color: 'white'
             }}
-            onClick={async () => {
-              const content = `
-                <div style="font-family: Arial, sans-serif; padding: 20px;">
-                  <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #1E7E72;">
-                    <h1 style="color: #1E7E72; margin: 0; font-size: 28px;">Neckline Practice Wizard</h1>
-                    <p style="color: #666; margin: 5px 0 0 0; font-size: 16px;">Learn neckline shaping with step-by-step instructions and technical diagrams</p>
-                  </div>
-                  <div style="margin-bottom: 30px;">${generateInstructions()}</div>
-                  <div style="text-align: center;">
-                    <h3 style="color: #1E7E72;">Diagram</h3>
-                    ${replacePlaceholders(generateSchematic())}
-                  </div>
-                </div>
-              `;
-              
-              const options = {
-                margin: 0.5,
-                filename: 'neckline-pattern.pdf',
-                image: { type: 'jpeg' as const, quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in' as const, format: 'letter' as const, orientation: 'portrait' as const }
-              };
-              
-              try {
-                await html2pdf().set(options).from(content).save();
-              } catch (error) {
-                console.error('Error generating PDF:', error);
-                alert('Error generating PDF. Please try again.');
-              }
+            onClick={() => {
+              setUnits('inches');
+              setStitchesIn4('20');
+              setRowsIn4('28');
             }}
-            data-testid="button-download"
-            title="Download"
+            data-testid="button-start-over"
+            title="Start Over"
           >
-            Download
+            <i className="fas fa-undo-alt"></i>
           </button>
+          <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Start Over</div>
+        </div>
+        
+        {castOnSts > 0 && totalRows > 0 && neckSts > 0 && (
+          <div style={{ textAlign: 'center' }}>
+            <button 
+              type="button" 
+              className="btn-round"
+              style={{ 
+                background: `linear-gradient(135deg, #5c7978 0%, #4a6160 100%)`,
+                border: 'none',
+                color: 'white'
+              }}
+              onClick={async () => {
+                const content = `
+                  <div style="font-family: Arial, sans-serif; padding: 20px;">
+                    <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #1E7E72;">
+                      <h1 style="color: #1E7E72; margin: 0; font-size: 28px;">Neckline Practice Wizard</h1>
+                      <p style="color: #666; margin: 5px 0 0 0; font-size: 16px;">Learn neckline shaping with step-by-step instructions and technical diagrams</p>
+                    </div>
+                    <div style="margin-bottom: 30px;">${generateInstructions()}</div>
+                    <div style="text-align: center;">
+                      <h3 style="color: #1E7E72;">Diagram</h3>
+                      ${replacePlaceholders(generateSchematic())}
+                    </div>
+                  </div>
+                `;
+                
+                const options = {
+                  margin: 0.5,
+                  filename: 'neckline-pattern.pdf',
+                  image: { type: 'jpeg' as const, quality: 0.98 },
+                  html2canvas: { scale: 2 },
+                  jsPDF: { unit: 'in' as const, format: 'letter' as const, orientation: 'portrait' as const }
+                };
+                
+                try {
+                  await html2pdf().set(options).from(content).save();
+                } catch (error) {
+                  console.error('Error generating PDF:', error);
+                  alert('Error generating PDF. Please try again.');
+                }
+              }}
+              data-testid="button-download"
+              title="Download"
+            >
+              <i className="fas fa-download"></i>
+            </button>
+            <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Download</div>
+          </div>
         )}
       </div>
 
