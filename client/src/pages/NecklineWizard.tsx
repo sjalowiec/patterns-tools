@@ -482,8 +482,7 @@ export default function NecklineWizard() {
       <div style={{ padding: '20px 20px 0 20px' }}>
         <WizardActionBar
           warning={{
-            message: 'Your pattern will be lost! Make sure to download your PDF before leaving.',
-            icon: 'fas fa-exclamation-triangle',
+            message: 'IMPORTANT: Your pattern will not be saved on this site. Please be sure to download and save your PDF - once you leave this page, your custom details won\'t be available again.',
             show: hasUserData
           }}
           actions={actions}
