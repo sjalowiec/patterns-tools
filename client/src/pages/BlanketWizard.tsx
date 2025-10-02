@@ -11,8 +11,8 @@ interface GaugeData {
 
 export default function BlanketWizard() {
   const [units, setUnits] = useState<'inches' | 'cm'>('inches');
-  const [stitchesIn4, setStitchesIn4] = useState<string>('20');
-  const [rowsIn4, setRowsIn4] = useState<string>('28');
+  const [stitchesIn4, setStitchesIn4] = useState<string>('');
+  const [rowsIn4, setRowsIn4] = useState<string>('');
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [customSize, setCustomSize] = useState<{length: string, width: string}>({length: '', width: ''});
   const [useCustomSize, setUseCustomSize] = useState<boolean>(false);
@@ -26,7 +26,7 @@ export default function BlanketWizard() {
   // Warn user before leaving page if they have entered data
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (stitchesIn4 !== '20' || rowsIn4 !== '28' || selectedSize || customSize.length || customSize.width) {
+      if (stitchesIn4 || rowsIn4 || selectedSize || customSize.length || customSize.width) {
         e.preventDefault();
         e.returnValue = 'Your pattern will be lost! Make sure to download your PDF before leaving.';
         return e.returnValue;

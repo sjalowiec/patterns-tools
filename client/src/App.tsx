@@ -29,59 +29,57 @@ function Navigation() {
         Wizard Builder
       </h1>
       <div style={{ display: 'flex', gap: '1rem' }}>
-        <Link href="/">
-          <a
-            data-testid="link-neckline-wizard"
-            style={{
-              color: 'white',
-              textDecoration: 'none',
-              padding: '0.5rem 1rem',
-              borderRadius: '4px',
-              backgroundColor: location === '/' ? 'rgba(255,255,255,0.2)' : 'transparent',
-              transition: 'background-color 0.2s',
-              fontFamily: 'Poppins, sans-serif',
-              fontWeight: 500
-            }}
-            onMouseEnter={(e) => {
-              if (location !== '/') {
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (location !== '/') {
-                e.currentTarget.style.backgroundColor = 'transparent';
-              }
-            }}
-          >
-            Neckline/Shoulder Practice
-          </a>
+        <Link
+          href="/"
+          data-testid="link-neckline-wizard"
+          style={{
+            color: 'white',
+            textDecoration: 'none',
+            padding: '0.5rem 1rem',
+            borderRadius: '4px',
+            backgroundColor: location === '/' ? 'rgba(255,255,255,0.2)' : 'transparent',
+            transition: 'background-color 0.2s',
+            fontFamily: 'Poppins, sans-serif',
+            fontWeight: 500
+          }}
+          onMouseEnter={(e) => {
+            if (location !== '/') {
+              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (location !== '/') {
+              e.currentTarget.style.backgroundColor = 'transparent';
+            }
+          }}
+        >
+          Neckline/Shoulder Practice
         </Link>
-        <Link href="/blanket">
-          <a
-            data-testid="link-blanket-wizard"
-            style={{
-              color: 'white',
-              textDecoration: 'none',
-              padding: '0.5rem 1rem',
-              borderRadius: '4px',
-              backgroundColor: location === '/blanket' ? 'rgba(255,255,255,0.2)' : 'transparent',
-              transition: 'background-color 0.2s',
-              fontFamily: 'Poppins, sans-serif',
-              fontWeight: 500
-            }}
-            onMouseEnter={(e) => {
-              if (location !== '/blanket') {
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (location !== '/blanket') {
-                e.currentTarget.style.backgroundColor = 'transparent';
-              }
-            }}
-          >
-            Blanket Pattern
-          </a>
+        <Link
+          href="/blanket"
+          data-testid="link-blanket-wizard"
+          style={{
+            color: 'white',
+            textDecoration: 'none',
+            padding: '0.5rem 1rem',
+            borderRadius: '4px',
+            backgroundColor: location === '/blanket' ? 'rgba(255,255,255,0.2)' : 'transparent',
+            transition: 'background-color 0.2s',
+            fontFamily: 'Poppins, sans-serif',
+            fontWeight: 500
+          }}
+          onMouseEnter={(e) => {
+            if (location !== '/blanket') {
+              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (location !== '/blanket') {
+              e.currentTarget.style.backgroundColor = 'transparent';
+            }
+          }}
+        >
+          Blanket Pattern
         </Link>
       </div>
     </nav>
