@@ -102,7 +102,7 @@ export default function RectangleWizard() {
     const unitLabel = units === 'inches' ? '"' : 'cm';
     
     return `
-      <svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="width: 100%; max-width: 800px; height: auto;">
+      <svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="width: 100%; max-width: 1000px; height: auto;">
         <!-- Main rectangle -->
         <rect x="${rectX}" y="${rectY}" width="${rectWidth}" height="${rectHeight}" 
               fill="none" stroke="black" stroke-width="2"/>
