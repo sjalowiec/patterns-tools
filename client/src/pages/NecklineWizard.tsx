@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
 import { calcShoulderWidth, rowsForOneInch, distributeEvenly, generateLeftShoulderTemplate, generateRightShoulderTemplate } from '@shared/calculations';
-import { GaugeInputs, RadioGroup, useGaugeCalculations } from '@/components/lego';
-import type { Units } from '@shared/types/wizard';
+import { GaugeInputs, RadioGroup, useGaugeCalculations, WizardActionBar } from '@/components/lego';
+import type { Units, WizardAction } from '@shared/types/wizard';
 
 interface GaugeData {
   units: 'inches' | 'cm';
@@ -403,78 +403,94 @@ export default function NecklineWizard() {
       .replace(/\{\{shoulderSts\}\}/g, shoulderSts.toString());
   };
 
+  // Define action buttons
+  const hasUserData = !!(stitchesIn4 || rowsIn4);
+  const hasValidPattern = castOnSts > 0 && totalRows > 0 && neckSts > 0;
+
+  const handleDownloadPDF = async () => {
+    const content = `
+      <div style="font-family: Arial, sans-serif; padding: 20px;">
+        <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #1E7E72;">
+          <h1 style="color: #1E7E72; margin: 0; font-size: 28px;">Neckline Practice Wizard</h1>
+          <p style="color: #666; margin: 5px 0 0 0; font-size: 16px;">Learn neckline shaping with step-by-step instructions and technical diagrams</p>
+        </div>
+        <div style="margin-bottom: 30px;">${generateInstructions()}</div>
+        <div style="text-align: center;">
+          <h3 style="color: #1E7E72;">Diagram</h3>
+          ${replacePlaceholders(generateSchematic())}
+        </div>
+      </div>
+    `;
+    
+    const options = {
+      margin: 0.5,
+      filename: 'neckline-pattern.pdf',
+      image: { type: 'jpeg' as const, quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in' as const, format: 'letter' as const, orientation: 'portrait' as const }
+    };
+    
+    try {
+      await html2pdf().set(options).from(content).save();
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('Error generating PDF. Please try again.');
+    }
+  };
+
+  const handleStartOver = () => {
+    setUnits('inches');
+    setStitchesIn4('');
+    setRowsIn4('');
+  };
+
+  const actions: WizardAction[] = [
+    {
+      id: 'startover',
+      label: 'Start Over',
+      icon: 'fas fa-redo',
+      onClick: handleStartOver,
+      className: 'btn-round-gray',
+      testId: 'button-start-over'
+    }
+  ];
+
+  // Add print/download buttons only when pattern is valid
+  if (hasValidPattern) {
+    actions.push(
+      {
+        id: 'print',
+        label: 'Print',
+        icon: 'fas fa-print',
+        onClick: () => window.print(),
+        className: 'btn-round-primary',
+        testId: 'button-print'
+      },
+      {
+        id: 'download',
+        label: 'Download PDF',
+        icon: 'fas fa-download',
+        onClick: handleDownloadPDF,
+        className: 'btn-round-primary',
+        testId: 'button-download'
+      }
+    );
+  }
+
   return (
     <div className="wizard-container">
-      {/* Action buttons only - no header */}
-      <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', padding: '20px 20px 0 20px', flexShrink: 0 }}>
-        <div style={{ textAlign: 'center' }}>
-          <button 
-            type="button" 
-            className="btn-round btn-round-wizard"
-            onClick={() => {
-              setUnits('inches');
-              setStitchesIn4('20');
-              setRowsIn4('28');
-            }}
-            data-testid="button-start-over"
-            title="Start Over"
-          >
-            <i className="fas fa-undo-alt"></i>
-          </button>
-          <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Start Over</div>
-        </div>
-        
-        {castOnSts > 0 && totalRows > 0 && neckSts > 0 && (
-          <div style={{ textAlign: 'center' }}>
-            <button 
-              type="button" 
-              className="btn-round btn-round-wizard"
-              onClick={async () => {
-                const content = `
-                  <div style="font-family: Arial, sans-serif; padding: 20px;">
-                    <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #1E7E72;">
-                      <h1 style="color: #1E7E72; margin: 0; font-size: 28px;">Neckline Practice Wizard</h1>
-                      <p style="color: #666; margin: 5px 0 0 0; font-size: 16px;">Learn neckline shaping with step-by-step instructions and technical diagrams</p>
-                    </div>
-                    <div style="margin-bottom: 30px;">${generateInstructions()}</div>
-                    <div style="text-align: center;">
-                      <h3 style="color: #1E7E72;">Diagram</h3>
-                      ${replacePlaceholders(generateSchematic())}
-                    </div>
-                  </div>
-                `;
-                
-                const options = {
-                  margin: 0.5,
-                  filename: 'neckline-pattern.pdf',
-                  image: { type: 'jpeg' as const, quality: 0.98 },
-                  html2canvas: { scale: 2 },
-                  jsPDF: { unit: 'in' as const, format: 'letter' as const, orientation: 'portrait' as const }
-                };
-                
-                try {
-                  await html2pdf().set(options).from(content).save();
-                } catch (error) {
-                  console.error('Error generating PDF:', error);
-                  alert('Error generating PDF. Please try again.');
-                }
-              }}
-              data-testid="button-download"
-              title="Download"
-            >
-              <i className="fas fa-download"></i>
-            </button>
-            <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Download</div>
-          </div>
-        )}
+      <div style={{ padding: '20px 20px 0 20px' }}>
+        <WizardActionBar
+          warning={{
+            message: 'Your pattern will be lost! Make sure to download your PDF before leaving.',
+            icon: 'fas fa-exclamation-triangle',
+            show: hasUserData
+          }}
+          actions={actions}
+        />
       </div>
 
       <div className="content-area">
-        {/* Data Persistence Warning */}
-        <div className="wizard-warning-box">
-          <strong>IMPORTANT: Your pattern will not be saved on this site.</strong><br />
-          <small>Please be sure to download and save your PDF — once you leave this page, your custom details won't be available again.</small>
-        </div>
         
         {/* Input Form */}
         <div className="well_white">
