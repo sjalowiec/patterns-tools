@@ -227,8 +227,8 @@ export default function BlanketWizard() {
       <div class="well_white">
         <h3 class="text-primary">Blanket Knitting Pattern</h3>
         
-        <div style="margin-bottom: 25px; padding: 15px; background: rgba(0, 100, 0, 0.1); border-left: 4px solid #2F7D32; border-radius: 4px;">
-          <strong style="color: #2F7D32;">${sizeSelection.size} Blanket</strong><br>
+        <div style="margin-bottom: 25px; padding: 15px; background: rgba(82, 104, 45, 0.2); border-left: 4px solid #52682d; border-radius: 4px;">
+          <strong style="color: #52682d;">${sizeSelection.size} Blanket</strong><br>
           <small style="color: #666;">Finished size: ${sizeSelection.dimensions.width}${unitLabel} × ${sizeSelection.dimensions.length}${unitLabel}</small>
         </div>
         
@@ -259,8 +259,8 @@ export default function BlanketWizard() {
           </div>
         </div>
         
-        <div class="wizard-lifeline-warning" style="margin-top: 25px;">
-          <strong>Pattern Summary:</strong><br>
+        <div style="margin-top: 25px; padding: 15px; background: rgba(82, 104, 45, 0.2); border-left: 4px solid #52682d; border-radius: 4px;">
+          <strong style="color: #52682d;">Pattern Summary:</strong><br>
           <small style="color: #666;">
             Cast on ${widthSts} stitches, knit ${lengthRows} rows, bind off. 
             Finished size: ${sizeSelection.dimensions.width}${unitLabel} × ${sizeSelection.dimensions.length}${unitLabel}${yarnCalculation.method !== 'none' ? `<br>Yarn needed: ${yarnCalculation.grams}g (~${yarnCalculation.balls} balls of 100g)` : ''}
@@ -480,9 +480,9 @@ export default function BlanketWizard() {
               </select>
                 
               {sizeSelection && (
-                <div style={{ marginTop: '15px', padding: '10px', background: '#f5f5f5', borderRadius: '4px' }}>
-                  <strong>{sizeSelection.category}</strong><br />
-                  <small>
+                <div style={{ marginTop: '15px', padding: '15px', background: 'rgba(82, 104, 45, 0.2)', borderLeft: '4px solid #52682d', borderRadius: '4px' }}>
+                  <strong style={{ color: '#52682d' }}>{sizeSelection.category}</strong><br />
+                  <small style={{ color: '#666' }}>
                     {sizeSelection.dimensions.width}{units === 'inches' ? '"' : 'cm'} × {sizeSelection.dimensions.length}{units === 'inches' ? '"' : 'cm'}
                   </small>
                 </div>
@@ -520,14 +520,30 @@ export default function BlanketWizard() {
 
         {/* Yarn Calculation (Optional) */}
         <div className="well_white">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
-            <input
-              type="checkbox"
-              checked={calculateYarn}
-              onChange={(e) => setCalculateYarn(e.target.checked)}
-              data-testid="checkbox-calculate-yarn"
+          <div 
+            onClick={() => setCalculateYarn(!calculateYarn)}
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'space-between',
+              padding: '15px',
+              background: 'rgba(82, 104, 45, 0.1)',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              marginBottom: calculateYarn ? '15px' : '0',
+              transition: 'all 0.3s ease'
+            }}
+            data-testid="accordion-calculate-yarn"
+          >
+            <h2 className="text-primary" style={{ margin: 0, fontSize: '1.3rem' }}>Calculate Yarn Needed (Optional)</h2>
+            <i 
+              className={`fas fa-chevron-${calculateYarn ? 'up' : 'down'}`}
+              style={{ 
+                color: '#52682d', 
+                fontSize: '1.2rem',
+                transition: 'transform 0.3s ease'
+              }}
             />
-            <h2 className="text-primary" style={{ margin: 0 }}>Calculate Yarn Needed</h2>
           </div>
           
           {calculateYarn && (
