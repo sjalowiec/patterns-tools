@@ -398,25 +398,25 @@ export default function BlanketWizard() {
           <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
             <div className="form-row" style={{ display: 'flex', gap: '20px', flex: 1 }}>
               <div className="form-group" style={{ flex: 1 }}>
-                <label>Stitches in {units === 'inches' ? '4 inches' : '10 cm'}</label>
+                <label>Stitch Gauge</label>
                 <input
                   type="number"
                   className="form-control"
                   value={stitchesIn4}
                   onChange={(e) => setStitchesIn4(e.target.value)}
-                  placeholder={units === 'inches' ? 'e.g., 20' : 'e.g., 20'}
+                  placeholder="stitches per 4&quot;/10cm"
                   data-testid="input-stitches"
                 />
               </div>
 
               <div className="form-group" style={{ flex: 1 }}>
-                <label>Rows in {units === 'inches' ? '4 inches' : '10 cm'}</label>
+                <label>Row Gauge</label>
                 <input
                   type="number"
                   className="form-control"
                   value={rowsIn4}
                   onChange={(e) => setRowsIn4(e.target.value)}
-                  placeholder="e.g., 28"
+                  placeholder="rows per 4&quot;/10cm"
                   data-testid="input-rows"
                 />
               </div>
