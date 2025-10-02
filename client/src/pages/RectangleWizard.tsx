@@ -420,65 +420,101 @@ export default function RectangleWizard() {
           </div>
         </div>
 
-        {/* Yarn Calculator (Optional) */}
+        {/* Yarn Calculation (Optional) */}
         <div className="well_white">
-          <h2 className="text-primary">Yarn Calculator (Optional)</h2>
-          
-          <div className="form-group">
-            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-              <input
-                type="checkbox"
-                checked={calculateYarn}
-                onChange={(e) => setCalculateYarn(e.target.checked)}
-                data-testid="checkbox-calculate-yarn"
-              />
-              Calculate yarn needed based on swatch
-            </label>
+          <div 
+            onClick={() => setCalculateYarn(!calculateYarn)}
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'space-between',
+              padding: '15px',
+              background: 'rgba(82, 104, 45, 0.1)',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              marginBottom: calculateYarn ? '15px' : '0',
+              transition: 'all 0.3s ease'
+            }}
+            data-testid="accordion-calculate-yarn"
+          >
+            <h2 className="text-primary" style={{ margin: 0, fontSize: '1.3rem' }}>Calculate Yarn Needed (Optional)</h2>
+            <i 
+              className={`fas fa-chevron-${calculateYarn ? 'up' : 'down'}`}
+              style={{ 
+                color: '#52682d', 
+                fontSize: '1.2rem',
+                transition: 'transform 0.3s ease'
+              }}
+            />
           </div>
+          
+          {calculateYarn && (
+            <p style={{ fontSize: '14px', color: '#666', marginBottom: '15px' }}>
+              Get accurate yarn estimate based on your swatch measurements.
+            </p>
+          )}
 
           {calculateYarn && (
-            <div style={{ marginTop: '20px' }}>
+            <div style={{ marginTop: '20px', padding: '15px', background: '#f8f9fa', borderRadius: '4px', border: '1px solid #e9ecef' }}>
+              <h4 style={{ marginBottom: '15px', color: '#52682d' }}>Swatch Measurements</h4>
               <p style={{ fontSize: '14px', color: '#666', marginBottom: '15px' }}>
-                Knit a swatch with your chosen yarn and enter its measurements and weight:
+                Measure your gauge swatch and weigh it to get the most accurate yarn estimate.
               </p>
               
-              <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-                <div className="form-group" style={{ flex: '1 1 150px' }}>
-                  <label>Swatch Width ({units === 'inches' ? '"' : 'cm'})</label>
+              <div className="form-row" style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+                <div className="form-group" style={{ flex: '1', minWidth: '120px' }}>
+                  <label>Swatch Width ({units === 'inches' ? 'inches' : 'cm'})</label>
                   <input
                     type="number"
                     className="form-control"
                     value={swatchWidth}
                     onChange={(e) => setSwatchWidth(e.target.value)}
-                    placeholder="Width"
+                    placeholder={units === 'inches' ? '4' : '10'}
+                    step="0.1"
                     data-testid="input-swatch-width"
                   />
                 </div>
                 
-                <div className="form-group" style={{ flex: '1 1 150px' }}>
-                  <label>Swatch Length ({units === 'inches' ? '"' : 'cm'})</label>
+                <div className="form-group" style={{ flex: '1', minWidth: '120px' }}>
+                  <label>Swatch Length ({units === 'inches' ? 'inches' : 'cm'})</label>
                   <input
                     type="number"
                     className="form-control"
                     value={swatchLength}
                     onChange={(e) => setSwatchLength(e.target.value)}
-                    placeholder="Length"
+                    placeholder={units === 'inches' ? '4' : '10'}
+                    step="0.1"
                     data-testid="input-swatch-length"
                   />
                 </div>
                 
-                <div className="form-group" style={{ flex: '1 1 150px' }}>
+                <div className="form-group" style={{ flex: '1', minWidth: '120px' }}>
                   <label>Swatch Weight (grams)</label>
                   <input
                     type="number"
                     className="form-control"
                     value={swatchWeight}
                     onChange={(e) => setSwatchWeight(e.target.value)}
-                    placeholder="Weight in g"
+                    placeholder="8"
+                    step="0.1"
                     data-testid="input-swatch-weight"
                   />
                 </div>
               </div>
+              
+              {swatchWidth && swatchLength && swatchWeight && (
+                <div style={{ marginTop: '15px', padding: '10px', background: 'rgba(82, 104, 45, 0.2)', borderRadius: '4px' }}>
+                  <strong style={{ color: '#52682d' }}>Calculation Preview:</strong><br />
+                  <small style={{ color: '#666' }}>
+                    {(() => {
+                      const calc = calculateYarnNeeded();
+                      return calc.method === 'swatch' 
+                        ? `Your rectangle will need approximately ${calc.grams}g of yarn (~${calc.balls} balls of 100g) based on your swatch.`
+                        : 'Complete all swatch measurements to see the calculation.';
+                    })()}
+                  </small>
+                </div>
+              )}
             </div>
           )}
         </div>
