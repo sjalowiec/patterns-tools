@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
-import logoSvg from '@assets/shoulders.svg';
 import { calcShoulderWidth, rowsForOneInch, distributeEvenly, generateLeftShoulderTemplate, generateRightShoulderTemplate } from '@shared/calculations';
 
 interface GaugeData {
@@ -227,7 +226,7 @@ export default function NecklineWizard() {
         <h3 class="text-primary">Complete Knitting Pattern with Row Counter</h3>
         
         <div style="margin-bottom: 25px; padding: 15px; background: rgba(0, 100, 0, 0.1); border-left: 4px solid #2F7D32; border-radius: 4px;">
-          <small style="color: #666;">Even rows = COR (carriage on right), Odd rows = COL (carriage on left)</small>
+          <small style="color: #999;">Even rows = COR (carriage on right), Odd rows = COL (carriage on left)</small>
         </div>
         
         <div style="margin-bottom: 20px;">
@@ -235,8 +234,8 @@ export default function NecklineWizard() {
           ${step1Instructions}
         </div>
         
-        <div style="margin-bottom: 25px; padding: 15px; background: rgba(197, 81, 78, 0.1); border-left: 4px solid #C2514E; border-radius: 4px;">
-          <strong style="color: #C2514E;">IMPORTANT: In case of disaster, place a lifeline</strong><br>
+        <div style="margin-bottom: 25px; padding: 15px; background: rgba(92, 121, 120, 0.2); border-left: 4px solid #5c7978; border-radius: 4px;">
+          <strong style="color: #5c7978;">IMPORTANT: In case of disaster, place a lifeline</strong><br>
           <small style="color: #666;">Place a thin yarn or thread through all active stitches to preserve your work before starting neckline shaping.</small>
         </div>
         
@@ -406,92 +405,86 @@ export default function NecklineWizard() {
 
   return (
     <div className="wizard-container">
-      <div className="wizard-header">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px' }}>
-          <div className="header-content">
-            <img 
-              src={logoSvg}
-              alt="Knit by Machine Logo"
-              className="logo-shadow"
-              style={{ height: '135px', width: 'auto', flexShrink: 0, maxHeight: '20vh' }}
-            />
-            <div>
-              <h1 className="wizard-title">Neckline/Shoulder Practice Wizard</h1>
-              <p className="wizard-subtitle">Master neckline shaping—and add shoulder shaping too</p>
-              <p style={{ fontSize: '0.9rem', fontWeight: 300, opacity: 0.8, marginTop: '-10px' }}>Build confidence with short rows while shaping shoulders and refining your neckline skills</p>
-            </div>
-          </div>
-          
-          {/* Action buttons - responsive positioning */}
-          <div style={{ display: 'flex', gap: '10px', flexShrink: 0 }}>
-          <div style={{ textAlign: 'center' }}>
-            <button 
-              type="button" 
-              className="btn-round btn-round-light"
-              onClick={() => {
-                setUnits('inches');
-                setStitchesIn4('20');
-                setRowsIn4('28');
-              }}
-              data-testid="button-start-over"
-              title="Start Over"
-            >
-              <i className="fas fa-undo-alt"></i>
-            </button>
-            <div className="btn-label" style={{ color: 'rgba(255,255,255,0.8)' }}>Start Over</div>
-          </div>
-          
-          {castOnSts > 0 && totalRows > 0 && neckSts > 0 && (
-            <div style={{ textAlign: 'center' }}>
-              <button 
-                type="button" 
-                className="btn-round btn-round-light"
-                onClick={async () => {
-                  const content = `
-                    <div style="font-family: Arial, sans-serif; padding: 20px;">
-                      <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #1E7E72;">
-                        <h1 style="color: #1E7E72; margin: 0; font-size: 28px;">Neckline Practice Wizard</h1>
-                        <p style="color: #666; margin: 5px 0 0 0; font-size: 16px;">Learn neckline shaping with step-by-step instructions and technical diagrams</p>
-                      </div>
-                      <div style="margin-bottom: 30px;">${generateInstructions()}</div>
-                      <div style="text-align: center;">
-                        <h3 style="color: #1E7E72;">Diagram</h3>
-                        ${replacePlaceholders(generateSchematic())}
-                      </div>
-                    </div>
-                  `;
-                  
-                  const options = {
-                    margin: 0.5,
-                    filename: 'neckline-pattern.pdf',
-                    image: { type: 'jpeg' as const, quality: 0.98 },
-                    html2canvas: { scale: 2 },
-                    jsPDF: { unit: 'in' as const, format: 'letter' as const, orientation: 'portrait' as const }
-                  };
-                  
-                  try {
-                    await html2pdf().set(options).from(content).save();
-                  } catch (error) {
-                    console.error('Error generating PDF:', error);
-                    alert('Error generating PDF. Please try again.');
-                  }
-                }}
-                data-testid="button-download"
-                title="Download"
-              >
-                <i className="fas fa-download"></i>
-              </button>
-              <div className="btn-label" style={{ color: 'rgba(255,255,255,0.8)' }}>Download</div>
-            </div>
-          )}
-          </div>
-        </div>
+      {/* Action buttons only - no header */}
+      <div style={{ display: 'flex', gap: '15px', justifyContent: 'flex-end', padding: '20px 20px 0 20px' }}>
+        <button 
+          type="button" 
+          style={{ 
+            backgroundColor: '#5c7978',
+            color: 'white',
+            border: 'none',
+            padding: '10px 20px',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            fontSize: '14px',
+            fontWeight: '500'
+          }}
+          onClick={() => {
+            setUnits('inches');
+            setStitchesIn4('20');
+            setRowsIn4('28');
+          }}
+          data-testid="button-start-over"
+          title="Start Over"
+        >
+          Start Over
+        </button>
+        
+        {castOnSts > 0 && totalRows > 0 && neckSts > 0 && (
+          <button 
+            type="button" 
+            style={{ 
+              backgroundColor: '#5c7978',
+              color: 'white',
+              border: 'none',
+              padding: '10px 20px',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: '500'
+            }}
+            onClick={async () => {
+              const content = `
+                <div style="font-family: Arial, sans-serif; padding: 20px;">
+                  <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #1E7E72;">
+                    <h1 style="color: #1E7E72; margin: 0; font-size: 28px;">Neckline Practice Wizard</h1>
+                    <p style="color: #666; margin: 5px 0 0 0; font-size: 16px;">Learn neckline shaping with step-by-step instructions and technical diagrams</p>
+                  </div>
+                  <div style="margin-bottom: 30px;">${generateInstructions()}</div>
+                  <div style="text-align: center;">
+                    <h3 style="color: #1E7E72;">Diagram</h3>
+                    ${replacePlaceholders(generateSchematic())}
+                  </div>
+                </div>
+              `;
+              
+              const options = {
+                margin: 0.5,
+                filename: 'neckline-pattern.pdf',
+                image: { type: 'jpeg' as const, quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in' as const, format: 'letter' as const, orientation: 'portrait' as const }
+              };
+              
+              try {
+                await html2pdf().set(options).from(content).save();
+              } catch (error) {
+                console.error('Error generating PDF:', error);
+                alert('Error generating PDF. Please try again.');
+              }
+            }}
+            data-testid="button-download"
+            title="Download"
+          >
+            Download
+          </button>
+        )}
       </div>
 
       <div className="content-area">
         {/* Data Persistence Warning */}
-        <div style={{ marginBottom: '20px', padding: '15px', background: 'rgba(197, 81, 78, 0.1)', border: '1px solid #C2514E', borderRadius: '8px' }}>
-          <strong style={{ color: '#C2514E' }}>IMPORTANT: Your pattern will not be saved on this site.</strong><br />
+        <div style={{ marginBottom: '20px', padding: '15px', background: 'rgba(92, 121, 120, 0.2)', border: '1px solid #5c7978', borderRadius: '8px' }}>
+          <strong style={{ color: '#5c7978' }}>IMPORTANT: Your pattern will not be saved on this site.</strong><br />
           <small style={{ color: '#666' }}>Please be sure to download and save your PDF — once you leave this page, your custom details won't be available again.</small>
         </div>
         
