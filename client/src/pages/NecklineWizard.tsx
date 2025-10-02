@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
 import { calcShoulderWidth, rowsForOneInch, distributeEvenly, generateLeftShoulderTemplate, generateRightShoulderTemplate } from '@shared/calculations';
+import { GaugeInputs, RadioGroup, useGaugeCalculations } from '@/components/lego';
+import type { Units } from '@shared/types/wizard';
 
 interface GaugeData {
   units: 'inches' | 'cm';
@@ -9,14 +11,14 @@ interface GaugeData {
 }
 
 export default function NecklineWizard() {
-  const [units, setUnits] = useState<'inches' | 'cm'>('inches');
-  const [stitchesIn4, setStitchesIn4] = useState<string>('20');
-  const [rowsIn4, setRowsIn4] = useState<string>('28');
+  const [units, setUnits] = useState<Units>('inches');
+  const [stitchesIn4, setStitchesIn4] = useState<string>('');
+  const [rowsIn4, setRowsIn4] = useState<string>('');
 
   // Warn user before leaving page if they have entered data
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (stitchesIn4 !== '20' || rowsIn4 !== '28') {
+      if (stitchesIn4 || rowsIn4) {
         e.preventDefault();
         e.returnValue = 'Your pattern will be lost! Make sure to download your PDF before leaving.';
         return e.returnValue;
@@ -27,11 +29,6 @@ export default function NecklineWizard() {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [stitchesIn4, rowsIn4]);
 
-  // Handle unit change without converting input display values
-  const handleUnitsChange = (newUnits: 'inches' | 'cm') => {
-    setUnits(newUnits);
-  };
-
   // Fixed dimensions in inches (canonical base units)
   const garmentWidthIn = 10;
   const bodyHeightIn = 5;  // Straight knitting before neck shaping
@@ -39,9 +36,12 @@ export default function NecklineWizard() {
   const necklineDepthIn = 4;
   const totalGarmentHeightIn = bodyHeightIn + necklineDepthIn; // 9" total
 
-  // Calculate per-inch gauge consistently - treat input numbers the same regardless of units
-  const stitchesPerInch = (Number(stitchesIn4) || 0) / 4;
-  const rowsPerInch = (Number(rowsIn4) || 0) / 4;
+  // Calculate per-unit gauge using lego block hook (handles both inches and cm correctly)
+  const { stitchesPerUnit, rowsPerUnit } = useGaugeCalculations(stitchesIn4, rowsIn4, units);
+  
+  // For inch-based dimensions, use per-unit values directly
+  const stitchesPerInch = stitchesPerUnit;
+  const rowsPerInch = rowsPerUnit;
 
   // Calculate stitch and row counts using canonical dimensions (always in inches)
   const castOnSts = Math.round(garmentWidthIn * stitchesPerInch) || 0;
@@ -480,61 +480,27 @@ export default function NecklineWizard() {
         <div className="well_white">
           <h2 className="text-primary">Your Gauge</h2>
           
-          <div className="form-group">
-            <label>Measurement Units</label>
-            <div style={{ display: 'flex', gap: '20px', marginTop: '8px' }}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                <input
-                  type="radio"
-                  name="units"
-                  value="inches"
-                  checked={units === 'inches'}
-                  onChange={(e) => handleUnitsChange(e.target.value as 'inches' | 'cm')}
-                  data-testid="radio-inches"
-                />
-                Inches
-              </label>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                <input
-                  type="radio"
-                  name="units"
-                  value="cm"
-                  checked={units === 'cm'}
-                  onChange={(e) => handleUnitsChange(e.target.value as 'inches' | 'cm')}
-                  data-testid="radio-cm"
-                />
-                Centimeters
-              </label>
-            </div>
-          </div>
+          <RadioGroup
+            name="units"
+            label="Measurement Units"
+            options={[
+              { value: 'inches', label: 'Inches', testId: 'radio-inches' },
+              { value: 'cm', label: 'Centimeters', testId: 'radio-cm' }
+            ]}
+            selectedValue={units}
+            onChange={(value) => setUnits(value as Units)}
+          />
 
           <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
-            <div className="form-row" style={{ display: 'flex', gap: '20px', flex: 1 }}>
-              <div className="form-group" style={{ flex: 1 }}>
-                <label>Stitches in {units === 'inches' ? '4 inches' : '10 cm'}</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  value={stitchesIn4}
-                  onChange={(e) => setStitchesIn4(e.target.value)}
-                  placeholder={units === 'inches' ? 'e.g., 20' : 'e.g., 20'}
-                  data-testid="input-stitches"
-                />
-              </div>
-
-              <div className="form-group" style={{ flex: 1 }}>
-                <label>Rows in {units === 'inches' ? '4 inches' : '10 cm'}</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  value={rowsIn4}
-                  onChange={(e) => setRowsIn4(e.target.value)}
-                  placeholder="e.g., 28"
-                  data-testid="input-rows"
-                />
-              </div>
-            </div>
-            
+            <GaugeInputs
+              units={units}
+              stitchesIn4={stitchesIn4}
+              rowsIn4={rowsIn4}
+              onStitchesChange={setStitchesIn4}
+              onRowsChange={setRowsIn4}
+              stitchesTestId="input-stitches"
+              rowsTestId="input-rows"
+            />
           </div>
           
         </div>
