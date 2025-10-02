@@ -404,7 +404,7 @@ export default function BlanketWizard() {
                   className="form-control"
                   value={stitchesIn4}
                   onChange={(e) => setStitchesIn4(e.target.value)}
-                  placeholder="stitches per 4&quot;/10cm"
+                  placeholder={units === 'inches' ? 'stitches per 4"' : 'stitches per 10cm'}
                   data-testid="input-stitches"
                 />
               </div>
@@ -416,7 +416,7 @@ export default function BlanketWizard() {
                   className="form-control"
                   value={rowsIn4}
                   onChange={(e) => setRowsIn4(e.target.value)}
-                  placeholder="rows per 4&quot;/10cm"
+                  placeholder={units === 'inches' ? 'rows per 4"' : 'rows per 10cm'}
                   data-testid="input-rows"
                 />
               </div>
