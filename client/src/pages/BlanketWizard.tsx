@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
 import logoSvg from '@assets/knitting-brand.svg';
 import { getSizeOptions, createSizeSelection, getSizeData, type SizeSelection } from '@shared/sizing';
+import { WizardActionBar } from '@/components/lego';
+import type { WizardAction } from '@shared/types/wizard';
 
 interface GaugeData {
   units: 'inches' | 'cm';
@@ -270,98 +272,99 @@ export default function BlanketWizard() {
     `;
   };
 
+  // Define action buttons
+  const hasUserData = !!(stitchesIn4 && rowsIn4);
+  const hasValidPattern = sizeSelection && widthSts > 0 && lengthRows > 0;
+
+  const handleDownloadPDF = async () => {
+    if (!sizeSelection) return;
+    
+    const content = `
+      <div style="font-family: Arial, sans-serif; padding: 20px;">
+        <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #52682d;">
+          <h1 style="color: #52682d; margin: 0; font-size: 28px;">Blanket Pattern Wizard</h1>
+          <p style="color: #666; margin: 5px 0 0 0; font-size: 16px;">Custom ${sizeSelection.size} Blanket Pattern</p>
+        </div>
+        <div style="margin-bottom: 30px;">${generateInstructions()}</div>
+        <div style="text-align: center;">
+          <h3 style="color: #52682d;">Diagram</h3>
+          ${replacePlaceholders(generateDiagram())}
+        </div>
+      </div>
+    `;
+    
+    const opt = {
+      margin: 1,
+      filename: `${sizeSelection.size.replace(/\s+/g, '_')}_Blanket_Pattern.pdf`,
+      image: { type: 'jpeg' as const, quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' as const }
+    };
+    
+    await html2pdf().set(opt).from(content).save();
+  };
+
+  const handleStartOver = () => {
+    setUnits('inches');
+    setStitchesIn4('');
+    setRowsIn4('');
+    setSelectedSize('');
+    setCustomSize({length: '', width: ''});
+    setUseCustomSize(false);
+    setCalculateYarn(false);
+    setSwatchWidth('');
+    setSwatchLength('');
+    setSwatchWeight('');
+  };
+
+  const actions: WizardAction[] = [
+    {
+      id: 'startover',
+      label: 'Start Over',
+      icon: 'fas fa-redo',
+      onClick: handleStartOver,
+      className: 'btn-round-gray',
+      testId: 'button-start-over'
+    }
+  ];
+
+  // Add print/download buttons only when pattern is valid
+  if (hasValidPattern) {
+    actions.push(
+      {
+        id: 'print',
+        label: 'Print',
+        icon: 'fas fa-print',
+        onClick: () => window.print(),
+        className: 'btn-round-primary',
+        testId: 'button-print'
+      },
+      {
+        id: 'download',
+        label: 'Download PDF',
+        icon: 'fas fa-download',
+        onClick: handleDownloadPDF,
+        className: 'btn-round-primary',
+        testId: 'button-download-pdf'
+      }
+    );
+  }
+
   return (
     <div className="wizard-container">
-      <div className="content-area">
-        {/* Warning box with action buttons */}
-        <div className="wizard-top-section">
-          {/* Data Persistence Warning */}
-          <div className="wizard-warning-box" style={{ flex: 1 }}>
-            <strong>IMPORTANT: Your pattern will not be saved on this site.</strong><br />
-            <small>Please be sure to download and save your PDF — once you leave this page, your custom details won't be available again.</small>
-          </div>
-          
-          {/* Action buttons */}
-          <div className="wizard-action-buttons">
-            <div style={{ textAlign: 'center' }}>
-              <button 
-                type="button" 
-                className="btn-round btn-round-wizard"
-                onClick={() => {
-                  setUnits('inches');
-                  setStitchesIn4('20');
-                  setRowsIn4('28');
-                  setSelectedSize('');
-                  setCustomSize({length: '', width: ''});
-                  setUseCustomSize(false);
-                  setCalculateYarn(false);
-                  setSwatchWidth('');
-                  setSwatchLength('');
-                  setSwatchWeight('');
-                }}
-                data-testid="button-start-over"
-                title="Start Over"
-              >
-                <i className="fas fa-undo-alt"></i>
-              </button>
-              <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Start Over</div>
-            </div>
-            
-            {sizeSelection && widthSts > 0 && lengthRows > 0 && (
-              <>
-                <div style={{ textAlign: 'center' }}>
-                  <button 
-                    type="button" 
-                    className="btn-round btn-round-wizard"
-                    onClick={() => window.print()}
-                    data-testid="button-print"
-                    title="Print"
-                  >
-                    <i className="fas fa-print"></i>
-                  </button>
-                  <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Print</div>
-                </div>
-                
-                <div style={{ textAlign: 'center' }}>
-                  <button 
-                    type="button" 
-                    className="btn-round btn-round-wizard"
-                    onClick={async () => {
-                      const content = `
-                        <div style="font-family: Arial, sans-serif; padding: 20px;">
-                          <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #52682d;">
-                            <h1 style="color: #52682d; margin: 0; font-size: 28px;">Blanket Pattern Wizard</h1>
-                            <p style="color: #666; margin: 5px 0 0 0; font-size: 16px;">Custom ${sizeSelection.size} Blanket Pattern</p>
-                          </div>
-                          <div style="margin-bottom: 30px;">${generateInstructions()}</div>
-                          <div style="text-align: center;">
-                            <h3 style="color: #52682d;">Diagram</h3>
-                            ${replacePlaceholders(generateDiagram())}
-                          </div>
-                        </div>
-                      `;
-                      
-                      const opt = {
-                        margin: 1,
-                        filename: `${sizeSelection.size.replace(/\s+/g, '_')}_Blanket_Pattern.pdf`,
-                        image: { type: 'jpeg' as const, quality: 0.98 },
-                        html2canvas: { scale: 2 },
-                        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' as const }
-                      };
-                      
-                      await html2pdf().set(opt).from(content).save();
-                    }}
-                    data-testid="button-download-pdf"
-                    title="Download PDF"
-                  >
-                    <i className="fas fa-download"></i>
-                  </button>
-                  <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Download PDF</div>
-                </div>
-              </>
-            )}
-          </div>
+      {hasUserData && (
+        <div style={{ padding: '20px 20px 0 20px' }}>
+          <WizardActionBar
+            warning={{
+              message: 'IMPORTANT: Your pattern will not be saved on this site. Please be sure to download and save your PDF - once you leave this page, your custom details won\'t be available again.',
+              show: true
+            }}
+            actions={actions}
+          />
         </div>
+      )}
+
+      <div className="content-area">
         
         {/* Input Form */}
         <div className="well_white">

@@ -404,7 +404,7 @@ export default function NecklineWizard() {
   };
 
   // Define action buttons
-  const hasUserData = !!(stitchesIn4 || rowsIn4);
+  const hasUserData = !!(stitchesIn4 && rowsIn4);
   const hasValidPattern = castOnSts > 0 && totalRows > 0 && neckSts > 0;
 
   const handleDownloadPDF = async () => {
