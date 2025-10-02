@@ -1,8 +1,8 @@
-# Neckline Practice Wizard
+# Wizard Builder System
 
 ## Overview
 
-The Neckline Practice Wizard is a focused web-based knitting calculator that helps users learn and practice neckline shaping techniques. The application accepts gauge measurements and generates both detailed text instructions and Japanese-style technical SVG schematics for a fixed 10-unit wide by 5-unit tall garment section with precise neckline shaping calculations.
+The Wizard Builder is a comprehensive system for creating professional knitting pattern generator wizards. The system uses modular "lego block" architecture with reusable components, shared calculation logic, and a unified olive green theme. Currently includes the Neckline/Shoulder Practice Wizard and Blanket Pattern Wizard, with infrastructure to easily build additional wizards.
 
 ## User Preferences
 
@@ -17,11 +17,23 @@ Preferred communication style: Simple, everyday language.
 - **Routing**: Wouter for lightweight client-side routing
 - **State Management**: React hooks for local state, TanStack Query for server state management
 
+### Lego Block Architecture
+The system provides reusable wizard components in `client/src/components/lego/`:
+- **GaugeInputs**: Gauge measurement inputs with dynamic placeholders (per 4"/10cm)
+- **RadioGroup**: Styled radio groups with olive green accent color
+- **SizeSelector**: Card-based size selector with category grouping and selection states
+- **RoundIconButton**: 56px mobile-friendly icon buttons with labels
+- **WizardActionBar**: Flex layout with warning box + action buttons
+- **useGaugeCalculations**: Hook for unit-aware gauge calculations (4" vs 10cm)
+
+All components use CSS variables for theming and are fully reusable across wizards.
+
 ### Component Structure
-The application is built as a single-page tool with:
-- **Main Component**: NecklineWizard.tsx - comprehensive calculator interface
+Individual wizards include:
+- **NecklineWizard.tsx**: Neckline/shoulder practice calculator with SVG schematics
+- **BlanketWizard.tsx**: Blanket pattern generator with yarn calculations
 - **Gauge Input System**: Unit selection (inches/cm) with conversion from 4"/10cm to per-unit values  
-- **Calculation Engine**: 3-step neckline shaping formula implementation
+- **Calculation Engine**: Shared calculation logic via hooks and utilities
 - **Instruction Generator**: Clear step-by-step text output for knitting practice
 - **SVG Schematic Generator**: Japanese-style technical diagrams with curved necklines
 - **Validation System**: Prevents NaN errors and handles edge cases gracefully
