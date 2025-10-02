@@ -538,3 +538,12 @@ input[type="radio"] {
   border-left: 4px solid #52682d;
   padding-left: 10px;
 }
+
+/* ==============================
+   Print Styles
+   ============================== */
+@media print {
+  .action-buttons {
+    display: none !important;
+  }
+}

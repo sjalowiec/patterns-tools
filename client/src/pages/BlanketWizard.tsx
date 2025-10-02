@@ -272,92 +272,95 @@ export default function BlanketWizard() {
 
   return (
     <div className="wizard-container">
-      {/* Action buttons only - no header */}
-      <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', padding: '20px 20px 0 20px', flexShrink: 0 }}>
-        <div style={{ textAlign: 'center' }}>
-          <button 
-            type="button" 
-            className="btn-round btn-round-wizard"
-            onClick={() => {
-              setUnits('inches');
-              setStitchesIn4('20');
-              setRowsIn4('28');
-              setSelectedSize('');
-              setCustomSize({length: '', width: ''});
-              setUseCustomSize(false);
-              setCalculateYarn(false);
-              setSwatchWidth('');
-              setSwatchLength('');
-              setSwatchWeight('');
-            }}
-            data-testid="button-start-over"
-            title="Start Over"
-          >
-            <i className="fas fa-undo-alt"></i>
-          </button>
-          <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Start Over</div>
-        </div>
-        
-        {sizeSelection && widthSts > 0 && lengthRows > 0 && (
-          <>
+      <div className="content-area">
+        {/* Warning box with action buttons on the right */}
+        <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', marginBottom: '20px' }}>
+          {/* Data Persistence Warning */}
+          <div className="wizard-warning-box" style={{ flex: 1 }}>
+            <strong>IMPORTANT: Your pattern will not be saved on this site.</strong><br />
+            <small>Please be sure to download and save your PDF — once you leave this page, your custom details won't be available again.</small>
+          </div>
+          
+          {/* Action buttons */}
+          <div className="action-buttons" style={{ display: 'flex', gap: '10px', flexShrink: 0 }}>
             <div style={{ textAlign: 'center' }}>
               <button 
                 type="button" 
                 className="btn-round btn-round-wizard"
-                onClick={() => window.print()}
-                data-testid="button-print"
-                title="Print"
+                onClick={() => {
+                  setUnits('inches');
+                  setStitchesIn4('20');
+                  setRowsIn4('28');
+                  setSelectedSize('');
+                  setCustomSize({length: '', width: ''});
+                  setUseCustomSize(false);
+                  setCalculateYarn(false);
+                  setSwatchWidth('');
+                  setSwatchLength('');
+                  setSwatchWeight('');
+                }}
+                data-testid="button-start-over"
+                title="Start Over"
               >
-                <i className="fas fa-print"></i>
+                <i className="fas fa-undo-alt"></i>
               </button>
-              <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Print</div>
+              <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Start Over</div>
             </div>
             
-            <div style={{ textAlign: 'center' }}>
-              <button 
-                type="button" 
-                className="btn-round btn-round-wizard"
-                onClick={async () => {
-                  const content = `
-                    <div style="font-family: Arial, sans-serif; padding: 20px;">
-                      <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #52682d;">
-                        <h1 style="color: #52682d; margin: 0; font-size: 28px;">Blanket Pattern Wizard</h1>
-                        <p style="color: #666; margin: 5px 0 0 0; font-size: 16px;">Custom ${sizeSelection.size} Blanket Pattern</p>
-                      </div>
-                      <div style="margin-bottom: 30px;">${generateInstructions()}</div>
-                      <div style="text-align: center;">
-                        <h3 style="color: #52682d;">Diagram</h3>
-                        ${replacePlaceholders(generateDiagram())}
-                      </div>
-                    </div>
-                  `;
-                  
-                  const opt = {
-                    margin: 1,
-                    filename: `${sizeSelection.size.replace(/\s+/g, '_')}_Blanket_Pattern.pdf`,
-                    image: { type: 'jpeg' as const, quality: 0.98 },
-                    html2canvas: { scale: 2 },
-                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' as const }
-                  };
-                  
-                  await html2pdf().set(opt).from(content).save();
-                }}
-                data-testid="button-download-pdf"
-                title="Download PDF"
-              >
-                <i className="fas fa-download"></i>
-              </button>
-              <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Download PDF</div>
-            </div>
-          </>
-        )}
-      </div>
-
-      <div className="content-area">
-        {/* Data Persistence Warning */}
-        <div className="wizard-warning-box">
-          <strong>IMPORTANT: Your pattern will not be saved on this site.</strong><br />
-          <small>Please be sure to download and save your PDF — once you leave this page, your custom details won't be available again.</small>
+            {sizeSelection && widthSts > 0 && lengthRows > 0 && (
+              <>
+                <div style={{ textAlign: 'center' }}>
+                  <button 
+                    type="button" 
+                    className="btn-round btn-round-wizard"
+                    onClick={() => window.print()}
+                    data-testid="button-print"
+                    title="Print"
+                  >
+                    <i className="fas fa-print"></i>
+                  </button>
+                  <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Print</div>
+                </div>
+                
+                <div style={{ textAlign: 'center' }}>
+                  <button 
+                    type="button" 
+                    className="btn-round btn-round-wizard"
+                    onClick={async () => {
+                      const content = `
+                        <div style="font-family: Arial, sans-serif; padding: 20px;">
+                          <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #52682d;">
+                            <h1 style="color: #52682d; margin: 0; font-size: 28px;">Blanket Pattern Wizard</h1>
+                            <p style="color: #666; margin: 5px 0 0 0; font-size: 16px;">Custom ${sizeSelection.size} Blanket Pattern</p>
+                          </div>
+                          <div style="margin-bottom: 30px;">${generateInstructions()}</div>
+                          <div style="text-align: center;">
+                            <h3 style="color: #52682d;">Diagram</h3>
+                            ${replacePlaceholders(generateDiagram())}
+                          </div>
+                        </div>
+                      `;
+                      
+                      const opt = {
+                        margin: 1,
+                        filename: `${sizeSelection.size.replace(/\s+/g, '_')}_Blanket_Pattern.pdf`,
+                        image: { type: 'jpeg' as const, quality: 0.98 },
+                        html2canvas: { scale: 2 },
+                        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' as const }
+                      };
+                      
+                      await html2pdf().set(opt).from(content).save();
+                    }}
+                    data-testid="button-download-pdf"
+                    title="Download PDF"
+                  >
+                    <i className="fas fa-download"></i>
+                  </button>
+                  <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Download PDF</div>
+                </div>
+              </>
+            )}
+          </div>
         </div>
         
         {/* Input Form */}
