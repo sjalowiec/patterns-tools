@@ -479,15 +479,17 @@ export default function NecklineWizard() {
 
   return (
     <div className="wizard-container">
-      <div style={{ padding: '20px 20px 0 20px' }}>
-        <WizardActionBar
-          warning={{
-            message: 'IMPORTANT: Your pattern will not be saved on this site. Please be sure to download and save your PDF - once you leave this page, your custom details won\'t be available again.',
-            show: hasUserData
-          }}
-          actions={actions}
-        />
-      </div>
+      {hasUserData && (
+        <div style={{ padding: '20px 20px 0 20px' }}>
+          <WizardActionBar
+            warning={{
+              message: 'IMPORTANT: Your pattern will not be saved on this site. Please be sure to download and save your PDF - once you leave this page, your custom details won\'t be available again.',
+              show: true
+            }}
+            actions={actions}
+          />
+        </div>
+      )}
 
       <div className="content-area">
         
