@@ -64,10 +64,8 @@ export default function BlanketWizard() {
   // Calculate yarn needed based on swatch or rough estimate
   const calculateYarnNeeded = () => {
     if (!sizeSelection || !widthSts || !lengthRows || !calculateYarn) {
-      return { yards: 0, method: 'none' };
+      return { grams: 0, balls: 0, method: 'none' };
     }
-    
-    const totalStitches = widthSts * lengthRows;
     
     // If yarn calculation is enabled and we have complete swatch data
     if (swatchWidth && swatchLength && swatchWeight) {
@@ -76,29 +74,25 @@ export default function BlanketWizard() {
       const swatchWeightNum = parseFloat(swatchWeight);
       
       if (swatchWidthNum > 0 && swatchLengthNum > 0 && swatchWeightNum > 0) {
-        // Calculate stitches per unit area from gauge
-        const unitSize = units === 'inches' ? 4 : 10;
-        const stitchesPerUnit = parseFloat(stitchesIn4);
-        const rowsPerUnit = parseFloat(rowsIn4);
+        // Calculate area-based yarn estimate
+        // Swatch area = width × length
+        const swatchArea = swatchWidthNum * swatchLengthNum;
         
-        // Calculate swatch area in square units and convert to total stitches in swatch
-        const swatchAreaInUnits = (swatchWidthNum / unitSize) * (swatchLengthNum / unitSize);
-        const swatchStitches = swatchAreaInUnits * stitchesPerUnit * rowsPerUnit;
+        // Blanket area = width × length
+        const blanketArea = sizeSelection.dimensions.width * sizeSelection.dimensions.length;
         
-        // Calculate grams per stitch, then total weight needed
-        const gramsPerStitch = swatchWeightNum / swatchStitches;
-        const totalWeightNeeded = totalStitches * gramsPerStitch;
+        // Weight needed = (blanket area / swatch area) × swatch weight
+        const gramsNeeded = Math.round((blanketArea / swatchArea) * swatchWeightNum);
         
-        // Convert to yards (rough estimate: 1 gram = 1.1 yards for worsted weight)
-        const yardsNeeded = Math.round(totalWeightNeeded * 1.1);
+        // Calculate number of 100g balls needed (round up)
+        const ballsNeeded = Math.ceil(gramsNeeded / 100);
         
-        return { yards: yardsNeeded, method: 'swatch' };
+        return { grams: gramsNeeded, balls: ballsNeeded, method: 'swatch' };
       }
     }
     
-    // Fallback to rough estimate only if calculation is enabled
-    const yardsNeeded = Math.round(totalStitches / 4);
-    return { yards: yardsNeeded, method: 'estimate' };
+    // No fallback estimate - require swatch data
+    return { grams: 0, balls: 0, method: 'none' };
   };
 
   // Generate SVG diagram
@@ -202,7 +196,7 @@ export default function BlanketWizard() {
     // Only show yarn text if calculation is enabled and has valid data
     const yarnTextElement = calculateYarn && yarnCalculation.method !== 'none' 
       ? `<text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 + 15}" text-anchor="middle" font-size="12" fill="#666">
-          ~${yarnCalculation.yards} yards needed${yarnCalculation.method === 'swatch' ? ' (swatch-based)' : ' (approx)'}
+          ${yarnCalculation.grams}g (~${yarnCalculation.balls} balls)
         </text>`
       : '';
     
@@ -227,9 +221,7 @@ export default function BlanketWizard() {
     
     const yarnText = yarnCalculation.method === 'none' 
       ? 'Worsted weight yarn'
-      : yarnCalculation.method === 'swatch' 
-        ? `Worsted weight yarn (${yarnCalculation.yards} yards based on your swatch measurements)`
-        : `Worsted weight yarn (~${yarnCalculation.yards} yards approx)`;
+      : `Worsted weight yarn (${yarnCalculation.grams}g or ~${yarnCalculation.balls} balls of 100g, based on your swatch)`;
     
     return `
       <div class="well_white">
@@ -271,7 +263,7 @@ export default function BlanketWizard() {
           <strong>Pattern Summary:</strong><br>
           <small style="color: #666;">
             Cast on ${widthSts} stitches, knit ${lengthRows} rows, bind off. 
-            Finished size: ${sizeSelection.dimensions.width}${unitLabel} × ${sizeSelection.dimensions.length}${unitLabel}${yarnCalculation.method !== 'none' ? `<br>Yarn needed: ${yarnCalculation.method === 'swatch' ? `${yarnCalculation.yards} yards (based on your swatch)` : `~${yarnCalculation.yards} yards (approx)`}` : ''}
+            Finished size: ${sizeSelection.dimensions.width}${unitLabel} × ${sizeSelection.dimensions.length}${unitLabel}${yarnCalculation.method !== 'none' ? `<br>Yarn needed: ${yarnCalculation.grams}g (~${yarnCalculation.balls} balls of 100g)` : ''}
           </small>
         </div>
       </div>
@@ -280,84 +272,85 @@ export default function BlanketWizard() {
 
   return (
     <div className="wizard-container">
-      <div className="wizard-header">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px' }}>
-          <div className="header-content">
-            <img 
-              src={logoSvg}
-              alt="Knit by Machine Logo"
-              className="logo-shadow"
-              style={{ height: '135px', width: 'auto', flexShrink: 0, maxHeight: '20vh' }}
-            />
-            <div>
-              <h1 className="wizard-title">Blanket Pattern Wizard</h1>
-              <p className="wizard-subtitle">Generate custom blanket patterns for any size</p>
-              <p style={{ fontSize: '0.9rem', fontWeight: 300, opacity: 0.8, marginTop: '-10px' }}>Choose from standard sizes or create your own custom dimensions</p>
-            </div>
-          </div>
-          
-          {/* Action buttons */}
-          <div style={{ display: 'flex', gap: '10px', flexShrink: 0 }}>
+      {/* Action buttons only - no header */}
+      <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', padding: '20px 20px 0 20px', flexShrink: 0 }}>
+        <div style={{ textAlign: 'center' }}>
+          <button 
+            type="button" 
+            className="btn-round btn-round-wizard"
+            onClick={() => {
+              setUnits('inches');
+              setStitchesIn4('20');
+              setRowsIn4('28');
+              setSelectedSize('');
+              setCustomSize({length: '', width: ''});
+              setUseCustomSize(false);
+              setCalculateYarn(false);
+              setSwatchWidth('');
+              setSwatchLength('');
+              setSwatchWeight('');
+            }}
+            data-testid="button-start-over"
+            title="Start Over"
+          >
+            <i className="fas fa-undo-alt"></i>
+          </button>
+          <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Start Over</div>
+        </div>
+        
+        {sizeSelection && widthSts > 0 && lengthRows > 0 && (
+          <>
             <div style={{ textAlign: 'center' }}>
               <button 
                 type="button" 
                 className="btn-round btn-round-wizard"
-                onClick={() => {
-                  setUnits('inches');
-                  setStitchesIn4('20');
-                  setRowsIn4('28');
-                  setSelectedSize('');
-                  setCustomSize({length: '', width: ''});
-                  setUseCustomSize(false);
-                }}
-                data-testid="button-start-over"
-                title="Start Over"
+                onClick={() => window.print()}
+                data-testid="button-print"
+                title="Print"
               >
-                <i className="fas fa-undo-alt"></i>
+                <i className="fas fa-print"></i>
               </button>
-              <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Start Over</div>
+              <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Print</div>
             </div>
             
-            {sizeSelection && widthSts > 0 && lengthRows > 0 && (
-              <div style={{ textAlign: 'center' }}>
-                <button 
-                  type="button" 
-                  className="btn-round btn-round-wizard"
-                  onClick={async () => {
-                    const content = `
-                      <div style="font-family: Arial, sans-serif; padding: 20px;">
-                        <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #1E7E72;">
-                          <h1 style="color: #1E7E72; margin: 0; font-size: 28px;">Blanket Pattern Wizard</h1>
-                          <p style="color: #666; margin: 5px 0 0 0; font-size: 16px;">Custom ${sizeSelection.size} Blanket Pattern</p>
-                        </div>
-                        <div style="margin-bottom: 30px;">${generateInstructions()}</div>
-                        <div style="text-align: center;">
-                          <h3 style="color: #1E7E72;">Diagram</h3>
-                          ${replacePlaceholders(generateDiagram())}
-                        </div>
+            <div style={{ textAlign: 'center' }}>
+              <button 
+                type="button" 
+                className="btn-round btn-round-wizard"
+                onClick={async () => {
+                  const content = `
+                    <div style="font-family: Arial, sans-serif; padding: 20px;">
+                      <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #1E7E72;">
+                        <h1 style="color: #1E7E72; margin: 0; font-size: 28px;">Blanket Pattern Wizard</h1>
+                        <p style="color: #666; margin: 5px 0 0 0; font-size: 16px;">Custom ${sizeSelection.size} Blanket Pattern</p>
                       </div>
-                    `;
-                    
-                    const opt = {
-                      margin: 1,
-                      filename: `${sizeSelection.size.replace(/\s+/g, '_')}_Blanket_Pattern.pdf`,
-                      image: { type: 'jpeg' as const, quality: 0.98 },
-                      html2canvas: { scale: 2 },
-                      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' as const }
-                    };
-                    
-                    await html2pdf().set(opt).from(content).save();
-                  }}
-                  data-testid="button-download-pdf"
-                  title="Download PDF"
-                >
-                  <i className="fas fa-download"></i>
-                </button>
-                <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Download PDF</div>
-              </div>
-            )}
-          </div>
-        </div>
+                      <div style="margin-bottom: 30px;">${generateInstructions()}</div>
+                      <div style="text-align: center;">
+                        <h3 style="color: #1E7E72;">Diagram</h3>
+                        ${replacePlaceholders(generateDiagram())}
+                      </div>
+                    </div>
+                  `;
+                  
+                  const opt = {
+                    margin: 1,
+                    filename: `${sizeSelection.size.replace(/\s+/g, '_')}_Blanket_Pattern.pdf`,
+                    image: { type: 'jpeg' as const, quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' as const }
+                  };
+                  
+                  await html2pdf().set(opt).from(content).save();
+                }}
+                data-testid="button-download-pdf"
+                title="Download PDF"
+              >
+                <i className="fas fa-download"></i>
+              </button>
+              <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Download PDF</div>
+            </div>
+          </>
+        )}
       </div>
 
       <div className="content-area">
@@ -598,7 +591,7 @@ export default function BlanketWizard() {
                     {(() => {
                       const calc = calculateYarnNeeded();
                       return calc.method === 'swatch' 
-                        ? `Your blanket will need approximately ${calc.yards} yards of yarn based on your swatch.`
+                        ? `Your blanket will need approximately ${calc.grams}g of yarn (~${calc.balls} balls of 100g) based on your swatch.`
                         : 'Complete all swatch measurements to see the calculation.';
                     })()}
                   </small>
