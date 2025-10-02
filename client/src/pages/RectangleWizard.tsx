@@ -108,26 +108,26 @@ export default function RectangleWizard() {
               fill="none" stroke="black" stroke-width="2"/>
         
         <!-- Width measurement line -->
-        <line x1="${rectX}" y1="${rectY + rectHeight + 20}" x2="${rectX + rectWidth}" y2="${rectY + rectHeight + 20}" 
+        <line x1="${rectX}" y1="${rectY + rectHeight + 25}" x2="${rectX + rectWidth}" y2="${rectY + rectHeight + 25}" 
               stroke="black" stroke-width="1"/>
-        <circle cx="${rectX}" cy="${rectY + rectHeight + 20}" r="3" fill="black"/>
-        <circle cx="${rectX + rectWidth}" cy="${rectY + rectHeight + 20}" r="3" fill="black"/>
-        <text x="${rectX + rectWidth/2}" y="${rectY + rectHeight + 35}" text-anchor="middle" font-size="10" fill="black">
+        <circle cx="${rectX}" cy="${rectY + rectHeight + 25}" r="3" fill="black"/>
+        <circle cx="${rectX + rectWidth}" cy="${rectY + rectHeight + 25}" r="3" fill="black"/>
+        <text x="${rectX + rectWidth/2}" y="${rectY + rectHeight + 45}" text-anchor="middle" font-size="12" fill="black">
           {{widthSts}} stitches ({{width}}${unitLabel})
         </text>
         
         <!-- Height measurement line -->
-        <line x1="${rectX - 20}" y1="${rectY}" x2="${rectX - 20}" y2="${rectY + rectHeight}" 
+        <line x1="${rectX - 25}" y1="${rectY}" x2="${rectX - 25}" y2="${rectY + rectHeight}" 
               stroke="black" stroke-width="1"/>
-        <circle cx="${rectX - 20}" cy="${rectY}" r="3" fill="black"/>
-        <circle cx="${rectX - 20}" cy="${rectY + rectHeight}" r="3" fill="black"/>
-        <text x="${rectX - 30}" y="${rectY + rectHeight/2}" text-anchor="middle" font-size="10" fill="black" 
-              transform="rotate(-90, ${rectX - 30}, ${rectY + rectHeight/2})">
+        <circle cx="${rectX - 25}" cy="${rectY}" r="3" fill="black"/>
+        <circle cx="${rectX - 25}" cy="${rectY + rectHeight}" r="3" fill="black"/>
+        <text x="${rectX - 35}" y="${rectY + rectHeight/2}" text-anchor="middle" font-size="12" fill="black" 
+              transform="rotate(-90, ${rectX - 35}, ${rectY + rectHeight/2})">
           {{lengthRows}} rows ({{length}}${unitLabel})
         </text>
         
         <!-- Center label -->
-        <text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 - 5}" text-anchor="middle" font-size="12" fill="#52682d" font-weight="bold">
+        <text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 - 5}" text-anchor="middle" font-size="14" fill="#52682d" font-weight="bold">
           Rectangle Pattern
         </text>
         {{yarnText}}
@@ -162,7 +162,7 @@ export default function RectangleWizard() {
     
     // Only show yarn text if calculation is enabled and has valid data
     const yarnTextElement = calculateYarn && yarnCalculation.method !== 'none' 
-      ? `<text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 + 10}" text-anchor="middle" font-size="9" fill="#666">
+      ? `<text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 + 15}" text-anchor="middle" font-size="12" fill="#666">
           ${yarnCalculation.grams}g
         </text>`
       : '';
