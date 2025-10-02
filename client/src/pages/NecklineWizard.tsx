@@ -226,7 +226,7 @@ export default function NecklineWizard() {
         <h3 class="text-primary">Complete Knitting Pattern with Row Counter</h3>
         
         <div style="margin-bottom: 25px; padding: 15px; background: rgba(0, 100, 0, 0.1); border-left: 4px solid #2F7D32; border-radius: 4px;">
-          <small style="color: #999;">Even rows = COR (carriage on right), Odd rows = COL (carriage on left)</small>
+          <small class="wizard-instruction-label">Even rows = COR (carriage on right), Odd rows = COL (carriage on left)</small>
         </div>
         
         <div style="margin-bottom: 20px;">
@@ -234,8 +234,8 @@ export default function NecklineWizard() {
           ${step1Instructions}
         </div>
         
-        <div style="margin-bottom: 25px; padding: 15px; background: rgba(92, 121, 120, 0.2); border-left: 4px solid #5c7978; border-radius: 4px;">
-          <strong style="color: #5c7978;">IMPORTANT: In case of disaster, place a lifeline</strong><br>
+        <div class="wizard-lifeline-warning">
+          <strong>IMPORTANT: In case of disaster, place a lifeline</strong><br>
           <small style="color: #666;">Place a thin yarn or thread through all active stitches to preserve your work before starting neckline shaping.</small>
         </div>
         
@@ -410,12 +410,7 @@ export default function NecklineWizard() {
         <div style={{ textAlign: 'center' }}>
           <button 
             type="button" 
-            className="btn-round"
-            style={{ 
-              background: `linear-gradient(135deg, #5c7978 0%, #4a6160 100%)`,
-              border: 'none',
-              color: 'white'
-            }}
+            className="btn-round btn-round-wizard"
             onClick={() => {
               setUnits('inches');
               setStitchesIn4('20');
@@ -433,12 +428,7 @@ export default function NecklineWizard() {
           <div style={{ textAlign: 'center' }}>
             <button 
               type="button" 
-              className="btn-round"
-              style={{ 
-                background: `linear-gradient(135deg, #5c7978 0%, #4a6160 100%)`,
-                border: 'none',
-                color: 'white'
-              }}
+              className="btn-round btn-round-wizard"
               onClick={async () => {
                 const content = `
                   <div style="font-family: Arial, sans-serif; padding: 20px;">
@@ -481,9 +471,9 @@ export default function NecklineWizard() {
 
       <div className="content-area">
         {/* Data Persistence Warning */}
-        <div style={{ marginBottom: '20px', padding: '15px', background: 'rgba(92, 121, 120, 0.2)', border: '1px solid #5c7978', borderRadius: '8px' }}>
-          <strong style={{ color: '#5c7978' }}>IMPORTANT: Your pattern will not be saved on this site.</strong><br />
-          <small style={{ color: '#666' }}>Please be sure to download and save your PDF — once you leave this page, your custom details won't be available again.</small>
+        <div className="wizard-warning-box">
+          <strong>IMPORTANT: Your pattern will not be saved on this site.</strong><br />
+          <small>Please be sure to download and save your PDF — once you leave this page, your custom details won't be available again.</small>
         </div>
         
         {/* Input Form */}

@@ -267,8 +267,8 @@ export default function BlanketWizard() {
           </div>
         </div>
         
-        <div style="margin-top: 25px; padding: 15px; background: rgba(197, 81, 78, 0.1); border-left: 4px solid #C2514E; border-radius: 4px;">
-          <strong style="color: #C2514E;">Pattern Summary:</strong><br>
+        <div class="wizard-lifeline-warning" style="margin-top: 25px;">
+          <strong>Pattern Summary:</strong><br>
           <small style="color: #666;">
             Cast on ${widthSts} stitches, knit ${lengthRows} rows, bind off. 
             Finished size: ${sizeSelection.dimensions.width}${unitLabel} × ${sizeSelection.dimensions.length}${unitLabel}${yarnCalculation.method !== 'none' ? `<br>Yarn needed: ${yarnCalculation.method === 'swatch' ? `${yarnCalculation.yards} yards (based on your swatch)` : `~${yarnCalculation.yards} yards (approx)`}` : ''}
@@ -301,7 +301,7 @@ export default function BlanketWizard() {
             <div style={{ textAlign: 'center' }}>
               <button 
                 type="button" 
-                className="btn-round btn-round-light"
+                className="btn-round btn-round-wizard"
                 onClick={() => {
                   setUnits('inches');
                   setStitchesIn4('20');
@@ -315,14 +315,14 @@ export default function BlanketWizard() {
               >
                 <i className="fas fa-undo-alt"></i>
               </button>
-              <div className="btn-label" style={{ color: 'rgba(255,255,255,0.8)' }}>Start Over</div>
+              <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Start Over</div>
             </div>
             
             {sizeSelection && widthSts > 0 && lengthRows > 0 && (
               <div style={{ textAlign: 'center' }}>
                 <button 
                   type="button" 
-                  className="btn-round btn-round-light"
+                  className="btn-round btn-round-wizard"
                   onClick={async () => {
                     const content = `
                       <div style="font-family: Arial, sans-serif; padding: 20px;">
@@ -353,7 +353,7 @@ export default function BlanketWizard() {
                 >
                   <i className="fas fa-download"></i>
                 </button>
-                <div className="btn-label" style={{ color: 'rgba(255,255,255,0.8)' }}>Download PDF</div>
+                <div className="btn-label" style={{ color: '#666', fontSize: '12px', marginTop: '5px' }}>Download PDF</div>
               </div>
             )}
           </div>
@@ -362,9 +362,9 @@ export default function BlanketWizard() {
 
       <div className="content-area">
         {/* Data Persistence Warning */}
-        <div style={{ marginBottom: '20px', padding: '15px', background: 'rgba(197, 81, 78, 0.1)', border: '1px solid #C2514E', borderRadius: '8px' }}>
-          <strong style={{ color: '#C2514E' }}>IMPORTANT: Your pattern will not be saved on this site.</strong><br />
-          <small style={{ color: '#666' }}>Please be sure to download and save your PDF — once you leave this page, your custom details won't be available again.</small>
+        <div className="wizard-warning-box">
+          <strong>IMPORTANT: Your pattern will not be saved on this site.</strong><br />
+          <small>Please be sure to download and save your PDF — once you leave this page, your custom details won't be available again.</small>
         </div>
         
         {/* Input Form */}

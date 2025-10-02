@@ -20,6 +20,13 @@
 
   --background-base: #ffffff;    /* white background */
   --background-alt: #F2EEE9;     /* warm gray */
+
+  /* Wizard Theme Colors - Uniform across all wizards */
+  --wizard-primary: #5c7978;     /* Teal-grey */
+  --wizard-primary-dark: #4a6160;
+  --wizard-accent-bg: rgba(92, 121, 120, 0.2);
+  --wizard-label-color: #999;
+  --wizard-lifeline-bg: rgba(92, 121, 120, 0.2);
 }
 
 /* ==============================
@@ -238,6 +245,52 @@ a:hover {
   text-align: center;
   color: var(--text-secondary);
   font-weight: 500;
+}
+
+.btn-round-wizard {
+  background: linear-gradient(135deg, var(--wizard-primary) 0%, var(--wizard-primary-dark) 100%);
+  border: none;
+  color: white;
+}
+
+.btn-round-wizard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(92, 121, 120, 0.4);
+}
+
+/* ==============================
+   Wizard-Specific Components
+   ============================== */
+.wizard-warning-box {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: var(--wizard-accent-bg);
+  border: 1px solid var(--wizard-primary);
+  border-radius: 8px;
+}
+
+.wizard-warning-box strong {
+  color: var(--wizard-primary);
+}
+
+.wizard-warning-box small {
+  color: #666;
+}
+
+.wizard-lifeline-warning {
+  margin-bottom: 25px;
+  padding: 15px;
+  background: var(--wizard-lifeline-bg);
+  border-left: 4px solid var(--wizard-primary);
+  border-radius: 4px;
+}
+
+.wizard-lifeline-warning strong {
+  color: var(--wizard-primary);
+}
+
+.wizard-instruction-label {
+  color: var(--wizard-label-color);
 }
 
 /* ==============================
