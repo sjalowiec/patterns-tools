@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
 import logoSvg from '@assets/knitting-brand.svg';
-import { getSizeOptions, createSizeSelection, type SizeSelection } from '@shared/sizing';
+import { getSizeOptions, createSizeSelection, getSizeData, type SizeSelection } from '@shared/sizing';
 
 interface GaugeData {
   units: 'inches' | 'cm';
@@ -457,36 +457,86 @@ export default function BlanketWizard() {
 
           {!useCustomSize ? (
             <div className="form-group">
-              <label>Select Standard Size</label>
-              <select 
-                className="form-control"
-                value={selectedSize}
-                onChange={(e) => setSelectedSize(e.target.value)}
-                data-testid="select-blanket-size"
-                style={{ marginTop: '8px' }}
-              >
-                <option value="">Choose blanket size</option>
+              <label style={{ marginBottom: '15px', display: 'block' }}>Select Standard Size</label>
+              
+              {/* Card Grid organized by category */}
+              <div>
                 {categories.map(category => (
-                  <optgroup key={category} label={category}>
-                    {sizeOptions
-                      .filter(opt => opt.category === category)
-                      .map(option => (
-                        <option key={option.key} value={option.key}>
-                          {option.label}
-                        </option>
-                      ))}
-                  </optgroup>
+                  <div key={category} style={{ marginBottom: '20px' }}>
+                    {/* Category Header */}
+                    <h4 style={{ 
+                      fontSize: '13px', 
+                      fontWeight: '600', 
+                      color: '#52682d', 
+                      marginBottom: '10px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px'
+                    }}>
+                      {category}
+                    </h4>
+                    
+                    {/* Cards for this category */}
+                    <div style={{ 
+                      display: 'grid', 
+                      gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', 
+                      gap: '12px'
+                    }}>
+                      {sizeOptions
+                        .filter(opt => opt.category === category)
+                        .map(option => {
+                          const size = getSizeData(option.key);
+                          if (!size) return null;
+                          
+                          const isSelected = selectedSize === option.key;
+                          const unitLabel = units === 'inches' ? '"' : 'cm';
+                          const width = units === 'inches' ? size.width : Math.round(size.width * 2.54);
+                          const length = units === 'inches' ? size.length : Math.round(size.length * 2.54);
+                          
+                          return (
+                            <label 
+                              key={option.key}
+                              className={`size-card ${isSelected ? 'selected' : ''}`}
+                              data-testid={`card-size-${option.key}`}
+                            >
+                              {/* Hidden Radio Button */}
+                              <input
+                                type="radio"
+                                name="blanketSize"
+                                value={option.key}
+                                checked={isSelected}
+                                onChange={(e) => setSelectedSize(e.target.value)}
+                                style={{ 
+                                  position: 'absolute', 
+                                  opacity: 0, 
+                                  width: 0, 
+                                  height: 0 
+                                }}
+                                data-testid={`radio-size-${option.key}`}
+                              />
+                              
+                              {/* Size Name */}
+                              <div className="size-name">
+                                {size.name}
+                              </div>
+                              
+                              {/* Dimensions */}
+                              <div className="size-dimensions">
+                                {width}{unitLabel} × {length}{unitLabel}
+                              </div>
+                              
+                              {/* Selection Indicator */}
+                              {isSelected && (
+                                <div className="check-indicator">
+                                  <i className="fas fa-check" />
+                                </div>
+                              )}
+                            </label>
+                          );
+                        })}
+                    </div>
+                  </div>
                 ))}
-              </select>
-                
-              {sizeSelection && (
-                <div style={{ marginTop: '15px', padding: '15px', background: 'rgba(82, 104, 45, 0.2)', borderLeft: '4px solid #52682d', borderRadius: '4px' }}>
-                  <strong style={{ color: '#52682d' }}>{sizeSelection.category}</strong><br />
-                  <small style={{ color: '#666' }}>
-                    {sizeSelection.dimensions.width}{units === 'inches' ? '"' : 'cm'} × {sizeSelection.dimensions.length}{units === 'inches' ? '"' : 'cm'}
-                  </small>
-                </div>
-              )}
+              </div>
             </div>
           ) : (
             <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
