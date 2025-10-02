@@ -224,7 +224,7 @@ export default function BlanketWizard() {
     
     const yarnLine = yarnCalculation.method !== 'none' 
       ? `• Yarn: ${yarnCalculation.grams}g (based on your swatch)<br>`
-      : '';
+      : `• Yarn: —<br>`;
     
     return `
       <div class="well_white">
