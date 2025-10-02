@@ -157,7 +157,7 @@ export default function BlanketWizard() {
         </text>
         
         <!-- Center label -->
-        <text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 - 5}" text-anchor="middle" font-size="14" fill="#1E7E72" font-weight="bold">
+        <text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 - 5}" text-anchor="middle" font-size="14" fill="#52682d" font-weight="bold">
           {{sizeName}} Blanket
         </text>
         {{yarnText}}
@@ -320,13 +320,13 @@ export default function BlanketWizard() {
                 onClick={async () => {
                   const content = `
                     <div style="font-family: Arial, sans-serif; padding: 20px;">
-                      <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #1E7E72;">
-                        <h1 style="color: #1E7E72; margin: 0; font-size: 28px;">Blanket Pattern Wizard</h1>
+                      <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #52682d;">
+                        <h1 style="color: #52682d; margin: 0; font-size: 28px;">Blanket Pattern Wizard</h1>
                         <p style="color: #666; margin: 5px 0 0 0; font-size: 16px;">Custom ${sizeSelection.size} Blanket Pattern</p>
                       </div>
                       <div style="margin-bottom: 30px;">${generateInstructions()}</div>
                       <div style="text-align: center;">
-                        <h3 style="color: #1E7E72;">Diagram</h3>
+                        <h3 style="color: #52682d;">Diagram</h3>
                         ${replacePlaceholders(generateDiagram())}
                       </div>
                     </div>
@@ -538,7 +538,7 @@ export default function BlanketWizard() {
 
           {calculateYarn && (
             <div style={{ marginTop: '20px', padding: '15px', background: '#f8f9fa', borderRadius: '4px', border: '1px solid #e9ecef' }}>
-              <h4 style={{ marginBottom: '15px', color: '#1E7E72' }}>Swatch Measurements</h4>
+              <h4 style={{ marginBottom: '15px', color: '#52682d' }}>Swatch Measurements</h4>
               <p style={{ fontSize: '14px', color: '#666', marginBottom: '15px' }}>
                 Measure your gauge swatch and weigh it to get the most accurate yarn estimate.
               </p>
@@ -585,8 +585,8 @@ export default function BlanketWizard() {
               </div>
               
               {swatchWidth && swatchLength && swatchWeight && (
-                <div style={{ marginTop: '15px', padding: '10px', background: 'rgba(30, 126, 114, 0.1)', borderRadius: '4px' }}>
-                  <strong style={{ color: '#1E7E72' }}>Calculation Preview:</strong><br />
+                <div style={{ marginTop: '15px', padding: '10px', background: 'rgba(82, 104, 45, 0.2)', borderRadius: '4px' }}>
+                  <strong style={{ color: '#52682d' }}>Calculation Preview:</strong><br />
                   <small style={{ color: '#666' }}>
                     {(() => {
                       const calc = calculateYarnNeeded();
