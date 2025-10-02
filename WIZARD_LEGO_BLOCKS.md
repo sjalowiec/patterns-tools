@@ -277,6 +277,48 @@ interface WizardAction {
 
 ---
 
+### 6. SchematicWrapper
+
+Wrapper component for SVG schematic diagrams with centered layout and proper sizing.
+
+**Import:**
+```typescript
+import { SchematicWrapper } from '@/components/lego';
+```
+
+**Props:**
+```typescript
+interface SchematicWrapperProps {
+  svgHtml: string;
+  testId?: string;
+}
+```
+
+**Usage Example:**
+```tsx
+<div className="well_white">
+  <h3 className="text-primary">Schematic Diagram</h3>
+  <SchematicWrapper 
+    svgHtml={replacePlaceholders(generateDiagram())}
+    testId="schematic-diagram"
+  />
+</div>
+```
+
+**Features:**
+- Centered layout using `textAlign: 'center'`
+- Consistent padding (20px) around SVG
+- Properly sizes SVG diagrams across all wizards
+- Uses `dangerouslySetInnerHTML` for SVG content injection
+- Includes schematic ID for styling/targeting
+
+**Important Notes:**
+- Do NOT use flex containers around SchematicWrapper - this constrains SVG width
+- SVG sizing is controlled by viewBox and max-width in the SVG itself
+- All wizards should use this wrapper for consistent diagram display
+
+---
+
 ## Hooks
 
 ### useGaugeCalculations
@@ -374,6 +416,7 @@ Already defined in `client/src/index.css`:
 import {
   GaugeInputs,
   RadioGroup,
+  SchematicWrapper,
   SizeSelector,
   WizardActionBar,
   useGaugeCalculations
