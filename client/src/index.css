@@ -473,6 +473,10 @@ a:hover {
   box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 
+.size-card input[type="radio"] {
+  accent-color: #52682d;
+}
+
 .size-card:hover {
   border-color: #52682d;
   background-color: rgba(82, 104, 45, 0.03);
@@ -515,4 +519,19 @@ a:hover {
   justify-content: center;
   color: white;
   font-size: 10px;
+}
+
+.category-section {
+  margin-bottom: 20px;
+}
+
+.category-header {
+  font-size: 13px;
+  font-weight: 600;
+  color: #52682d;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-left: 4px solid #52682d;
+  padding-left: 10px;
 }

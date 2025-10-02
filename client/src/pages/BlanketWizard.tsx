@@ -462,16 +462,9 @@ export default function BlanketWizard() {
               {/* Card Grid organized by category */}
               <div>
                 {categories.map(category => (
-                  <div key={category} style={{ marginBottom: '20px' }}>
+                  <div key={category} className="category-section">
                     {/* Category Header */}
-                    <h4 style={{ 
-                      fontSize: '13px', 
-                      fontWeight: '600', 
-                      color: '#52682d', 
-                      marginBottom: '10px',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.5px'
-                    }}>
+                    <h4 className="category-header">
                       {category}
                     </h4>
                     
