@@ -1,0 +1,39 @@
+The Netlify deploy errored, with the following guidance provided:
+
+You are not permitted to use this feature. Sorry.
+
+The relevant error logs are:
+
+Line 0: build-image version: e8c4c0b200e9701a8a8825b9ff63ea7e9f1740e2 (noble)
+Line 1: buildbot version: a8227f684d13e2f14c4dff2ff89b1b5fbedbc9d9
+Line 2: Fetching cached dependencies
+Line 3: Failed to fetch cache, continuing with build
+Line 4: Starting to prepare the repo for build
+Line 5: No cached dependencies found. Cloning fresh repo
+Line 6: git clone --filter=blob:none https://github.com/sjalowiec/blankets
+Line 7: Preparing Git Reference refs/heads/main
+Line 8: Custom publish path detected. Proceeding with the specified path: 'blanket-wizard/dist'
+Line 9: Starting to install dependencies
+Line 10: Downloading and installing node v22.20.0...
+Line 11: Downloading https://nodejs.org/dist/v22.20.0/node-v22.20.0-linux-x64.tar.xz...
+Line 12: Computing checksum with sha256sum
+Line 13: Checksums matched!
+Line 14: Now using node v22.20.0 (npm v10.9.3)
+Line 15: Enabling Node.js Corepack
+Line 16: Started restoring cached build plugins
+Line 17: Finished restoring cached build plugins
+Line 18: Started restoring cached corepack dependencies
+Line 19: Finished restoring cached corepack dependencies
+Line 20: No npm workspaces detected
+Line 21: Started restoring cached node modules
+Line 22: Finished restoring cached node modules
+Line 23: Installing npm packages using npm version 10.9.3
+Line 24: Failed during stage 'Install dependencies': dependency_installation script returned non-zero exit code: 1
+Line 25: npm error code ETARGET
+Line 26: npm error notarget No matching version found for @types/html2pdf.js@^0.10.4.
+Line 27: npm error notarget In most cases you or one of your dependencies are requesting
+Line 28: npm error notarget a package version that doesn't exist.
+npm error A complete log of this run can be found in: /opt/buildhome/.n
+Line 29: Error during npm install
+Line 30: Failing build: Failed to install dependencies
+Line 31: Finished processing build request in 22.214s
