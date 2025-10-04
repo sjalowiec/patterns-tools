@@ -1,0 +1,36 @@
+🎉 BLANKET WIZARD - PUBLISHING INSTRUCTIONS 🎉
+
+Your blanket wizard is ready to publish! The files are already built in the "dist" folder.
+
+═══════════════════════════════════════════════════════════════
+
+STEP 1: Open Replit Publishing Tool
+   • Look at the LEFT SIDEBAR in Replit
+   • Click "All tools" (at the bottom)
+   • Click "Publishing"
+
+STEP 2: Choose Static Deployment
+   • Click the "Static" option
+   • Click "Set up your published app"
+
+STEP 3: Configure the Deployment
+   • Public Directory: blanket-wizard/dist
+   • Build Command: (leave empty - already built!)
+   • Click "Publish"
+
+STEP 4: Wait & Done!
+   • Replit will deploy your wizard
+   • You'll get a live URL like: your-app.replit.app
+   • Share it with anyone!
+
+═══════════════════════════════════════════════════════════════
+
+IMPORTANT NOTES:
+• The wizard is already built - no need to run any commands
+• If you make changes to the wizard code later, run this command:
+  cd blanket-wizard && npm run build
+  Then re-publish using the same steps above
+
+• No GitHub needed - everything happens directly in Replit!
+
+═══════════════════════════════════════════════════════════════
