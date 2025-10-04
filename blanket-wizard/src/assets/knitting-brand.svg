@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <!-- Background circle -->
+  <circle cx="200" cy="200" r="200" fill="#fff"/>
+  
+  <!-- Yarn ball -->
+  <circle cx="200" cy="180" r="80" fill="#2F7D32" stroke="#1E7E72" stroke-width="3"/>
+  
+  <!-- Yarn strand patterns -->
+  <path d="M 140 160 Q 180 120 220 160 Q 180 200 140 160" fill="none" stroke="#1E7E72" stroke-width="2"/>
+  <path d="M 160 200 Q 200 160 240 200 Q 200 240 160 200" fill="none" stroke="#1E7E72" stroke-width="2"/>
+  <path d="M 180 140 Q 220 100 260 140 Q 220 180 180 140" fill="none" stroke="#1E7E72" stroke-width="2"/>
+  
+  <!-- Knitting needles -->
+  <line x1="100" y1="300" x2="180" y2="120" stroke="#C2514E" stroke-width="6" stroke-linecap="round"/>
+  <line x1="300" y1="300" x2="220" y2="120" stroke="#C2514E" stroke-width="6" stroke-linecap="round"/>
+  
+  <!-- Needle tips -->
+  <circle cx="180" cy="120" r="8" fill="#C2514E"/>
+  <circle cx="220" cy="120" r="8" fill="#C2514E"/>
+  
+  <!-- Text below -->
+  <text x="200" y="340" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#1E7E72">
+    Knit by Machine
+  </text>
+</svg>
