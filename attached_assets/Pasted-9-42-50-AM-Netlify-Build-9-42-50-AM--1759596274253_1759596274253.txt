@@ -1,0 +1,72 @@
+9:42:50 AM: Netlify Build                                                 
+9:42:50 AM: ────────────────────────────────────────────────────────────────
+9:42:50 AM: ​
+9:42:50 AM: ❯ Version
+9:42:50 AM:   @netlify/build 35.1.8
+9:42:50 AM: ​
+9:42:50 AM: ❯ Flags
+9:42:50 AM:   accountId: 68c6b7a4e040822e80335f8f
+9:42:50 AM:   baseRelDir: true
+9:42:50 AM:   buildId: 68e14e764836a9d1a2d13e68
+9:42:50 AM:   deployId: 68e14e764836a9d1a2d13e6a
+9:42:50 AM: ​
+9:42:50 AM: ❯ Current directory
+9:42:50 AM:   /opt/build/repo/blanket-wizard
+9:42:50 AM: ​
+9:42:50 AM: ❯ Config file
+9:42:50 AM:   /opt/build/repo/blanket-wizard/netlify.toml
+9:42:50 AM: ​
+9:42:50 AM: ❯ Context
+9:42:50 AM:   production
+9:42:50 AM: ​
+9:42:50 AM: build.command from netlify.toml                               
+9:42:50 AM: ────────────────────────────────────────────────────────────────
+9:42:50 AM: ​
+9:42:50 AM: $ npm install && npm run build
+9:42:51 AM: up to date, audited 93 packages in 983ms
+9:42:51 AM: 8 packages are looking for funding
+9:42:51 AM:   run `npm fund` for details
+9:42:51 AM: 2 moderate severity vulnerabilities
+9:42:51 AM: To address all issues (including breaking changes), run:
+9:42:51 AM:   npm audit fix --force
+9:42:51 AM: Run `npm audit` for details.
+9:42:51 AM: > blanket-wizard@1.0.0 build
+9:42:51 AM: > tsc && vite build
+9:42:53 AM: Failed during stage 'building site': Build script returned non-zero exit code: 2 (https://ntl.fyi/exit-code-2)
+9:42:53 AM: src/BlanketWizard.tsx(2,22): error TS7016: Could not find a declaration file for module 'html2pdf.js'. '/opt/build/repo/blanket-wizard/node_modules/html2pdf.js/dist/html2pdf.js' implicitly has an 'any' type.
+9:42:53 AM:   Try `npm i --save-dev @types/html2pdf.js` if it exists or add a new declaration (.d.ts) file containing `declare module 'html2pdf.js';`
+9:42:53 AM: src/BlanketWizard.tsx(3,1): error TS6133: 'logoSvg' is declared but its value is never read.
+9:42:53 AM: src/BlanketWizard.tsx(3,21): error TS2307: Cannot find module './assets/knitting-brand.svg' or its corresponding type declarations.
+9:42:53 AM: src/BlanketWizard.tsx(8,11): error TS6196: 'GaugeData' is declared but never used.
+9:42:53 AM: src/components/lego/SizeSelector.tsx(1,28): error TS2307: Cannot find module '@shared/types/wizard' or its corresponding type declarations.
+9:42:53 AM: src/components/lego/useGaugeCalculations.ts(1,52): error TS2307: Cannot find module '@shared/types/wizard' or its corresponding type declarations.
+9:42:53 AM: src/shared/schema.ts(1,21): error TS2307: Cannot find module 'drizzle-orm' or its corresponding type declarations.
+9:42:53 AM: src/shared/schema.ts(2,57): error TS2307: Cannot find module 'drizzle-orm/pg-core' or its corresponding type declarations.
+9:42:53 AM: src/shared/schema.ts(3,36): error TS2307: Cannot find module 'drizzle-zod' or its corresponding type declarations.
+9:42:53 AM: src/shared/schema.ts(4,19): error TS2307: Cannot find module 'zod' or its corresponding type declarations.
+9:42:53 AM: ​
+9:42:53 AM: "build.command" failed                                        
+9:42:53 AM: ────────────────────────────────────────────────────────────────
+9:42:53 AM: ​
+9:42:53 AM:   Error message
+9:42:53 AM:   Command failed with exit code 2: npm install && npm run build (https://ntl.fyi/exit-code-2)
+9:42:53 AM: ​
+9:42:53 AM:   Error location
+9:42:53 AM:   In build.command from netlify.toml:
+9:42:53 AM:   npm install && npm run build
+9:42:53 AM: ​
+9:42:53 AM:   Resolved config
+9:42:53 AM:   build:
+9:42:53 AM:     base: /opt/build/repo/blanket-wizard
+9:42:53 AM:     command: npm install && npm run build
+9:42:53 AM:     commandOrigin: config
+9:42:53 AM:     publish: /opt/build/repo/blanket-wizard/dist
+9:42:53 AM:     publishOrigin: config
+9:42:53 AM:   redirects:
+9:42:53 AM:     - from: /*
+      status: 200
+      to: /index.html
+  redirectsOrigin: config
+9:42:53 AM: Build failed due to a user error: Build script returned non-zero exit code: 2
+9:42:53 AM: Failing build: Failed to build site
+9:42:53 AM: Finished processing build request in 21.951s

@@ -1,15 +1,8 @@
 import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
-import logoSvg from './assets/knitting-brand.svg';
 import { getSizeOptions, createSizeSelection, getSizeData, type SizeSelection } from './shared/sizing';
 import { WizardActionBar, GaugeInputs, RadioGroup } from './components/lego';
 import type { WizardAction, Units } from './shared/types/wizard';
-
-interface GaugeData {
-  units: 'inches' | 'cm';
-  stitchesIn4: string;
-  rowsIn4: string;
-}
 
 export default function BlanketWizard() {
   const [units, setUnits] = useState<Units>('inches');
