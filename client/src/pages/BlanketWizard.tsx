@@ -3,7 +3,7 @@ import html2pdf from 'html2pdf.js';
 import logoSvg from '@assets/knitting-brand.svg';
 import { type SizeSelection } from '@shared/sizing';
 import { useSizingData } from '@shared/hooks/useSizingData';
-import { WizardActionBar, GaugeInputs, UnitsToggle, PrintFooter, PrintHeader } from '@/components/lego';
+import { WizardActionBar, GaugeInputs, UnitsToggle, PrintFooter, PrintHeader, RoundIconButton } from '@/components/lego';
 import type { WizardAction, Units } from '@shared/types/wizard';
 
 interface GaugeData {
@@ -447,23 +447,52 @@ export default function BlanketWizard() {
       <PrintHeader />
       
       {hasUserData && (
-        <div style={{ 
-          position: 'sticky', 
-          top: 0, 
-          zIndex: 1000,
-          padding: '20px 20px 15px 20px',
-          backgroundColor: '#ffffff',
-          borderBottom: '2px solid #e9ecef',
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
-        }}>
-          <WizardActionBar
-            warning={{
-              message: 'IMPORTANT: Your pattern will not be saved on this site. Please be sure to download and save your PDF - once you leave this page, your custom details won\'t be available again.',
-              show: true
-            }}
-            actions={actions}
-          />
-        </div>
+        <>
+          {/* Warning Box - Not Sticky */}
+          <div className="no-print" style={{ padding: '20px 20px 0 20px' }}>
+            <div style={{
+              flex: '1 1 0',
+              minWidth: 0,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              padding: '12px 16px',
+              background: 'rgba(82, 104, 45, 0.1)',
+              border: '1px solid rgba(82, 104, 45, 0.3)',
+              borderRadius: '6px',
+              color: '#52682d',
+              fontSize: '14px'
+            }}>
+              <i className="fas fa-exclamation-triangle" style={{ fontSize: '18px' }} />
+              <span>IMPORTANT: Your pattern will not be saved on this site. Please be sure to download and save your PDF - once you leave this page, your custom details won't be available again.</span>
+            </div>
+          </div>
+          
+          {/* Action Buttons - Sticky */}
+          <div className="no-print" style={{ 
+            position: 'sticky', 
+            top: 0, 
+            zIndex: 1000,
+            padding: '15px 20px',
+            backgroundColor: '#ffffff',
+            borderBottom: '2px solid #e9ecef',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+            display: 'flex',
+            gap: '15px',
+            justifyContent: 'flex-end'
+          }}>
+            {actions.map((action) => (
+              <RoundIconButton
+                key={action.id}
+                icon={action.icon}
+                label={action.label}
+                onClick={action.onClick}
+                className={action.className}
+                testId={action.testId}
+              />
+            ))}
+          </div>
+        </>
       )}
 
       <div className="content-area">
