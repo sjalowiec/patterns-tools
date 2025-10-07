@@ -321,7 +321,7 @@ export default function BlanketWizard() {
       <div style="font-family: Arial, sans-serif; padding: 20px;">
         <!-- Print Header -->
         <div style="font-family: 'Shadows Into Light Two', cursive; font-size: 1.3em; font-weight: 400; color: #649841; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #649841; padding-bottom: 5px; margin-bottom: 10px;">
-          <span>Knit by Machine</span>
+          <span style="font-size: 1.5em;">Knit by Machine</span>
           <a href="https://www.knitbymachine.com" style="text-decoration: none; color: #649841; font-size: 0.9em;">www.knitbymachine.com</a>
         </div>
         
