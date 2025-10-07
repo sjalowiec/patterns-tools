@@ -1,0 +1,46 @@
+🎉 PUBLISH YOUR BLANKET WIZARD TO NETLIFY - EASY WAY! 🎉
+
+This is the SIMPLEST way to publish - no GitHub, no complicated setup!
+
+═══════════════════════════════════════════════════════════════
+
+STEP 1: Download Your Built Wizard from Replit
+   • In Replit, find the "blanket-wizard" folder in your Files panel
+   • Look INSIDE it for a folder called "dist"
+   • RIGHT-CLICK on the "dist" folder
+   • Click "Download"
+   • Save the zip file to your computer
+   • UNZIP it - you should now have a "dist" folder on your computer
+
+STEP 2: Go to Netlify Drop
+   • Open a new browser tab
+   • Go to: https://app.netlify.com/drop
+   • (You'll need to log in or create a free Netlify account if you haven't)
+
+STEP 3: Drag and Drop!
+   • Find the "dist" folder you downloaded (the UNZIPPED folder)
+   • DRAG the entire "dist" folder onto the Netlify Drop page
+   • (You should see a box that says "Drag and drop your site folder here")
+
+STEP 4: Get Your Live URL!
+   • Netlify will upload your files (takes 10-30 seconds)
+   • You'll see a success message with a live URL
+   • It will look like: random-name-12345.netlify.app
+   • Click the URL - your wizard is LIVE! 🎉
+
+STEP 5: (Optional) Get a Better URL
+   • On the Netlify dashboard, click "Site settings"
+   • Click "Change site name"
+   • Type something like: blanket-pattern-wizard
+   • Your URL becomes: blanket-pattern-wizard.netlify.app
+
+═══════════════════════════════════════════════════════════════
+
+IMPORTANT:
+• Only download the "dist" folder (not the whole blanket-wizard folder)
+• Make sure to UNZIP it before dragging to Netlify
+• The drag-and-drop area wants the actual folder, not a zip file
+
+THAT'S IT! No repositories, no build commands, no configuration! 🚀
+
+═══════════════════════════════════════════════════════════════
