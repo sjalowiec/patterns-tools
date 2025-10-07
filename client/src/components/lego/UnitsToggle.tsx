@@ -13,7 +13,7 @@ interface UnitsToggleProps {
  * Replaces old-fashioned radio buttons with a sleek toggle
  */
 export function UnitsToggle({ units, onChange, label }: UnitsToggleProps) {
-  const isInches = units === 'inches';
+  const isCm = units === 'cm';
   
   return (
     <div className="form-group" style={{ marginBottom: '20px' }}>
@@ -21,28 +21,26 @@ export function UnitsToggle({ units, onChange, label }: UnitsToggleProps) {
       <div style={{ 
         display: 'flex', 
         alignItems: 'center', 
-        gap: '12px',
+        gap: '10px',
         fontFamily: 'Poppins, sans-serif',
         fontSize: '14px',
         fontWeight: 500
       }}>
         <span style={{ 
-          color: isInches ? '#6e8b3d' : '#999',
-          transition: 'color 0.2s',
-          fontWeight: isInches ? 600 : 500
+          color: '#333',
+          minWidth: '18px'
         }}>
           in
         </span>
         <Switch
-          checked={!isInches}
+          checked={isCm}
           onCheckedChange={(checked) => onChange(checked ? 'cm' : 'inches')}
           data-testid="toggle-units"
-          className="data-[state=checked]:bg-[#6e8b3d] data-[state=unchecked]:bg-gray-300"
+          className="data-[state=checked]:bg-[#6e8b3d] data-[state=unchecked]:bg-[#6e8b3d]"
         />
         <span style={{ 
-          color: !isInches ? '#6e8b3d' : '#999',
-          transition: 'color 0.2s',
-          fontWeight: !isInches ? 600 : 500
+          color: '#333',
+          minWidth: '22px'
         }}>
           cm
         </span>
