@@ -327,7 +327,7 @@ export default function BlanketWizard() {
         
         <!-- Pattern Content -->
         <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #52682d;">
-          <h1 style="color: #52682d; margin: 0; font-size: 28px;">Blanket Pattern Wizard</h1>
+          <h1 style="color: #52682d; margin: 0; font-size: 28px;">Basic Blanket Pattern</h1>
           <p style="color: #666; margin: 5px 0 0 0; font-size: 16px;">Custom ${sizeSelection.size} Blanket Pattern</p>
         </div>
         <div style="margin-bottom: 30px;">${generateInstructions()}</div>
@@ -719,6 +719,15 @@ export default function BlanketWizard() {
             </div>
           )}
         </div>
+
+        {/* Print-only title section */}
+        {sizeSelection && (
+          <div className="print-only-title">
+            <h1 style={{ color: '#52682d', margin: 0, fontSize: '28px', textAlign: 'center' }}>Basic Blanket Pattern</h1>
+            <p style={{ color: '#666', margin: '5px 0 0 0', fontSize: '16px', textAlign: 'center' }}>Custom {sizeSelection.size} Blanket Pattern</p>
+            <div style={{ borderBottom: '2px solid #52682d', marginBottom: '30px', paddingBottom: '20px' }}></div>
+          </div>
+        )}
 
         {/* Instructions */}
         {sizeSelection && widthSts > 0 && lengthRows > 0 && (

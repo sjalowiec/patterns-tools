@@ -638,9 +638,10 @@ input[type="radio"] {
   pointer-events: none;
 }
 
-/* Screen: Hide print header */
+/* Screen: Hide print header and title */
 @media screen {
-  .print-header {
+  .print-header,
+  .print-only-title {
     display: none;
   }
 }
@@ -666,7 +667,7 @@ input[type="radio"] {
     justify-content: space-between;
     align-items: center;
     border-bottom: 2px solid #649841;
-    padding-bottom: 5px;
+    padding: 0 20px 5px 20px;
     margin-bottom: 10px;
   }
 
@@ -678,6 +679,11 @@ input[type="radio"] {
     text-decoration: none;
     color: #649841;
     font-size: 0.9em;
+  }
+
+  /* Print-only title section */
+  .print-only-title {
+    display: block !important;
   }
 
   /* Print-only footer */
