@@ -122,7 +122,9 @@ export function useSizingData(jsonFileName: string): UseSizingDataResult {
         setLoading(true);
         setError(null);
         
-        const response = await fetch(`/data/${jsonFileName}`);
+        // Add cache busting parameter to ensure fresh load
+        const cacheBuster = `?v=${Date.now()}`;
+        const response = await fetch(`/data/${jsonFileName}${cacheBuster}`);
         
         if (!response.ok) {
           throw new Error(`Failed to load ${jsonFileName}: ${response.statusText}`);
