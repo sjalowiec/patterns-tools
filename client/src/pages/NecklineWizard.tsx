@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
 import { calcShoulderWidth, rowsForOneInch, distributeEvenly, generateLeftShoulderTemplate, generateRightShoulderTemplate } from '@shared/calculations';
-import { GaugeInputs, UnitsToggle, useGaugeCalculations, WizardActionBar, PrintFooter } from '@/components/lego';
+import { GaugeInputs, UnitsToggle, useGaugeCalculations, WizardActionBar, PrintFooter, PrintHeader } from '@/components/lego';
 import type { Units, WizardAction } from '@shared/types/wizard';
 
 interface GaugeData {
@@ -480,6 +480,9 @@ export default function NecklineWizard() {
 
   return (
     <div className="wizard-container">
+      {/* Print-only header */}
+      <PrintHeader />
+      
       {hasUserData && (
         <div style={{ padding: '20px 20px 0 20px' }}>
           <WizardActionBar

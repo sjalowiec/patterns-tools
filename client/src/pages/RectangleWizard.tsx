@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
-import { WizardActionBar, GaugeInputs, UnitsToggle, PrintFooter } from '@/components/lego';
+import { WizardActionBar, GaugeInputs, UnitsToggle, PrintFooter, PrintHeader } from '@/components/lego';
 import type { WizardAction, Units } from '@shared/types/wizard';
 
 export default function RectangleWizard() {
@@ -314,6 +314,9 @@ export default function RectangleWizard() {
 
   return (
     <div className="wizard-container">
+      {/* Print-only header */}
+      <PrintHeader />
+      
       {hasUserData && (
         <div style={{ padding: '20px 20px 0 20px' }}>
           <WizardActionBar

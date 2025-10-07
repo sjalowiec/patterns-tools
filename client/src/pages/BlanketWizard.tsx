@@ -3,7 +3,7 @@ import html2pdf from 'html2pdf.js';
 import logoSvg from '@assets/knitting-brand.svg';
 import { type SizeSelection } from '@shared/sizing';
 import { useSizingData } from '@shared/hooks/useSizingData';
-import { WizardActionBar, GaugeInputs, UnitsToggle, PrintFooter } from '@/components/lego';
+import { WizardActionBar, GaugeInputs, UnitsToggle, PrintFooter, PrintHeader } from '@/components/lego';
 import type { WizardAction, Units } from '@shared/types/wizard';
 
 interface GaugeData {
@@ -313,8 +313,23 @@ export default function BlanketWizard() {
   const handleDownloadPDF = async () => {
     if (!sizeSelection) return;
     
+    const now = new Date();
+    const generatedDate = now.toLocaleDateString('en-US', { 
+      month: 'long', 
+      day: 'numeric', 
+      year: 'numeric' 
+    });
+    const year = now.getFullYear();
+    
     const content = `
       <div style="font-family: Arial, sans-serif; padding: 20px;">
+        <!-- Print Header -->
+        <div style="padding: 15px 20px; border-bottom: 2px solid #52682d; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+          <div style="font-size: 18px; font-weight: 600; color: #52682d;">Knit by Machine</div>
+          <div style="font-size: 12px; color: #666;">www.knitbymachine.com</div>
+        </div>
+        
+        <!-- Pattern Content -->
         <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #52682d;">
           <h1 style="color: #52682d; margin: 0; font-size: 28px;">Blanket Pattern Wizard</h1>
           <p style="color: #666; margin: 5px 0 0 0; font-size: 16px;">Custom ${sizeSelection.size} Blanket Pattern</p>
@@ -323,6 +338,14 @@ export default function BlanketWizard() {
         <div style="text-align: center;">
           <h3 style="color: #52682d;">Diagram</h3>
           ${replacePlaceholders(generateDiagram())}
+        </div>
+        
+        <!-- Print Footer -->
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ccc; text-align: center; font-size: 10px; color: #666; line-height: 1.6;">
+          <div>© ${year} Knit by Machine — All rights reserved.</div>
+          <div>www.knitbymachine.com</div>
+          <div>Generated ${generatedDate}</div>
+          <div style="margin-top: 8px; font-style: italic;">Page 1 of 1</div>
         </div>
       </div>
     `;
@@ -427,6 +450,9 @@ export default function BlanketWizard() {
 
   return (
     <div className="wizard-container">
+      {/* Print-only header */}
+      <PrintHeader />
+      
       {hasUserData && (
         <div style={{ padding: '20px 20px 0 20px' }}>
           <WizardActionBar

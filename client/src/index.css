@@ -629,11 +629,16 @@ input[type="radio"] {
    Print Styles
    ============================== */
 
-/* Print-only footer - hidden on screen, visible when printing */
+/* Print-only header and footer - hidden on screen, visible when printing/PDF */
+.print-only-header,
 .print-only-footer {
-  display: none;
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  pointer-events: none;
 }
 
+/* Show header and footer in print mode */
 @media print {
   /* Hide development navigation header when printing */
   nav {
@@ -645,7 +650,40 @@ input[type="radio"] {
     display: none !important;
   }
 
+  /* Print-only header */
+  .print-only-header {
+    position: static;
+    left: auto;
+    opacity: 1;
+    display: block !important;
+    padding: 15px 20px;
+    border-bottom: 2px solid #52682d;
+    margin-bottom: 20px;
+    page-break-after: avoid;
+  }
+
+  .print-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .print-header-logo {
+    font-size: 18px;
+    font-weight: 600;
+    color: #52682d;
+  }
+
+  .print-header-url {
+    font-size: 12px;
+    color: #666;
+  }
+
+  /* Print-only footer */
   .print-only-footer {
+    position: static;
+    left: auto;
+    opacity: 1;
     display: block !important;
     margin-top: 40px;
     padding-top: 20px;
@@ -655,11 +693,79 @@ input[type="radio"] {
 
   .print-footer-content {
     text-align: center;
-    font-size: 12px;
+    font-size: 10px;
     color: #666;
+    line-height: 1.6;
   }
 
-  .print-footer-content p {
-    margin: 0;
+  .print-footer-content div {
+    margin: 2px 0;
   }
+
+  .page-numbers {
+    margin-top: 8px;
+    font-style: italic;
+  }
+}
+
+/* PDF generation - force visibility with pdf-mode class */
+.pdf-mode .print-only-header,
+.pdf-mode .print-only-footer {
+  position: static !important;
+  left: auto !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+.pdf-mode .print-only-header {
+  display: block !important;
+  padding: 15px 20px;
+  border-bottom: 2px solid #52682d;
+  margin-bottom: 20px;
+}
+
+.pdf-mode .print-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pdf-mode .print-header-logo {
+  font-size: 18px;
+  font-weight: 600;
+  color: #52682d;
+}
+
+.pdf-mode .print-header-url {
+  font-size: 12px;
+  color: #666;
+}
+
+.pdf-mode .print-only-footer {
+  display: block !important;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #ccc;
+}
+
+.pdf-mode .print-footer-content {
+  text-align: center;
+  font-size: 10px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.pdf-mode .print-footer-content div {
+  margin: 2px 0;
+}
+
+.pdf-mode .page-numbers {
+  margin-top: 8px;
+  font-style: italic;
+}
+
+.pdf-mode nav,
+.pdf-mode .wizard-action-buttons,
+.pdf-mode .wizard-warning-box {
+  display: none !important;
 }
