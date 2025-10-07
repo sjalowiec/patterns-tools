@@ -25,6 +25,8 @@ The system provides reusable wizard components in `client/src/components/lego/`:
 - **SizeSelector**: Card-based size selector with category grouping and selection states
 - **RoundIconButton**: 56px mobile-friendly icon buttons with labels
 - **WizardActionBar**: Flex layout with warning box + action buttons
+- **PrintHeader**: Print-only header with KnitbyMachine branding and URL (hidden on screen, visible in print/PDF)
+- **PrintFooter**: Print-only footer with copyright, URL, generation date, and page numbers (hidden on screen, visible in print/PDF)
 - **useGaugeCalculations**: Hook for unit-aware gauge calculations (4" vs 10cm)
 
 All components use CSS variables for theming and are fully reusable across wizards.
@@ -32,12 +34,15 @@ All components use CSS variables for theming and are fully reusable across wizar
 ### Component Structure
 Individual wizards include:
 - **NecklineWizard.tsx**: Neckline/shoulder practice calculator with SVG schematics
-- **BlanketWizard.tsx**: Blanket pattern generator with yarn calculations
+- **BlanketWizard.tsx**: Blanket pattern generator with yarn calculations and external JSON data loading
+- **RectangleWizard.tsx**: Rectangle/square pattern calculator with customizable dimensions
+- **NecklineShapingWizard.tsx**: Neckline shaping calculator for sweater construction
 - **Gauge Input System**: Unit selection (inches/cm) with conversion from 4"/10cm to per-unit values  
 - **Calculation Engine**: Shared calculation logic via hooks and utilities
 - **Instruction Generator**: Clear step-by-step text output for knitting practice
 - **SVG Schematic Generator**: Japanese-style technical diagrams with curved necklines
 - **Validation System**: Prevents NaN errors and handles edge cases gracefully
+- **Print/PDF System**: Print-only header/footer components with proper formatting for physical and PDF output
 
 ### Design System
 - **CSS Integration**: Uses existing sweater_planner_css.css for consistent styling
@@ -57,6 +62,8 @@ Individual wizards include:
 - **Dynamic Updates**: All calculations update in real-time as gauge inputs change
 - **Validation**: Robust input validation prevents calculation errors
 - **Template System**: SVG uses placeholder replacement for dynamic values
+- **External Data Loading**: BlanketWizard fetches sizing data from external URL (https://sizing-data.knitbymachine.com/sizing_blankets.json) with cache-busting for easy updates without code changes
+- **Print/PDF Generation**: Uses html2pdf.js for PDF generation with inline header/footer content to work around @media print limitations
 
 ### Build and Development
 - **Development Server**: Vite with hot reload and error overlay
