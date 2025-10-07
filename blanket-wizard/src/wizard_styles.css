@@ -9,15 +9,19 @@
    Color Variables
    ============================== */
 :root {
-    --primary-color: #2C3A57;      /* Navy - headings, secondary accents */
-    --secondary-color: #E2725B;    /* Coral - primary accents */
-    --success-color: #6B833D;      /* Green - success/completed steps */
+    --primary-color: #6e8b3d;      /* Olive green - main brand color */
+    --secondary-color: #6e8b3d;    /* Olive green - consistent throughout */
+    --success-color: #6e8b3d;      /* Olive green - success/completed steps */
     --warning-color: #ED8936;      /* Orange - warnings */
     --text-secondary: #6c757d;
 
     --background-gradient: linear-gradient(135deg, #7C9645 0%, #A1C063 100%);
     --background-base: #F9F9F7; /* off-white */
     --background-alt: #F2EEE9;  /* warm gray */
+    
+    /* Wizard specific colors */
+    --wizard-primary: #6e8b3d;
+    --wizard-primary-dark: #5a7030;
 }
 
 /* ==============================
@@ -185,4 +189,120 @@ a:hover {
 .text-muted {
     font-weight: 300; /* Lighter look */
     color: var(--text-secondary);
+}
+
+/* ==============================
+   Well/Card Containers
+   ============================== */
+.well_white {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+.well_white:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-color: rgba(110, 139, 61, 0.2);
+}
+
+/* ==============================
+   Round Wizard Buttons
+   ============================== */
+.btn-round-wizard {
+  background: linear-gradient(135deg, var(--wizard-primary) 0%, var(--wizard-primary-dark) 100%);
+  border: none;
+  color: white;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(110, 139, 61, 0.3);
+}
+
+.btn-round-wizard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(110, 139, 61, 0.4);
+}
+
+/* ==============================
+   Size Selection Cards
+   ============================== */
+.category-header {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6e8b3d;
+  margin: 15px 0 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.size-card {
+  position: relative;
+  display: block;
+  padding: 12px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: white;
+  text-align: center;
+}
+
+.size-card:hover {
+  border-color: #6e8b3d;
+  background-color: rgba(110, 139, 61, 0.03);
+}
+
+.size-card.selected {
+  border-color: #6e8b3d;
+  background-color: rgba(110, 139, 61, 0.08);
+  box-shadow: 0 4px 12px rgba(110, 139, 61, 0.2);
+}
+
+.size-card .size-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.size-card.selected .size-name {
+  color: #6e8b3d;
+}
+
+.size-card .size-dimensions {
+  font-size: 13px;
+  color: #666;
+}
+
+.size-card .check-indicator {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  background-color: #6e8b3d;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+}
+
+/* ==============================
+   Content Area
+   ============================== */
+.content-area {
+  padding: 20px;
 }
