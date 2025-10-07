@@ -314,11 +314,7 @@ export default function BlanketWizard() {
     if (!sizeSelection) return;
     
     const now = new Date();
-    const generatedDate = now.toLocaleDateString('en-US', { 
-      month: 'long', 
-      day: 'numeric', 
-      year: 'numeric' 
-    });
+    const month = now.toLocaleDateString('en-US', { month: 'long' });
     const year = now.getFullYear();
     
     const content = `
@@ -342,10 +338,7 @@ export default function BlanketWizard() {
         
         <!-- Print Footer -->
         <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ccc; text-align: center; font-size: 10px; color: #666; line-height: 1.6;">
-          <div>© ${year} Knit by Machine — All rights reserved.</div>
-          <div>www.knitbymachine.com</div>
-          <div>Generated ${generatedDate}</div>
-          <div style="margin-top: 8px; font-style: italic;">Page 1 of 1</div>
+          © ${year} Knit by Machine — All rights reserved. | www.knitbymachine.com | Generated ${month} ${year}
         </div>
       </div>
     `;

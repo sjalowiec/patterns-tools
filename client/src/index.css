@@ -697,15 +697,6 @@ input[type="radio"] {
     color: #666;
     line-height: 1.6;
   }
-
-  .print-footer-content div {
-    margin: 2px 0;
-  }
-
-  .page-numbers {
-    margin-top: 8px;
-    font-style: italic;
-  }
 }
 
 /* PDF generation - force visibility with pdf-mode class */
@@ -753,15 +744,6 @@ input[type="radio"] {
   font-size: 10px;
   color: #666;
   line-height: 1.6;
-}
-
-.pdf-mode .print-footer-content div {
-  margin: 2px 0;
-}
-
-.pdf-mode .page-numbers {
-  margin-top: 8px;
-  font-style: italic;
 }
 
 .pdf-mode nav,
