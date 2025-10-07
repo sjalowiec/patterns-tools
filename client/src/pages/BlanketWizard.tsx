@@ -461,7 +461,7 @@ export default function BlanketWizard() {
       <div className="content-area">
         
         {/* Input Form */}
-        <div className="well_white">
+        <div className="well_white no-print">
           <h2 className="text-primary">Your Gauge</h2>
           
           <UnitsToggle
@@ -484,7 +484,7 @@ export default function BlanketWizard() {
         </div>
 
         {/* Blanket Size Selection */}
-        <div className="well_white">
+        <div className="well_white no-print">
           <h2 className="text-primary">Blanket Size</h2>
           
           <div className="form-group">
@@ -622,7 +622,7 @@ export default function BlanketWizard() {
         </div>
 
         {/* Yarn Calculation (Optional) */}
-        <div className="well_white">
+        <div className="well_white no-print">
           <div 
             onClick={() => setCalculateYarn(!calculateYarn)}
             style={{ 

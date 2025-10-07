@@ -654,7 +654,8 @@ input[type="radio"] {
   }
   
   .wizard-action-buttons,
-  .wizard-warning-box {
+  .wizard-warning-box,
+  .no-print {
     display: none !important;
   }
 
@@ -730,6 +731,7 @@ input[type="radio"] {
 
 .pdf-mode nav,
 .pdf-mode .wizard-action-buttons,
-.pdf-mode .wizard-warning-box {
+.pdf-mode .wizard-warning-box,
+.pdf-mode .no-print {
   display: none !important;
 }
