@@ -27,7 +27,8 @@ export function UnitsToggle({ units, onChange, label }: UnitsToggleProps) {
           style={{ 
             color: !isCm ? '#649841' : '#333',
             fontWeight: !isCm ? 'bold' : 'normal',
-            transition: 'color 0.3s'
+            transition: 'color 0.3s',
+            lineHeight: '20px'
           }}
         >
           in
@@ -35,7 +36,8 @@ export function UnitsToggle({ units, onChange, label }: UnitsToggleProps) {
         <label style={{ 
           position: 'relative',
           display: 'inline-block',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          verticalAlign: 'middle'
         }}>
           <input
             type="checkbox"
@@ -72,7 +74,8 @@ export function UnitsToggle({ units, onChange, label }: UnitsToggleProps) {
           style={{ 
             color: isCm ? '#649841' : '#333',
             fontWeight: isCm ? 'bold' : 'normal',
-            transition: 'color 0.3s'
+            transition: 'color 0.3s',
+            lineHeight: '20px'
           }}
         >
           cm
