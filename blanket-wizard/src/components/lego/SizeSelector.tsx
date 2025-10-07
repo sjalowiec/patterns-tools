@@ -1,4 +1,4 @@
-import { type Units } from '@shared/types/wizard';
+type Units = 'inches' | 'cm';
 
 export interface SizeOptionWithData {
   key: string;

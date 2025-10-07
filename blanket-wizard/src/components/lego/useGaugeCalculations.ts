@@ -1,4 +1,9 @@
-import { type GaugeCalculations, type Units } from '@shared/types/wizard';
+type Units = 'inches' | 'cm';
+
+interface GaugeCalculations {
+  stitchesPerUnit: number;
+  rowsPerUnit: number;
+}
 
 /**
  * useGaugeCalculations - Hook for calculating per-unit gauge values
