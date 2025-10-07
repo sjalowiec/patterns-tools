@@ -320,9 +320,9 @@ export default function BlanketWizard() {
     const content = `
       <div style="font-family: Arial, sans-serif; padding: 20px;">
         <!-- Print Header -->
-        <div style="padding: 15px 20px; border-bottom: 2px solid #52682d; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
-          <div style="font-size: 18px; font-weight: 600; color: #52682d;">Knit by Machine</div>
-          <div style="font-size: 12px; color: #666;">www.knitbymachine.com</div>
+        <div style="font-family: 'Shadows Into Light Two', cursive; font-size: 1.3em; font-weight: 400; color: #649841; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #649841; padding-bottom: 5px; margin-bottom: 10px;">
+          <span>Knit by Machine</span>
+          <a href="https://www.knitbymachine.com" style="text-decoration: none; color: #649841; font-size: 0.9em;">www.knitbymachine.com</a>
         </div>
         
         <!-- Pattern Content -->
