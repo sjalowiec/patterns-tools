@@ -3,8 +3,19 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertGaugeCalculationSchema } from "@shared/schema";
 import { z } from "zod";
+import path from "path";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Download route for blanket wizard dist files
+  app.get("/download-blanket-wizard", (req, res) => {
+    const filePath = path.join(process.cwd(), "blanket-wizard", "blanket-wizard-dist.tar.gz");
+    res.download(filePath, "blanket-wizard-dist.tar.gz", (err) => {
+      if (err) {
+        console.error("Download error:", err);
+        res.status(404).send("File not found");
+      }
+    });
+  });
   // Gauge calculations routes
   app.post("/api/calculations", async (req, res) => {
     try {
