@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
 import logoSvg from '@assets/knitting-brand.svg';
 import { getSizeOptions, createSizeSelection, getSizeData, type SizeSelection } from '@shared/sizing';
-import { WizardActionBar, GaugeInputs, RadioGroup } from '@/components/lego';
+import { WizardActionBar, GaugeInputs, UnitsToggle } from '@/components/lego';
 import type { WizardAction, Units } from '@shared/types/wizard';
 
 interface GaugeData {
@@ -370,15 +370,10 @@ export default function BlanketWizard() {
         <div className="well_white">
           <h2 className="text-primary">Your Gauge</h2>
           
-          <RadioGroup
+          <UnitsToggle
+            units={units}
+            onChange={setUnits}
             label="Measurement Units"
-            options={[
-              { value: 'inches', label: 'Inches' },
-              { value: 'cm', label: 'Centimeters' }
-            ]}
-            selectedValue={units}
-            onChange={(value) => setUnits(value as Units)}
-            name="units"
           />
 
           <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>

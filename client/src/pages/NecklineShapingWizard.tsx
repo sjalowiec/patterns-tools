@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
-import { GaugeInputs, RadioGroup, useGaugeCalculations, WizardActionBar } from '@/components/lego';
+import { GaugeInputs, UnitsToggle, useGaugeCalculations, WizardActionBar } from '@/components/lego';
 import type { Units, WizardAction } from '@shared/types/wizard';
 
 interface GaugeData {
@@ -405,15 +405,10 @@ export default function NecklineShapingWizard() {
         <div className="well_white">
           <h2 className="text-primary">Your Gauge</h2>
           
-          <RadioGroup
-            name="units"
+          <UnitsToggle
+            units={units}
+            onChange={setUnits}
             label="Measurement Units"
-            options={[
-              { value: 'inches', label: 'Inches', testId: 'radio-inches' },
-              { value: 'cm', label: 'Centimeters', testId: 'radio-cm' }
-            ]}
-            selectedValue={units}
-            onChange={(value) => setUnits(value as Units)}
           />
 
           <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
