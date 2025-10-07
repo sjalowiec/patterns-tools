@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
-import { WizardActionBar, GaugeInputs, UnitsToggle } from '@/components/lego';
+import { WizardActionBar, GaugeInputs, UnitsToggle, PrintFooter } from '@/components/lego';
 import type { WizardAction, Units } from '@shared/types/wizard';
 
 export default function RectangleWizard() {
@@ -493,6 +493,9 @@ export default function RectangleWizard() {
             </div>
           </>
         )}
+        
+        {/* Print-only copyright footer */}
+        <PrintFooter />
       </div>
     </div>
   );

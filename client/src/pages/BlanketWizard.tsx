@@ -3,7 +3,7 @@ import html2pdf from 'html2pdf.js';
 import logoSvg from '@assets/knitting-brand.svg';
 import { type SizeSelection } from '@shared/sizing';
 import { useSizingData } from '@shared/hooks/useSizingData';
-import { WizardActionBar, GaugeInputs, UnitsToggle } from '@/components/lego';
+import { WizardActionBar, GaugeInputs, UnitsToggle, PrintFooter } from '@/components/lego';
 import type { WizardAction, Units } from '@shared/types/wizard';
 
 interface GaugeData {
@@ -716,10 +716,8 @@ export default function BlanketWizard() {
           </div>
         )}
         
-        {/* Copyright Notice */}
-        <div style={{ textAlign: 'center', padding: '20px', fontSize: '14px', color: '#666', borderTop: '1px solid #e0e0e0', marginTop: '30px' }}>
-          © {new Date().getFullYear()} Knit by Machine. For personal use only. | Version {new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })} | support@knitbymachine.com
-        </div>
+        {/* Print-only copyright footer */}
+        <PrintFooter />
       </div>
     </div>
   );

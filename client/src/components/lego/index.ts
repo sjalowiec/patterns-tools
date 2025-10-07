@@ -4,6 +4,7 @@
  */
 
 export { GaugeInputs } from './GaugeInputs';
+export { PrintFooter } from './PrintFooter';
 export { RadioGroup } from './RadioGroup';
 export { RoundIconButton } from './RoundIconButton';
 export { SchematicWrapper } from './SchematicWrapper';

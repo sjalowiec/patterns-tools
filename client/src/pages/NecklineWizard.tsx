@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
 import { calcShoulderWidth, rowsForOneInch, distributeEvenly, generateLeftShoulderTemplate, generateRightShoulderTemplate } from '@shared/calculations';
-import { GaugeInputs, UnitsToggle, useGaugeCalculations, WizardActionBar } from '@/components/lego';
+import { GaugeInputs, UnitsToggle, useGaugeCalculations, WizardActionBar, PrintFooter } from '@/components/lego';
 import type { Units, WizardAction } from '@shared/types/wizard';
 
 interface GaugeData {
@@ -530,10 +530,8 @@ export default function NecklineWizard() {
           </div>
         </div>
         
-        {/* Copyright Notice */}
-        <div style={{ textAlign: 'center', padding: '20px', fontSize: '14px', color: '#666', borderTop: '1px solid #e0e0e0', marginTop: '30px' }}>
-          © {new Date().getFullYear()} Knit by Machine. For personal use only. | Version {new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })} | support@knitbymachine.com
-        </div>
+        {/* Print-only copyright footer */}
+        <PrintFooter />
       </div>
     </div>
   );

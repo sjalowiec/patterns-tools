@@ -628,9 +628,33 @@ input[type="radio"] {
 /* ==============================
    Print Styles
    ============================== */
+
+/* Print-only footer - hidden on screen, visible when printing */
+.print-only-footer {
+  display: none;
+}
+
 @media print {
   .wizard-action-buttons,
   .wizard-warning-box {
     display: none !important;
+  }
+
+  .print-only-footer {
+    display: block !important;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #ccc;
+    page-break-inside: avoid;
+  }
+
+  .print-footer-content {
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+  }
+
+  .print-footer-content p {
+    margin: 0;
   }
 }
