@@ -27,8 +27,9 @@ export function UnitsToggle({ units, onChange, label }: UnitsToggleProps) {
         fontWeight: 500
       }}>
         <span style={{ 
-          color: isInches ? 'var(--primary, #6e8b3d)' : '#999',
-          transition: 'color 0.2s'
+          color: isInches ? '#6e8b3d' : '#999',
+          transition: 'color 0.2s',
+          fontWeight: isInches ? 600 : 500
         }}>
           in
         </span>
@@ -36,13 +37,12 @@ export function UnitsToggle({ units, onChange, label }: UnitsToggleProps) {
           checked={!isInches}
           onCheckedChange={(checked) => onChange(checked ? 'cm' : 'inches')}
           data-testid="toggle-units"
-          style={{
-            backgroundColor: isInches ? '#cbd5e1' : '#6e8b3d'
-          }}
+          className="data-[state=checked]:bg-[#6e8b3d] data-[state=unchecked]:bg-gray-300"
         />
         <span style={{ 
-          color: !isInches ? 'var(--primary, #6e8b3d)' : '#999',
-          transition: 'color 0.2s'
+          color: !isInches ? '#6e8b3d' : '#999',
+          transition: 'color 0.2s',
+          fontWeight: !isInches ? 600 : 500
         }}>
           cm
         </span>
