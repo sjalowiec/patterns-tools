@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
 import logoSvg from '@assets/knitting-brand.svg';
-import { getSizeOptions, createSizeSelection, getSizeData, type SizeSelection } from '@shared/sizing';
+import { type SizeSelection } from '@shared/sizing';
+import { useSizingData } from '@shared/hooks/useSizingData';
 import { WizardActionBar, GaugeInputs, UnitsToggle } from '@/components/lego';
 import type { WizardAction, Units } from '@shared/types/wizard';
 
@@ -12,6 +13,9 @@ interface GaugeData {
 }
 
 export default function BlanketWizard() {
+  // Load blanket sizes from JSON file
+  const { sizes: blanketSizes, loading: sizesLoading } = useSizingData('blanket-sizes.json');
+  
   const [units, setUnits] = useState<Units>('inches');
   const [stitchesIn4, setStitchesIn4] = useState<string>('');
   const [rowsIn4, setRowsIn4] = useState<string>('');
@@ -44,7 +48,7 @@ export default function BlanketWizard() {
   const stitchesPerUnit = (Number(stitchesIn4) || 0) / 4;
   const rowsPerUnit = (Number(rowsIn4) || 0) / 4;
 
-  // Get size data
+  // Get size data from JSON-loaded sizes
   const sizeSelection: SizeSelection | null = useCustomSize 
     ? (customSize.length && customSize.width ? {
         size: "Custom",
@@ -54,15 +58,34 @@ export default function BlanketWizard() {
         },
         category: "Custom"
       } : null)
-    : (selectedSize ? createSizeSelection(selectedSize, units) : null);
+    : (selectedSize ? (() => {
+        const foundSize = blanketSizes.find(s => s.size === selectedSize);
+        if (!foundSize) return null;
+        
+        // Convert dimensions if needed
+        const dimensions = units === 'cm' 
+          ? {
+              length: Math.round(foundSize.length * 2.54 * 10) / 10,
+              width: Math.round(foundSize.width * 2.54 * 10) / 10
+            }
+          : {
+              length: foundSize.length,
+              width: foundSize.width
+            };
+        
+        return {
+          size: foundSize.size,
+          dimensions,
+          category: foundSize.category
+        };
+      })() : null);
 
   // Calculate stitch and row counts
   const widthSts = sizeSelection ? Math.round(sizeSelection.dimensions.width * stitchesPerUnit) : 0;
   const lengthRows = sizeSelection ? Math.round(sizeSelection.dimensions.length * rowsPerUnit) : 0;
 
-  // Get size options grouped by category
-  const sizeOptions = getSizeOptions();
-  const categories = Array.from(new Set(sizeOptions.map(opt => opt.category)));
+  // Get size options grouped by category from JSON-loaded data
+  const categories = Array.from(new Set(blanketSizes.map(size => size.category)));
 
   // Calculate yarn needed based on swatch or rough estimate
   const calculateYarnNeeded = () => {
@@ -350,6 +373,19 @@ export default function BlanketWizard() {
     );
   }
 
+  // Show loading state while sizes are being loaded
+  if (sizesLoading) {
+    return (
+      <div className="wizard-container">
+        <div className="content-area">
+          <div className="well_white" style={{ textAlign: 'center', padding: '40px' }}>
+            <p>Loading blanket sizes...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="wizard-container">
       {hasUserData && (
@@ -440,28 +476,26 @@ export default function BlanketWizard() {
                       gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', 
                       gap: '12px'
                     }}>
-                      {sizeOptions
-                        .filter(opt => opt.category === category)
-                        .map(option => {
-                          const size = getSizeData(option.key);
-                          if (!size) return null;
-                          
-                          const isSelected = selectedSize === option.key;
+                      {blanketSizes
+                        .filter(size => size.category === category)
+                        .map(size => {
+                          const isSelected = selectedSize === size.size;
                           const unitLabel = units === 'inches' ? '"' : 'cm';
                           const width = units === 'inches' ? size.width : Math.round(size.width * 2.54);
                           const length = units === 'inches' ? size.length : Math.round(size.length * 2.54);
+                          const sizeKey = size.size.toLowerCase().replace(/\s+/g, '-');
                           
                           return (
                             <label 
-                              key={option.key}
+                              key={size.size}
                               className={`size-card ${isSelected ? 'selected' : ''}`}
-                              data-testid={`card-size-${option.key}`}
+                              data-testid={`card-size-${sizeKey}`}
                             >
                               {/* Hidden Radio Button */}
                               <input
                                 type="radio"
                                 name="blanketSize"
-                                value={option.key}
+                                value={size.size}
                                 checked={isSelected}
                                 onChange={(e) => setSelectedSize(e.target.value)}
                                 style={{ 
@@ -470,12 +504,12 @@ export default function BlanketWizard() {
                                   width: 0, 
                                   height: 0 
                                 }}
-                                data-testid={`radio-size-${option.key}`}
+                                data-testid={`radio-size-${sizeKey}`}
                               />
                               
                               {/* Size Name */}
                               <div className="size-name">
-                                {size.name}
+                                {size.size}
                               </div>
                               
                               {/* Dimensions */}
