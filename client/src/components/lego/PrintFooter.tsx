@@ -3,10 +3,16 @@ interface PrintFooterProps {
 }
 
 export function PrintFooter({ className = "" }: PrintFooterProps) {
+  const currentDate = new Date().toLocaleDateString('en-US', { 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  });
+  
   return (
     <footer className={`print-only-footer ${className}`}>
       <div className="print-footer-content">
-        <p>© {new Date().getFullYear()} All Rights Reserved</p>
+        <p>{currentDate} | KnitbyMachine.com</p>
       </div>
     </footer>
   );

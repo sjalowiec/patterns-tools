@@ -20,8 +20,8 @@ function toNumber(value: string | number | undefined): number {
 }
 
 export default function BlanketWizard() {
-  // Load blanket sizes from JSON file
-  const { sizes: blanketSizes, loading: sizesLoading, error: sizesError } = useSizingData('blanket-sizes.json');
+  // Load blanket sizes from external URL
+  const { sizes: blanketSizes, loading: sizesLoading, error: sizesError } = useSizingData('https://sizing-data.knitbymachine.com/sizing_blankets.json');
   
   const [units, setUnits] = useState<Units>('inches');
   const [stitchesIn4, setStitchesIn4] = useState<string>('');

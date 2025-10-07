@@ -635,6 +635,11 @@ input[type="radio"] {
 }
 
 @media print {
+  /* Hide development navigation header when printing */
+  nav {
+    display: none !important;
+  }
+  
   .wizard-action-buttons,
   .wizard-warning-box {
     display: none !important;

@@ -105,29 +105,42 @@ function parseNumericValue(value: any): string | number {
 }
 
 /**
- * Main hook: Load and normalize sizing data from JSON file
+ * Main hook: Load and normalize sizing data from JSON file or external URL
  * 
- * @param jsonFileName - Name of JSON file in public/data/ (e.g., 'blanket-sizes.json')
+ * @param jsonFileNameOrUrl - Name of JSON file in public/data/ (e.g., 'blanket-sizes.json') 
+ *                             OR a full URL (e.g., 'https://example.com/data.json')
  * @returns Normalized sizing data, loading state, and any errors
  */
-export function useSizingData(jsonFileName: string): UseSizingDataResult {
+export function useSizingData(jsonFileNameOrUrl: string): UseSizingDataResult {
   const [sizes, setSizes] = useState<SizingData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Fetch the JSON file from public/data folder
+    // Fetch the JSON file from public/data folder or external URL
     async function loadSizingData() {
       try {
         setLoading(true);
         setError(null);
         
-        // Add cache busting parameter to ensure fresh load
-        const cacheBuster = `?v=${Date.now()}`;
-        const response = await fetch(`/data/${jsonFileName}${cacheBuster}`);
+        // Determine if it's an external URL or local file
+        const isExternalUrl = jsonFileNameOrUrl.startsWith('http://') || jsonFileNameOrUrl.startsWith('https://');
+        
+        // Build the fetch URL
+        let fetchUrl: string;
+        if (isExternalUrl) {
+          // Use external URL directly with cache busting
+          const separator = jsonFileNameOrUrl.includes('?') ? '&' : '?';
+          fetchUrl = `${jsonFileNameOrUrl}${separator}v=${Date.now()}`;
+        } else {
+          // Use local file from public/data folder
+          fetchUrl = `/data/${jsonFileNameOrUrl}?v=${Date.now()}`;
+        }
+        
+        const response = await fetch(fetchUrl);
         
         if (!response.ok) {
-          throw new Error(`Failed to load ${jsonFileName}: ${response.statusText}`);
+          throw new Error(`Failed to load ${jsonFileNameOrUrl}: ${response.statusText}`);
         }
         
         const rawData = await response.json();
@@ -167,7 +180,7 @@ export function useSizingData(jsonFileName: string): UseSizingDataResult {
     }
     
     loadSizingData();
-  }, [jsonFileName]);
+  }, [jsonFileNameOrUrl]);
 
   return { sizes, loading, error };
 }
