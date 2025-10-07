@@ -1,5 +1,3 @@
-import { Switch } from "@/components/ui/switch";
-
 type Units = 'inches' | 'cm';
 
 interface UnitsToggleProps {
@@ -21,27 +19,62 @@ export function UnitsToggle({ units, onChange, label }: UnitsToggleProps) {
       <div style={{ 
         display: 'flex', 
         alignItems: 'center', 
-        gap: '10px',
-        fontFamily: 'Poppins, sans-serif',
-        fontSize: '14px',
-        fontWeight: 500
+        gap: '8px',
+        fontFamily: 'Arial, sans-serif'
       }}>
-        <span style={{ 
-          color: '#333',
-          minWidth: '18px'
-        }}>
+        <span 
+          className={!isCm ? 'active' : ''}
+          style={{ 
+            color: !isCm ? '#649841' : '#333',
+            fontWeight: !isCm ? 'bold' : 'normal',
+            transition: 'color 0.3s'
+          }}
+        >
           in
         </span>
-        <Switch
-          checked={isCm}
-          onCheckedChange={(checked) => onChange(checked ? 'cm' : 'inches')}
-          data-testid="toggle-units"
-          className="data-[state=checked]:bg-[#6e8b3d] data-[state=unchecked]:bg-[#6e8b3d]"
-        />
-        <span style={{ 
-          color: '#333',
-          minWidth: '22px'
+        <label style={{ 
+          position: 'relative',
+          display: 'inline-block',
+          cursor: 'pointer'
         }}>
+          <input
+            type="checkbox"
+            checked={isCm}
+            onChange={(e) => onChange(e.target.checked ? 'cm' : 'inches')}
+            data-testid="toggle-units"
+            style={{ display: 'none' }}
+          />
+          <span style={{
+            position: 'relative',
+            display: 'inline-block',
+            width: '40px',
+            height: '20px',
+            backgroundColor: isCm ? '#649841' : '#ccc',
+            borderRadius: '20px',
+            transition: '0.3s'
+          }}>
+            <span style={{
+              content: '""',
+              position: 'absolute',
+              width: '16px',
+              height: '16px',
+              left: '2px',
+              top: '2px',
+              backgroundColor: 'white',
+              borderRadius: '50%',
+              transition: '0.3s',
+              transform: isCm ? 'translateX(20px)' : 'translateX(0)'
+            }} />
+          </span>
+        </label>
+        <span 
+          className={isCm ? 'active' : ''}
+          style={{ 
+            color: isCm ? '#649841' : '#333',
+            fontWeight: isCm ? 'bold' : 'normal',
+            transition: 'color 0.3s'
+          }}
+        >
           cm
         </span>
       </div>
