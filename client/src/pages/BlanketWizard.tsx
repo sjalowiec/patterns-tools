@@ -474,9 +474,7 @@ export default function BlanketWizard() {
             top: 0, 
             zIndex: 1000,
             padding: '15px 20px',
-            backgroundColor: '#ffffff',
-            borderBottom: '2px solid #e9ecef',
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+            backgroundColor: 'transparent',
             display: 'flex',
             gap: '15px',
             justifyContent: 'flex-end'
