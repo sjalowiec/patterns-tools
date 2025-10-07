@@ -12,9 +12,16 @@ interface GaugeData {
   rowsIn4: string;
 }
 
+// Helper function to safely extract number from sizing data
+function toNumber(value: string | number | undefined): number {
+  if (typeof value === 'number') return value;
+  if (typeof value === 'string') return parseFloat(value) || 0;
+  return 0;
+}
+
 export default function BlanketWizard() {
   // Load blanket sizes from JSON file
-  const { sizes: blanketSizes, loading: sizesLoading } = useSizingData('blanket-sizes.json');
+  const { sizes: blanketSizes, loading: sizesLoading, error: sizesError } = useSizingData('blanket-sizes.json');
   
   const [units, setUnits] = useState<Units>('inches');
   const [stitchesIn4, setStitchesIn4] = useState<string>('');
@@ -62,21 +69,25 @@ export default function BlanketWizard() {
         const foundSize = blanketSizes.find(s => s.size === selectedSize);
         if (!foundSize) return null;
         
+        // Extract numeric values safely
+        const lengthInches = toNumber(foundSize.length);
+        const widthInches = toNumber(foundSize.width);
+        
         // Convert dimensions if needed
         const dimensions = units === 'cm' 
           ? {
-              length: Math.round(foundSize.length * 2.54 * 10) / 10,
-              width: Math.round(foundSize.width * 2.54 * 10) / 10
+              length: Math.round(lengthInches * 2.54 * 10) / 10,
+              width: Math.round(widthInches * 2.54 * 10) / 10
             }
           : {
-              length: foundSize.length,
-              width: foundSize.width
+              length: lengthInches,
+              width: widthInches
             };
         
         return {
           size: foundSize.size,
           dimensions,
-          category: foundSize.category
+          category: String(foundSize.category || 'Custom')
         };
       })() : null);
 
@@ -386,6 +397,34 @@ export default function BlanketWizard() {
     );
   }
 
+  // Show error state if sizes failed to load
+  if (sizesError) {
+    return (
+      <div className="wizard-container">
+        <div className="content-area">
+          <div className="well_white" style={{ padding: '40px' }}>
+            <h2 className="text-primary" style={{ color: '#d9534f' }}>Error Loading Sizes</h2>
+            <p style={{ marginTop: '20px' }}>
+              Unable to load blanket sizing data. Please refresh the page to try again.
+            </p>
+            <p style={{ marginTop: '10px', color: '#666', fontSize: '14px' }}>
+              Error: {sizesError}
+            </p>
+            <button 
+              onClick={() => window.location.reload()} 
+              className="btn-round-wizard"
+              style={{ marginTop: '20px' }}
+              data-testid="button-reload"
+            >
+              <i className="fas fa-redo" style={{ marginRight: '8px' }} />
+              Reload Page
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="wizard-container">
       {hasUserData && (
@@ -481,8 +520,10 @@ export default function BlanketWizard() {
                         .map(size => {
                           const isSelected = selectedSize === size.size;
                           const unitLabel = units === 'inches' ? '"' : 'cm';
-                          const width = units === 'inches' ? size.width : Math.round(size.width * 2.54);
-                          const length = units === 'inches' ? size.length : Math.round(size.length * 2.54);
+                          const widthNum = toNumber(size.width);
+                          const lengthNum = toNumber(size.length);
+                          const width = units === 'inches' ? widthNum : Math.round(widthNum * 2.54);
+                          const length = units === 'inches' ? lengthNum : Math.round(lengthNum * 2.54);
                           const sizeKey = size.size.toLowerCase().replace(/\s+/g, '-');
                           
                           return (

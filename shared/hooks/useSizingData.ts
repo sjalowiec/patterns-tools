@@ -11,7 +11,7 @@ import { useState, useEffect } from 'react';
  *    [
  *      {
  *        "size": "Small",           // Required: size name
- *        "chest": 36,               // Your measurement fields
+ *        "chest": 36,               // Your measurement fields (any names)
  *        "length": 24,              // Can be any field names
  *        "note": "optional field"   // Optional fields are fine
  *      }
@@ -22,25 +22,26 @@ import { useState, useEffect } from 'react';
  * 3. Use this hook in your wizard component:
  *    const { sizes, loading, error } = useSizingData('your-file.json');
  * 
- * 4. The hook returns normalized data with consistent field names
+ * 4. Access fields from the returned data (all field names normalized to lowercase):
+ *    sizes.map(s => s.chest)  // For sweaters
+ *    sizes.map(s => s.length) // For blankets
  * 
  * FEATURES:
- * - Handles flexible JSON structure (Width, width, LENGTH, etc.)
- * - Auto-categorizes sizes based on keywords
- * - Works with any measurement fields
+ * - Handles flexible JSON structure (Width -> width, LENGTH -> length, etc.)
+ * - Auto-categorizes sizes based on keywords in size names
+ * - Converts numeric strings to numbers automatically
+ * - Works with any measurement fields - not limited to specific fields
  * - Won't break if you add new fields to JSON later
  */
 
-export interface NormalizedSize {
-  size: string;           // Display name (e.g., "Adult Throw")
-  length: number;         // Always lowercase, in inches
-  width: number;          // Always lowercase, in inches
-  category: string;       // Auto-assigned: Baby, Child, Throw, Adult, Custom
-  [key: string]: any;     // Any additional fields from JSON
+export interface SizingData {
+  size: string;              // Display name (e.g., "Adult Throw", "Small", etc.)
+  category: string;          // Auto-assigned category based on size name
+  [key: string]: string | number;  // All other fields from JSON (normalized to lowercase keys)
 }
 
 interface UseSizingDataResult {
-  sizes: NormalizedSize[];
+  sizes: SizingData[];
   loading: boolean;
   error: string | null;
 }
@@ -91,13 +92,26 @@ function normalizeFieldName(fieldName: string): string {
 }
 
 /**
+ * Convert string values to numbers where appropriate
+ * This ensures numeric fields are actual numbers, not strings
+ */
+function parseNumericValue(value: any): string | number {
+  if (typeof value === 'number') return value;
+  if (typeof value === 'string') {
+    const parsed = parseFloat(value);
+    if (!isNaN(parsed)) return parsed;
+  }
+  return value;
+}
+
+/**
  * Main hook: Load and normalize sizing data from JSON file
  * 
  * @param jsonFileName - Name of JSON file in public/data/ (e.g., 'blanket-sizes.json')
  * @returns Normalized sizing data, loading state, and any errors
  */
 export function useSizingData(jsonFileName: string): UseSizingDataResult {
-  const [sizes, setSizes] = useState<NormalizedSize[]>([]);
+  const [sizes, setSizes] = useState<SizingData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -116,15 +130,15 @@ export function useSizingData(jsonFileName: string): UseSizingDataResult {
         
         const rawData = await response.json();
         
-        // Normalize the data - handle flexible field names
-        const normalizedSizes: NormalizedSize[] = rawData.map((item: any) => {
-          // Start with the raw item
+        // Normalize the data - handle flexible field names and convert numbers
+        const normalizedSizes: SizingData[] = rawData.map((item: any) => {
+          // Start with normalized data
           const normalized: any = {};
           
-          // Copy all fields with normalized names
+          // Copy all fields with normalized names and parsed numbers
           Object.keys(item).forEach(key => {
             const normalizedKey = normalizeFieldName(key);
-            normalized[normalizedKey] = item[key];
+            normalized[normalizedKey] = parseNumericValue(item[key]);
           });
           
           // Ensure required fields exist
@@ -138,7 +152,7 @@ export function useSizingData(jsonFileName: string): UseSizingDataResult {
             normalized.category = categorizeSize(normalized.size);
           }
           
-          return normalized as NormalizedSize;
+          return normalized as SizingData;
         });
         
         setSizes(normalizedSizes);
