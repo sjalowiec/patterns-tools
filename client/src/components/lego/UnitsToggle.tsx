@@ -25,7 +25,7 @@ export function UnitsToggle({ units, onChange, label }: UnitsToggleProps) {
         <span 
           className={!isCm ? 'active' : ''}
           style={{ 
-            color: !isCm ? '#649841' : '#333',
+            color: !isCm ? '#6e8b3d' : '#333',
             fontWeight: !isCm ? 'bold' : 'normal',
             transition: 'color 0.3s',
             lineHeight: '20px'
@@ -51,7 +51,7 @@ export function UnitsToggle({ units, onChange, label }: UnitsToggleProps) {
             display: 'inline-block',
             width: '40px',
             height: '20px',
-            backgroundColor: isCm ? '#649841' : '#ccc',
+            backgroundColor: isCm ? '#8ab665' : '#6e8b3d',
             borderRadius: '20px',
             transition: '0.3s'
           }}>
@@ -72,7 +72,7 @@ export function UnitsToggle({ units, onChange, label }: UnitsToggleProps) {
         <span 
           className={isCm ? 'active' : ''}
           style={{ 
-            color: isCm ? '#649841' : '#333',
+            color: isCm ? '#8ab665' : '#333',
             fontWeight: isCm ? 'bold' : 'normal',
             transition: 'color 0.3s',
             lineHeight: '20px'
