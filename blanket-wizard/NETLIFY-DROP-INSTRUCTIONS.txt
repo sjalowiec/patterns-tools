@@ -1,4 +1,8 @@
-🎉 PUBLISH YOUR BLANKET WIZARD TO NETLIFY - EASY WAY! 🎉
+🎉 PUBLISH YOUR UPDATED BLANKET WIZARD TO NETLIFY! 🎉
+
+✨ NEW: Updated with your olive green (#6e8b3d) brand colors!
+✨ NEW: Card-based size selection matching your main site design!
+✨ NEW: Round action buttons styled with your olive green theme!
 
 This is the SIMPLEST way to publish - no GitHub, no complicated setup!
 
