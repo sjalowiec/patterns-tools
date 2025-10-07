@@ -117,7 +117,7 @@ a:hover {
 }
 .form-control:focus {
     border-color: var(--secondary-color);
-    box-shadow: 0 0 0 0.2rem rgba(44, 58, 87, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(110, 139, 61, 0.25);
     outline: none;
 }
 .form-group label {
@@ -145,7 +145,7 @@ a:hover {
 }
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(226, 114, 91, 0.4);
+    box-shadow: 0 5px 15px rgba(110, 139, 61, 0.4);
 }
 
 .btn-secondary {
@@ -157,7 +157,7 @@ a:hover {
     color: #fff;
 }
 .btn-secondary:hover {
-    background: #1E283A;
+    background: #5a7030;
     transform: translateY(-2px);
 }
 
