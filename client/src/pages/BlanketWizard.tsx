@@ -447,7 +447,15 @@ export default function BlanketWizard() {
       <PrintHeader />
       
       {hasUserData && (
-        <div style={{ padding: '20px 20px 0 20px' }}>
+        <div style={{ 
+          position: 'sticky', 
+          top: 0, 
+          zIndex: 1000,
+          padding: '20px 20px 15px 20px',
+          backgroundColor: '#ffffff',
+          borderBottom: '2px solid #e9ecef',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+        }}>
           <WizardActionBar
             warning={{
               message: 'IMPORTANT: Your pattern will not be saved on this site. Please be sure to download and save your PDF - once you leave this page, your custom details won\'t be available again.',
