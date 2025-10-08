@@ -3,7 +3,10 @@ import html2pdf from 'html2pdf.js';
 import logoSvg from '@assets/knitting-brand.svg';
 import { type SizeSelection } from '@shared/sizing';
 import { useSizingData } from '@shared/hooks/useSizingData';
-import { WizardActionBar, GaugeInputs, UnitsToggle, PrintFooter, PrintHeader, RoundIconButton } from '@/components/lego';
+import { GaugeInputs, UnitsToggle, PrintFooter, PrintHeader } from '@/components/lego';
+import StickyActionButtons from '@/components/lego/StickyActionButtons';
+import { WarningBox } from '@/components/lego/WarningBox';
+import { PrintOnlyTitle } from '@/components/lego/PrintOnlyTitle';
 import type { WizardAction, Units } from '@shared/types/wizard';
 
 interface GaugeData {
@@ -446,52 +449,17 @@ export default function BlanketWizard() {
       {/* Print-only header */}
       <PrintHeader />
       
-      {hasUserData && (
-        <>
-          {/* Warning Box - Not Sticky */}
-          <div className="no-print" style={{ padding: '20px 20px 0 20px' }}>
-            <div style={{
-              flex: '1 1 0',
-              minWidth: 0,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              padding: '12px 16px',
-              background: 'rgba(82, 104, 45, 0.1)',
-              border: '1px solid rgba(82, 104, 45, 0.3)',
-              borderRadius: '6px',
-              color: '#52682d',
-              fontSize: '14px'
-            }}>
-              <i className="fas fa-exclamation-triangle" style={{ fontSize: '18px' }} />
-              <span>IMPORTANT: Your pattern will not be saved on this site. Please be sure to download and save your PDF - once you leave this page, your custom details won't be available again.</span>
-            </div>
-          </div>
-          
-          {/* Action Buttons - Sticky */}
-          <div className="no-print" style={{ 
-            position: 'sticky', 
-            top: 0, 
-            zIndex: 1000,
-            padding: '15px 20px',
-            backgroundColor: 'transparent',
-            display: 'flex',
-            gap: '15px',
-            justifyContent: 'flex-end'
-          }}>
-            {actions.map((action) => (
-              <RoundIconButton
-                key={action.id}
-                icon={action.icon}
-                label={action.label}
-                onClick={action.onClick}
-                className={action.className}
-                testId={action.testId}
-              />
-            ))}
-          </div>
-        </>
-      )}
+      {/* Print-only title */}
+      <PrintOnlyTitle title="Basic Blanket Pattern" />
+      
+      {/* Warning Box */}
+      <WarningBox 
+        message="IMPORTANT: Your pattern will not be saved on this site. Please be sure to download and save your PDF - once you leave this page, your custom details won't be available again."
+        show={hasUserData}
+      />
+      
+      {/* Sticky Action Buttons */}
+      <StickyActionButtons actions={actions} show={hasUserData} />
 
       <div className="content-area">
         

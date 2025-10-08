@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
-import { WizardActionBar, GaugeInputs, UnitsToggle, PrintFooter, PrintHeader } from '@/components/lego';
+import { GaugeInputs, UnitsToggle, PrintFooter, PrintHeader } from '@/components/lego';
+import StickyActionButtons from '@/components/lego/StickyActionButtons';
+import { WarningBox } from '@/components/lego/WarningBox';
+import { PrintOnlyTitle } from '@/components/lego/PrintOnlyTitle';
 import type { WizardAction, Units } from '@shared/types/wizard';
 
 export default function RectangleWizard() {
@@ -317,17 +320,17 @@ export default function RectangleWizard() {
       {/* Print-only header */}
       <PrintHeader />
       
-      {hasUserData && (
-        <div style={{ padding: '20px 20px 0 20px' }}>
-          <WizardActionBar
-            warning={{
-              message: 'IMPORTANT: Your pattern will not be saved on this site. Please be sure to download and save your PDF - once you leave this page, your custom details won\'t be available again.',
-              show: true
-            }}
-            actions={actions}
-          />
-        </div>
-      )}
+      {/* Print-only title */}
+      <PrintOnlyTitle title="Rectangle Pattern" />
+      
+      {/* Warning Box */}
+      <WarningBox 
+        message="IMPORTANT: Your pattern will not be saved on this site. Please be sure to download and save your PDF - once you leave this page, your custom details won't be available again."
+        show={hasUserData}
+      />
+      
+      {/* Sticky Action Buttons */}
+      <StickyActionButtons actions={actions} show={hasUserData} />
 
       <div className="content-area">
         

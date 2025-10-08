@@ -25,6 +25,9 @@ The system provides reusable wizard components in `client/src/components/lego/`:
 - **SizeSelector**: Card-based size selector with category grouping and selection states
 - **RoundIconButton**: 56px mobile-friendly icon buttons with labels
 - **WizardActionBar**: Flex layout with warning box + action buttons
+- **StickyActionButtons**: Sticky action buttons (Print, Download PDF, Start Over) that float at top with transparent background while scrolling
+- **WarningBox**: Reusable warning message box with olive green styling for important notices
+- **PrintOnlyTitle**: Print/PDF-only title section (hidden on screen, visible in print output)
 - **PrintHeader**: Print-only header using "Shadows Into Light Two" Google Font with KnitbyMachine branding (#649841 green) and URL (hidden on screen, visible in print/PDF)
 - **PrintFooter**: Print-only footer with copyright, URL, generation date, and page numbers (hidden on screen, visible in print/PDF)
 - **useGaugeCalculations**: Hook for unit-aware gauge calculations (4" vs 10cm)
@@ -64,6 +67,8 @@ Individual wizards include:
 - **Template System**: SVG uses placeholder replacement for dynamic values
 - **External Data Loading**: BlanketWizard fetches sizing data from external URL (https://sizing-data.knitbymachine.com/sizing_blankets.json) with cache-busting for easy updates without code changes
 - **Print/PDF Generation**: Uses html2pdf.js for PDF generation with inline header/footer content to work around @media print limitations
+- **Sticky UI Elements**: Action buttons stick to top of viewport while scrolling with transparent background for clean floating appearance
+- **Print Optimization**: All build UI elements (gauge inputs, size cards, yarn calculator, buttons) hidden in print/PDF using `.no-print` class
 
 ### Build and Development
 - **Development Server**: Vite with hot reload and error overlay
