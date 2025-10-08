@@ -321,7 +321,7 @@ export default function RectangleWizard() {
       <PrintHeader />
       
       {/* Print-only title */}
-      <PrintOnlyTitle title="Rectangle Pattern" />
+      <PrintOnlyTitle title="Rectangle/Square Calculator" />
       
       {/* Warning Box */}
       <WarningBox 
