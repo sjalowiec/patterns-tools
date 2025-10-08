@@ -394,7 +394,7 @@ export default function NecklineShapingWizard() {
       <PrintHeader />
       
       {/* Print-only title */}
-      <PrintOnlyTitle title="Neckline Shaping Pattern" />
+      <PrintOnlyTitle title="Neckline Shaping Practice" />
       
       {/* Warning Box */}
       <WarningBox 
