@@ -158,7 +158,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        <Navigation />
+        {/* Only show navigation in development mode */}
+        {import.meta.env.DEV && <Navigation />}
         <Router />
       </TooltipProvider>
     </QueryClientProvider>
