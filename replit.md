@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Wizard Builder is a comprehensive system for creating professional knitting pattern generator wizards. The system uses modular "lego block" architecture with reusable components, shared calculation logic, and a unified olive green theme. Currently includes the Neckline/Shoulder Practice Wizard and Blanket Pattern Wizard, with infrastructure to easily build additional wizards.
+The Wizard Builder is a comprehensive system for creating professional knitting pattern generator wizards. The system uses modular "lego block" architecture with reusable components, shared calculation logic, and a unified olive green theme. Currently includes the Neckline/Shoulder Practice Wizard, Blanket Pattern Wizard, Rectangle/Square Wizard, Neckline Shaping Wizard, Boat Neck Sweater Wizard, and infrastructure to easily build additional wizards.
 
 ## User Preferences
 
@@ -31,6 +31,7 @@ The system provides reusable wizard components in `client/src/components/lego/`:
 - **PrintHeader**: Print-only header using "Shadows Into Light Two" Google Font with KnitbyMachine branding (#649841 green) and URL (hidden on screen, visible in print/PDF)
 - **PrintFooter**: Print-only footer with copyright, URL, generation date, and page numbers (hidden on screen, visible in print/PDF)
 - **useGaugeCalculations**: Hook for unit-aware gauge calculations (4" vs 10cm)
+- **useSleeveDropShoulder**: Hook for drop shoulder sleeve pattern generation with external sizing data
 
 All components use CSS variables for theming and are fully reusable across wizards.
 
@@ -40,6 +41,8 @@ Individual wizards include:
 - **BlanketWizard.tsx**: Blanket pattern generator with yarn calculations and external JSON data loading
 - **RectangleWizard.tsx**: Rectangle/square pattern calculator with customizable dimensions
 - **NecklineShapingWizard.tsx**: Neckline shaping calculator for sweater construction
+- **BoatNeckWizard.tsx**: Boat neck sweater pattern generator with optional sleeves using useSleeveDropShoulder hook
+- **SleeveWizard.tsx**: Testing page for drop shoulder sleeve calculations
 - **Gauge Input System**: Unit selection (inches/cm) with conversion from 4"/10cm to per-unit values  
 - **Calculation Engine**: Shared calculation logic via hooks and utilities
 - **Instruction Generator**: Clear step-by-step text output for knitting practice
