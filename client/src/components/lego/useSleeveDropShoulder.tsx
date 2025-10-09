@@ -5,7 +5,7 @@ interface SleeveDropShoulderParams {
   size: string;
   stitchGauge: number;
   rowGauge: number;
-  units: 'in' | 'cm';
+  units: 'inches' | 'cm';
 }
 
 interface SleevePattern {
@@ -16,7 +16,7 @@ interface SleevePattern {
     castOnSts: number;
     increaseInterval: number;
     finalRows: number;
-    capRows: number;
+    finalStitches: number;
     gauge: {
       stitchGauge: number;
       rowGauge: number;
@@ -27,6 +27,7 @@ interface SleevePattern {
 interface SizingData {
   armhole_depth: number;
   sleeve_length: number;
+  sleeve_cap: number;
   wrist: number;
   [key: string]: any;
 }
@@ -69,7 +70,7 @@ export function useSleeveDropShoulder(params: SleeveDropShoulderParams | null): 
       try {
         // Fetch sizing data with cache-busting
         const timestamp = new Date().getTime();
-        const url = `https://sizing-data.knitbymachine.com/${category}.json?t=${timestamp}`;
+        const url = `https://sizing-data.knitbymachine.com/sizing_sweaters_${category}.json?t=${timestamp}`;
         const response = await fetch(url);
         
         if (!response.ok) {
@@ -86,10 +87,10 @@ export function useSleeveDropShoulder(params: SleeveDropShoulderParams | null): 
         }
 
         // Extract required measurements
-        const { armhole_depth, sleeve_length, wrist } = sizeData;
+        const { armhole_depth, sleeve_length, sleeve_cap, wrist } = sizeData;
 
-        if (armhole_depth == null || sleeve_length == null || wrist == null) {
-          throw new Error('Missing required measurements: armhole_depth, sleeve_length, or wrist');
+        if (armhole_depth == null || sleeve_length == null || sleeve_cap == null || wrist == null) {
+          throw new Error('Missing required measurements: armhole_depth, sleeve_length, sleeve_cap, or wrist');
         }
 
         // Base calculations
@@ -97,24 +98,45 @@ export function useSleeveDropShoulder(params: SleeveDropShoulderParams | null): 
         const totalRows = Math.round(sleeve_length * rowGauge);
 
         // Shaping calculations
-        const shapingHeight = armhole_depth * 2;
-        const shapingRows = Math.round(shapingHeight * rowGauge);
-        
         const finalWidth = armhole_depth * 2;
-        const totalIncrease = Math.round((finalWidth - wrist) * stitchGauge);
-        const increasePairs = Math.floor(totalIncrease / 2);
+        let totalIncrease = Math.round((finalWidth - wrist) * stitchGauge);
+        
+        // Validate shaping is possible
+        const unitLabel = units === 'inches' ? '"' : 'cm';
+        if (totalIncrease < 0) {
+          throw new Error(`Invalid measurements: sleeve top (${finalWidth}${unitLabel}) is narrower than wrist (${wrist}${unitLabel}). Please check your size selection.`);
+        }
+        
+        // Ensure totalIncrease is even (pairs of increases)
+        if (totalIncrease % 2 !== 0) {
+          totalIncrease = totalIncrease + 1; // Round up to next even number
+        }
+        
+        const increasePairs = totalIncrease / 2;
+        const finalStitchCount = castOnSts + totalIncrease;
+        
+        // Calculate shaping span: sleeve body length minus cap
+        const shapingLength = sleeve_length - sleeve_cap;
+        const shapingRows = Math.round(shapingLength * rowGauge);
         
         // Calculate increase interval and round to even number
+        // Distribute increases over the shaping span only
         let increaseInterval = increasePairs > 0 ? Math.round(shapingRows / increasePairs) : 0;
-        if (increaseInterval % 2 !== 0) {
+        if (increaseInterval % 2 !== 0 && increaseInterval > 0) {
           increaseInterval = increaseInterval + 1; // Round up to even
         }
 
-        const capRows = Math.round(armhole_depth * 2 * rowGauge);
         const finalRows = totalRows;
-
-        // Generate pattern text
-        const unitLabel = units === 'in' ? '"' : 'cm';
+        
+        let shapingInstructions = '';
+        if (increasePairs >= 1 && increaseInterval > 0) {
+          shapingInstructions = `<strong>Shaping:</strong> Increase 1 stitch each side every ${increaseInterval} rows until you have ${finalStitchCount} stitches
+<br>`;
+        } else if (totalIncrease === 0) {
+          shapingInstructions = `<strong>Shaping:</strong> Work straight (no increases needed)
+<br>`;
+        }
+        
         const sleevePatternText = `
 <strong>Drop Shoulder Sleeve Pattern</strong>
 <br><br>
@@ -122,46 +144,32 @@ export function useSleeveDropShoulder(params: SleeveDropShoulderParams | null): 
 <br>
 <strong>Cuff Ribbing:</strong> Work 20 rows in ribbing (K1, P1 or K2, P2)
 <br>
-<strong>Shaping:</strong> Increase 1 stitch each side every ${increaseInterval} rows until sleeve measures ${sleeve_length - armhole_depth * 2}${unitLabel}
-<br>
-<strong>Cap:</strong> Continue straight for ${capRows} rows
+${shapingInstructions}<strong>Continue:</strong> Work straight until sleeve measures ${sleeve_length}${unitLabel}
 <br>
 <strong>Bind Off:</strong> All remaining stitches
 <br><br>
 <strong>Final Measurements:</strong>
 <br>• Cuff: ${wrist}${unitLabel}
-<br>• Length: ${sleeve_length}${unitLabel}
-<br>• Armhole depth: ${armhole_depth}${unitLabel}
+<br>• Total length: ${sleeve_length}${unitLabel}
+<br>• Top width: ${finalWidth}${unitLabel}
         `.trim();
 
         // Generate SVG diagram
-        const scale = units === 'in' ? 5 : 2; // px per unit
+        const scale = units === 'inches' ? 5 : 2; // px per unit
         const svgWidth = finalWidth * scale + 100;
         const svgHeight = sleeve_length * scale + 80;
         const sleeveWidth = wrist * scale;
         const sleeveHeight = sleeve_length * scale;
-        const capHeight = (armhole_depth * 2) * scale;
         const topWidth = finalWidth * scale;
 
         const sleeveSVG = `
           <svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="width: 100%; max-width: 600px; height: auto;">
-            <!-- Sleeve outline -->
+            <!-- Sleeve outline (trapezoid shape for drop shoulder) -->
             <polygon 
               points="${(svgWidth - sleeveWidth) / 2},${svgHeight - 40} ${(svgWidth - topWidth) / 2},${svgHeight - 40 - sleeveHeight} ${(svgWidth + topWidth) / 2},${svgHeight - 40 - sleeveHeight} ${(svgWidth + sleeveWidth) / 2},${svgHeight - 40}"
               fill="none" 
               stroke="black" 
               stroke-width="2"
-            />
-            
-            <!-- Cap boundary (dashed line) -->
-            <line 
-              x1="${(svgWidth - topWidth) / 2}" 
-              y1="${svgHeight - 40 - capHeight}" 
-              x2="${(svgWidth + topWidth) / 2}" 
-              y2="${svgHeight - 40 - capHeight}"
-              stroke="black" 
-              stroke-width="1" 
-              stroke-dasharray="5,5"
             />
             
             <!-- Labels -->
@@ -170,11 +178,11 @@ export function useSleeveDropShoulder(params: SleeveDropShoulderParams | null): 
             </text>
             
             <text x="20" y="${svgHeight / 2}" text-anchor="start" font-size="12" fill="black">
-              Sleeve Length (${sleeve_length}${unitLabel})
+              Length (${sleeve_length}${unitLabel})
             </text>
             
-            <text x="${svgWidth / 2}" y="${svgHeight - 40 - capHeight - 10}" text-anchor="middle" font-size="12" fill="black">
-              Armhole Cap
+            <text x="${svgWidth / 2}" y="${svgHeight - 40 - sleeveHeight - 10}" text-anchor="middle" font-size="12" fill="black">
+              Top (${finalWidth}${unitLabel})
             </text>
           </svg>
         `.trim();
@@ -187,7 +195,7 @@ export function useSleeveDropShoulder(params: SleeveDropShoulderParams | null): 
             castOnSts,
             increaseInterval,
             finalRows,
-            capRows,
+            finalStitches: finalStitchCount,
             gauge: {
               stitchGauge,
               rowGauge,
