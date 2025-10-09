@@ -18,7 +18,7 @@ export function RoundIconButton({
   className = 'btn-round-primary',
   testId
 }: RoundIconButtonProps) {
-  // Check if icon is a Font Awesome class (starts with 'fa') or an emoji
+  // Check if icon is a Font Awesome class (starts with 'fa' or 'fas') or an emoji
   const isIconClass = icon.startsWith('fa');
   
   return (

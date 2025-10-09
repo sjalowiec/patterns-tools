@@ -29,15 +29,17 @@ export default function BoatNeckWizard() {
   const rowsPerUnit = (Number(rowsIn4) || 0) / 4;
 
   // Default body dimensions using Misses Size 2
-  // Size 2: bust 32.5", armhole depth 7.25", garment back length 22"
+  // Size 2: bust 32.5", armhole depth 7.25", garment back length 22", neck opening 6.5"
   const bodyWidthIn = 32.5; // Full chest circumference
   const bodyLengthIn = 22; // Total garment length (garment_back_length)
   const armholeDepthIn = 7.25; // Armhole depth
+  const neckOpeningIn = 6.5; // Neck opening width
   
   // Convert to display units
   const bodyWidth = units === 'inches' ? bodyWidthIn : bodyWidthIn * 2.54;
   const bodyLength = units === 'inches' ? bodyLengthIn : bodyLengthIn * 2.54;
   const armholeDepth = units === 'inches' ? armholeDepthIn : armholeDepthIn * 2.54;
+  const neckOpening = units === 'inches' ? neckOpeningIn : neckOpeningIn * 2.54;
 
   // Calculate stitch and row counts for Front and Back panels (each is half the body width)
   const panelWidthIn = bodyWidthIn / 2; // Front and Back are each half
@@ -47,6 +49,21 @@ export default function BoatNeckWizard() {
   // Calculate armhole marker placement
   const bodyRowsBeforeArmhole = Math.round((bodyLengthIn - armholeDepthIn) * rowsPerUnit) || 0;
   const armholeRows = Math.round(armholeDepthIn * rowsPerUnit) || 0;
+  
+  // Calculate neck opening marker positions
+  let neckOpeningSts = Math.round(neckOpeningIn * stitchesPerUnit);
+  // Make even
+  if (neckOpeningSts % 2 !== 0) {
+    neckOpeningSts += 1;
+  }
+  // Ensure neck opening doesn't exceed panel width
+  if (neckOpeningSts > castOnSts) {
+    neckOpeningSts = castOnSts;
+  }
+  const neckMarkerOffset = neckOpeningSts / 2;
+  const panelCenter = Math.round(castOnSts / 2);
+  const neckMarkerLeft = Math.max(1, panelCenter - neckMarkerOffset);
+  const neckMarkerRight = Math.min(castOnSts, panelCenter + neckMarkerOffset);
 
   // Sleeve pattern using hook (only if user wants sleeves)
   const sleeveParams = withSleeves === 'sleeves' && stitchesIn4 && rowsIn4 ? {
@@ -59,7 +76,7 @@ export default function BoatNeckWizard() {
 
   const { pattern: sleevePattern, loading: sleeveLoading, error: sleeveError } = useSleeveDropShoulder(sleeveParams);
 
-  const hasRequiredInputs = stitchesIn4 && rowsIn4 && !hasGaugeError;
+  const hasRequiredInputs = stitchesIn4 && rowsIn4 && !hasGaugeError && stitchesPerUnit > 0 && rowsPerUnit > 0;
 
   // Pattern instructions - simplified since front and back are identical
   const bodyInstructions = hasRequiredInputs ? `
@@ -69,6 +86,7 @@ export default function BoatNeckWizard() {
       <p><strong>Work even:</strong> Knit in stockinette stitch (or your preferred stitch pattern) for ${bodyRowsBeforeArmhole} rows</p>
       <p><strong>Place marker:</strong> At row ${bodyRowsBeforeArmhole}, place a marker at the beginning of the row to indicate the start of the armhole</p>
       <p><strong>Continue:</strong> Work ${armholeRows} more rows (armhole section)</p>
+      <p><strong>Neck opening:</strong> Before binding off, place markers at needle ${neckMarkerLeft} (left) and needle ${neckMarkerRight} (right) to mark the ${neckOpening.toFixed(1)}${units === 'inches' ? '"' : 'cm'} boat neck opening</p>
       <p><strong>Bind off:</strong> All stitches (total of ${totalRows} rows)</p>
       <p><em>Note: For a classic boat neck design, the front and back panels are identical.</em></p>
     </div>
@@ -117,23 +135,26 @@ export default function BoatNeckWizard() {
   const actions = [
     {
       id: 'print',
-      icon: '🖨️',
+      icon: 'fas fa-print',
       label: 'Print',
       onClick: handlePrint,
+      className: 'btn-round-wizard',
       testId: 'button-print'
     },
     {
       id: 'download',
-      icon: '📥',
+      icon: 'fas fa-download',
       label: 'Download PDF',
       onClick: handleDownloadPDF,
+      className: 'btn-round-wizard',
       testId: 'button-download-pdf'
     },
     {
       id: 'start-over',
-      icon: '🔄',
+      icon: 'fas fa-redo',
       label: 'Start Over',
       onClick: handleStartOver,
+      className: 'btn-round-wizard',
       testId: 'button-start-over'
     }
   ];
@@ -141,6 +162,8 @@ export default function BoatNeckWizard() {
   return (
     <div className="wizard-container" style={{ maxWidth: '900px', margin: '0 auto', padding: '20px' }}>
       <PrintHeader />
+      
+      <StickyActionButtons actions={actions} show={!!hasRequiredInputs} />
       
       <div id="pattern-content">
         <PrintOnlyTitle title="Boat Neck Sweater Pattern" />
@@ -282,8 +305,6 @@ export default function BoatNeckWizard() {
       </div>
 
       <PrintFooter />
-
-      <StickyActionButtons actions={actions} show={!!hasRequiredInputs} />
     </div>
   );
 }

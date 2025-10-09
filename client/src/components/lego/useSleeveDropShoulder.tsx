@@ -86,8 +86,8 @@ export function useSleeveDropShoulder(params: SleeveDropShoulderParams | null): 
 
         const sizingData: SizingData[] = await response.json();
         
-        // Find the size record
-        const sizeData = sizingData.find((item) => item.size === size);
+        // Find the size record (handle both string and numeric size values)
+        const sizeData = sizingData.find((item) => String(item.size) === String(size));
         
         if (!sizeData) {
           throw new Error(`Size "${size}" not found in ${category} sizing data`);
