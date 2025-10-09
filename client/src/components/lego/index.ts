@@ -13,3 +13,4 @@ export { SizeSelector, type SizeOptionWithData } from './SizeSelector';
 export { UnitsToggle } from './UnitsToggle';
 export { WizardActionBar } from './WizardActionBar';
 export { useGaugeCalculations } from './useGaugeCalculations';
+export { useSleeveDropShoulder } from './useSleeveDropShoulder';
