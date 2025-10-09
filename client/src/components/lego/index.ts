@@ -4,6 +4,7 @@
  */
 
 export { GaugeInputs } from './GaugeInputs';
+export { PanelSchematic } from './PanelSchematic';
 export { PrintFooter } from './PrintFooter';
 export { PrintHeader } from './PrintHeader';
 export { PrintOnlyTitle } from './PrintOnlyTitle';

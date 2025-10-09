@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { GaugeInputs, RadioGroup, useSleeveDropShoulder, PrintHeader, PrintFooter, PrintOnlyTitle, StickyActionButtons } from '@/components/lego';
+import { GaugeInputs, RadioGroup, useSleeveDropShoulder, PrintHeader, PrintFooter, PrintOnlyTitle, StickyActionButtons, PanelSchematic } from '@/components/lego';
 import type { Units } from '@shared/types/wizard';
 import html2pdf from 'html2pdf.js';
 
@@ -214,44 +214,31 @@ export default function BoatNeckWizard() {
 
             <div className="well_white">
               <h2 style={{ color: '#52682d', marginBottom: '15px' }}>Schematic</h2>
-              <div style={{ textAlign: 'center', padding: '20px' }}>
-                <svg viewBox="0 0 500 600" style={{ maxWidth: '600px', width: '100%' }}>
-                  {/* Front Panel */}
-                  <rect x="50" y="50" width="150" height="300" fill="none" stroke="#52682d" strokeWidth="2"/>
-                  <text x="125" y="30" textAnchor="middle" fill="#52682d" fontSize="14" fontWeight="bold">Front Panel</text>
-                  
-                  {/* Back Panel */}
-                  <rect x="250" y="50" width="150" height="300" fill="none" stroke="#52682d" strokeWidth="2"/>
-                  <text x="325" y="30" textAnchor="middle" fill="#52682d" fontSize="14" fontWeight="bold">Back Panel</text>
-                  
-                  {/* Armhole markers */}
-                  <line x1="50" y1={50 + (300 * (bodyRowsBeforeArmhole / totalRows))} x2="200" y2={50 + (300 * (bodyRowsBeforeArmhole / totalRows))} stroke="#d32f2f" strokeWidth="1" strokeDasharray="5,5"/>
-                  <line x1="250" y1={50 + (300 * (bodyRowsBeforeArmhole / totalRows))} x2="400" y2={50 + (300 * (bodyRowsBeforeArmhole / totalRows))} stroke="#d32f2f" strokeWidth="1" strokeDasharray="5,5"/>
-                  <text x="10" y={55 + (300 * (bodyRowsBeforeArmhole / totalRows))} fill="#d32f2f" fontSize="12">Armhole</text>
-                  
-                  {/* Width dimension */}
-                  <line x1="50" y1="370" x2="200" y2="370" stroke="#666" strokeWidth="1"/>
-                  <line x1="50" y1="365" x2="50" y2="375" stroke="#666" strokeWidth="1"/>
-                  <line x1="200" y1="365" x2="200" y2="375" stroke="#666" strokeWidth="1"/>
-                  <text x="125" y="390" textAnchor="middle" fill="#666" fontSize="12">{(bodyWidth/2).toFixed(1)}{units === 'inches' ? '"' : 'cm'}</text>
-                  
-                  {/* Length dimension */}
-                  <line x1="210" y1="50" x2="210" y2="350" stroke="#666" strokeWidth="1"/>
-                  <line x1="205" y1="50" x2="215" y2="50" stroke="#666" strokeWidth="1"/>
-                  <line x1="205" y1="350" x2="215" y2="350" stroke="#666" strokeWidth="1"/>
-                  <text x="220" y="205" fill="#666" fontSize="12">{bodyLength.toFixed(1)}{units === 'inches' ? '"' : 'cm'}</text>
-                  
-                  {/* Armhole depth dimension */}
-                  <line x1="420" y1={50 + (300 * (bodyRowsBeforeArmhole / totalRows))} x2="420" y2="350" stroke="#d32f2f" strokeWidth="1"/>
-                  <line x1="415" y1={50 + (300 * (bodyRowsBeforeArmhole / totalRows))} x2="425" y2={50 + (300 * (bodyRowsBeforeArmhole / totalRows))} stroke="#d32f2f" strokeWidth="1"/>
-                  <line x1="415" y1="350" x2="425" y2="350" stroke="#d32f2f" strokeWidth="1"/>
-                  <text x="430" y={200 + (300 * (bodyRowsBeforeArmhole / totalRows)) / 2} fill="#d32f2f" fontSize="12">{armholeDepth.toFixed(1)}{units === 'inches' ? '"' : 'cm'}</text>
-                  
-                  {withSleeves === 'sleeves' && sleevePattern && (
-                    <g transform="translate(50, 420)" dangerouslySetInnerHTML={{ __html: sleevePattern.sleeveSVG }} />
-                  )}
-                </svg>
-              </div>
+              <PanelSchematic
+                panels={[
+                  {
+                    label: 'Front Panel',
+                    width: bodyWidth / 2,
+                    height: bodyLength,
+                    castOnSts: castOnSts,
+                    totalRows: totalRows
+                  },
+                  {
+                    label: 'Back Panel',
+                    width: bodyWidth / 2,
+                    height: bodyLength,
+                    castOnSts: castOnSts,
+                    totalRows: totalRows
+                  }
+                ]}
+                marker={{
+                  label: 'Armhole',
+                  depthFromTop: armholeDepth,
+                  color: '#d32f2f'
+                }}
+                units={units}
+                testId="boat-neck-schematic"
+              />
             </div>
 
             <div className="well_white">
