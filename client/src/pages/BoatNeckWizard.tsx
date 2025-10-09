@@ -7,7 +7,7 @@ export default function BoatNeckWizard() {
   const [units, setUnits] = useState<Units>('inches');
   const [stitchesIn4, setStitchesIn4] = useState<string>('');
   const [rowsIn4, setRowsIn4] = useState<string>('');
-  const [withSleeves, setWithSleeves] = useState<string>('sleeveless');
+  const [withSleeves, setWithSleeves] = useState<string>('sleeves');
   const [hasGaugeError, setHasGaugeError] = useState<boolean>(false);
 
   // Warn user before leaving page if they have entered data
@@ -61,25 +61,16 @@ export default function BoatNeckWizard() {
 
   const hasRequiredInputs = stitchesIn4 && rowsIn4 && !hasGaugeError;
 
-  // Pattern instructions
-  const frontBackInstructions = hasRequiredInputs ? `
+  // Pattern instructions - simplified since front and back are identical
+  const bodyInstructions = hasRequiredInputs ? `
     <div class="pattern-section">
-      <h3>Front Panel</h3>
+      <h3>Body Panels (Make 2 - Front & Back are identical)</h3>
       <p><strong>Cast on:</strong> ${castOnSts} stitches</p>
       <p><strong>Work even:</strong> Knit in stockinette stitch (or your preferred stitch pattern) for ${bodyRowsBeforeArmhole} rows</p>
       <p><strong>Place marker:</strong> At row ${bodyRowsBeforeArmhole}, place a marker at the beginning of the row to indicate the start of the armhole</p>
       <p><strong>Continue:</strong> Work ${armholeRows} more rows (armhole section)</p>
       <p><strong>Bind off:</strong> All stitches (total of ${totalRows} rows)</p>
-    </div>
-
-    <div class="pattern-section">
-      <h3>Back Panel</h3>
-      <p><strong>Cast on:</strong> ${castOnSts} stitches</p>
-      <p><strong>Work even:</strong> Knit in stockinette stitch (or your preferred stitch pattern) for ${bodyRowsBeforeArmhole} rows</p>
-      <p><strong>Place marker:</strong> At row ${bodyRowsBeforeArmhole}, place a marker at the beginning of the row to indicate the start of the armhole</p>
-      <p><strong>Continue:</strong> Work ${armholeRows} more rows (armhole section)</p>
-      <p><strong>Bind off:</strong> All stitches (total of ${totalRows} rows)</p>
-      <p><em>Note: Front and Back are identical for a classic boat neck design.</em></p>
+      <p><em>Note: For a classic boat neck design, the front and back panels are identical.</em></p>
     </div>
   ` : '';
 
@@ -118,7 +109,7 @@ export default function BoatNeckWizard() {
     if (confirm('Start over? All current pattern data will be lost.')) {
       setStitchesIn4('');
       setRowsIn4('');
-      setWithSleeves('sleeveless');
+      setWithSleeves('sleeves');
       setHasGaugeError(false);
     }
   };
@@ -200,9 +191,31 @@ export default function BoatNeckWizard() {
           />
         </div>
 
-        {/* Pattern Display */}
+        {/* Pattern Display - Instructions First, Then Diagrams */}
         {hasRequiredInputs && (
           <>
+            {/* Pattern Instructions Section */}
+            <div className="well_white">
+              <h2 style={{ color: '#52682d', marginBottom: '15px' }}>Pattern Instructions</h2>
+              <div dangerouslySetInnerHTML={{ __html: bodyInstructions }} />
+              
+              {withSleeves === 'sleeves' && (
+                <>
+                  {sleeveLoading && <p>Loading sleeve pattern...</p>}
+                  {sleeveError && <p style={{ color: '#d32f2f' }}>Error loading sleeve pattern: {sleeveError}</p>}
+                  {sleevePattern && (
+                    <div className="pattern-section">
+                      <h3>Sleeves (Make 2)</h3>
+                      <div dangerouslySetInnerHTML={{ __html: sleevePattern.sleevePatternText }} />
+                    </div>
+                  )}
+                </>
+              )}
+              
+              <div dangerouslySetInnerHTML={{ __html: finishingInstructions }} />
+            </div>
+
+            {/* Pattern Summary */}
             <div className="well_white">
               <h2 style={{ color: '#52682d', marginBottom: '15px' }}>Pattern Summary</h2>
               <p><strong>Body Width:</strong> {bodyWidth.toFixed(1)}{units === 'inches' ? '"' : 'cm'} (total circumference)</p>
@@ -212,19 +225,13 @@ export default function BoatNeckWizard() {
               <p><strong>Total Rows per Panel:</strong> {totalRows} rows</p>
             </div>
 
+            {/* Schematic Diagrams */}
             <div className="well_white">
               <h2 style={{ color: '#52682d', marginBottom: '15px' }}>Schematic</h2>
               <PanelSchematic
                 panels={[
                   {
-                    label: 'Front Panel',
-                    width: bodyWidth / 2,
-                    height: bodyLength,
-                    castOnSts: castOnSts,
-                    totalRows: totalRows
-                  },
-                  {
-                    label: 'Back Panel',
+                    label: 'Body Panel (Make 2)',
                     width: bodyWidth / 2,
                     height: bodyLength,
                     castOnSts: castOnSts,
@@ -246,7 +253,7 @@ export default function BoatNeckWizard() {
                   <PanelSchematic
                     panels={[
                       {
-                        label: 'Sleeve',
+                        label: 'Sleeve (Make 2)',
                         width: sleevePattern.measurements.sleeveTop,
                         height: sleevePattern.measurements.sleeveLength,
                         castOnSts: sleevePattern.details.castOnSts,
@@ -263,26 +270,6 @@ export default function BoatNeckWizard() {
                   />
                 </>
               )}
-            </div>
-
-            <div className="well_white">
-              <h2 style={{ color: '#52682d', marginBottom: '15px' }}>Pattern Instructions</h2>
-              <div dangerouslySetInnerHTML={{ __html: frontBackInstructions }} />
-              
-              {withSleeves === 'sleeves' && (
-                <>
-                  {sleeveLoading && <p>Loading sleeve pattern...</p>}
-                  {sleeveError && <p style={{ color: '#d32f2f' }}>Error loading sleeve pattern: {sleeveError}</p>}
-                  {sleevePattern && (
-                    <div className="pattern-section">
-                      <h3>Sleeves (Make 2)</h3>
-                      <div dangerouslySetInnerHTML={{ __html: sleevePattern.sleevePatternText }} />
-                    </div>
-                  )}
-                </>
-              )}
-              
-              <div dangerouslySetInnerHTML={{ __html: finishingInstructions }} />
             </div>
           </>
         )}
