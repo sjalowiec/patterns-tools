@@ -28,24 +28,30 @@ export default function BoatNeckWizard() {
   const stitchesPerUnit = (Number(stitchesIn4) || 0) / 4;
   const rowsPerUnit = (Number(rowsIn4) || 0) / 4;
 
-  // Default body dimensions (will be configurable later)
-  // Using women's medium as default: ~40" chest, 24" length
-  const bodyWidthIn = 40; // Full chest circumference
-  const bodyLengthIn = 24; // Total garment length
+  // Default body dimensions using Misses Size 2
+  // Size 2: bust 32.5", armhole depth 7.25", garment back length 22"
+  const bodyWidthIn = 32.5; // Full chest circumference
+  const bodyLengthIn = 22; // Total garment length (garment_back_length)
+  const armholeDepthIn = 7.25; // Armhole depth
   
   // Convert to display units
   const bodyWidth = units === 'inches' ? bodyWidthIn : bodyWidthIn * 2.54;
   const bodyLength = units === 'inches' ? bodyLengthIn : bodyLengthIn * 2.54;
+  const armholeDepth = units === 'inches' ? armholeDepthIn : armholeDepthIn * 2.54;
 
   // Calculate stitch and row counts for Front and Back panels (each is half the body width)
   const panelWidthIn = bodyWidthIn / 2; // Front and Back are each half
   const castOnSts = Math.round(panelWidthIn * stitchesPerUnit) || 0;
   const totalRows = Math.round(bodyLengthIn * rowsPerUnit) || 0;
+  
+  // Calculate armhole marker placement
+  const bodyRowsBeforeArmhole = Math.round((bodyLengthIn - armholeDepthIn) * rowsPerUnit) || 0;
+  const armholeRows = Math.round(armholeDepthIn * rowsPerUnit) || 0;
 
   // Sleeve pattern using hook (only if user wants sleeves)
   const sleeveParams = withSleeves === 'sleeves' && stitchesIn4 && rowsIn4 ? {
     category: 'misses',
-    size: 'Med',
+    size: '2',
     stitchGauge: stitchesPerUnit,
     rowGauge: rowsPerUnit,
     units,
@@ -60,15 +66,19 @@ export default function BoatNeckWizard() {
     <div class="pattern-section">
       <h3>Front Panel</h3>
       <p><strong>Cast on:</strong> ${castOnSts} stitches</p>
-      <p><strong>Work even:</strong> Knit in stockinette stitch (or your preferred stitch pattern) for ${totalRows} rows</p>
-      <p><strong>Bind off:</strong> All stitches</p>
+      <p><strong>Work even:</strong> Knit in stockinette stitch (or your preferred stitch pattern) for ${bodyRowsBeforeArmhole} rows</p>
+      <p><strong>Place marker:</strong> At row ${bodyRowsBeforeArmhole}, place a marker at the beginning of the row to indicate the start of the armhole</p>
+      <p><strong>Continue:</strong> Work ${armholeRows} more rows (armhole section)</p>
+      <p><strong>Bind off:</strong> All stitches (total of ${totalRows} rows)</p>
     </div>
 
     <div class="pattern-section">
       <h3>Back Panel</h3>
       <p><strong>Cast on:</strong> ${castOnSts} stitches</p>
-      <p><strong>Work even:</strong> Knit in stockinette stitch (or your preferred stitch pattern) for ${totalRows} rows</p>
-      <p><strong>Bind off:</strong> All stitches</p>
+      <p><strong>Work even:</strong> Knit in stockinette stitch (or your preferred stitch pattern) for ${bodyRowsBeforeArmhole} rows</p>
+      <p><strong>Place marker:</strong> At row ${bodyRowsBeforeArmhole}, place a marker at the beginning of the row to indicate the start of the armhole</p>
+      <p><strong>Continue:</strong> Work ${armholeRows} more rows (armhole section)</p>
+      <p><strong>Bind off:</strong> All stitches (total of ${totalRows} rows)</p>
       <p><em>Note: Front and Back are identical for a classic boat neck design.</em></p>
     </div>
   ` : '';
@@ -200,6 +210,48 @@ export default function BoatNeckWizard() {
               <p><strong>Style:</strong> {withSleeves === 'sleeves' ? 'With Sleeves' : 'Sleeveless Vest'}</p>
               <p><strong>Each Panel Casts On:</strong> {castOnSts} stitches</p>
               <p><strong>Total Rows per Panel:</strong> {totalRows} rows</p>
+            </div>
+
+            <div className="well_white">
+              <h2 style={{ color: '#52682d', marginBottom: '15px' }}>Schematic</h2>
+              <div style={{ textAlign: 'center', padding: '20px' }}>
+                <svg viewBox="0 0 500 600" style={{ maxWidth: '600px', width: '100%' }}>
+                  {/* Front Panel */}
+                  <rect x="50" y="50" width="150" height="300" fill="none" stroke="#52682d" strokeWidth="2"/>
+                  <text x="125" y="30" textAnchor="middle" fill="#52682d" fontSize="14" fontWeight="bold">Front Panel</text>
+                  
+                  {/* Back Panel */}
+                  <rect x="250" y="50" width="150" height="300" fill="none" stroke="#52682d" strokeWidth="2"/>
+                  <text x="325" y="30" textAnchor="middle" fill="#52682d" fontSize="14" fontWeight="bold">Back Panel</text>
+                  
+                  {/* Armhole markers */}
+                  <line x1="50" y1={50 + (300 * (bodyRowsBeforeArmhole / totalRows))} x2="200" y2={50 + (300 * (bodyRowsBeforeArmhole / totalRows))} stroke="#d32f2f" strokeWidth="1" strokeDasharray="5,5"/>
+                  <line x1="250" y1={50 + (300 * (bodyRowsBeforeArmhole / totalRows))} x2="400" y2={50 + (300 * (bodyRowsBeforeArmhole / totalRows))} stroke="#d32f2f" strokeWidth="1" strokeDasharray="5,5"/>
+                  <text x="10" y={55 + (300 * (bodyRowsBeforeArmhole / totalRows))} fill="#d32f2f" fontSize="12">Armhole</text>
+                  
+                  {/* Width dimension */}
+                  <line x1="50" y1="370" x2="200" y2="370" stroke="#666" strokeWidth="1"/>
+                  <line x1="50" y1="365" x2="50" y2="375" stroke="#666" strokeWidth="1"/>
+                  <line x1="200" y1="365" x2="200" y2="375" stroke="#666" strokeWidth="1"/>
+                  <text x="125" y="390" textAnchor="middle" fill="#666" fontSize="12">{(bodyWidth/2).toFixed(1)}{units === 'inches' ? '"' : 'cm'}</text>
+                  
+                  {/* Length dimension */}
+                  <line x1="210" y1="50" x2="210" y2="350" stroke="#666" strokeWidth="1"/>
+                  <line x1="205" y1="50" x2="215" y2="50" stroke="#666" strokeWidth="1"/>
+                  <line x1="205" y1="350" x2="215" y2="350" stroke="#666" strokeWidth="1"/>
+                  <text x="220" y="205" fill="#666" fontSize="12">{bodyLength.toFixed(1)}{units === 'inches' ? '"' : 'cm'}</text>
+                  
+                  {/* Armhole depth dimension */}
+                  <line x1="420" y1={50 + (300 * (bodyRowsBeforeArmhole / totalRows))} x2="420" y2="350" stroke="#d32f2f" strokeWidth="1"/>
+                  <line x1="415" y1={50 + (300 * (bodyRowsBeforeArmhole / totalRows))} x2="425" y2={50 + (300 * (bodyRowsBeforeArmhole / totalRows))} stroke="#d32f2f" strokeWidth="1"/>
+                  <line x1="415" y1="350" x2="425" y2="350" stroke="#d32f2f" strokeWidth="1"/>
+                  <text x="430" y={200 + (300 * (bodyRowsBeforeArmhole / totalRows)) / 2} fill="#d32f2f" fontSize="12">{armholeDepth.toFixed(1)}{units === 'inches' ? '"' : 'cm'}</text>
+                  
+                  {withSleeves === 'sleeves' && sleevePattern && (
+                    <g transform="translate(50, 420)" dangerouslySetInnerHTML={{ __html: sleevePattern.sleeveSVG }} />
+                  )}
+                </svg>
+              </div>
             </div>
 
             <div className="well_white">
