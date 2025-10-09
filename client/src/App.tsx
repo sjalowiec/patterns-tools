@@ -7,6 +7,7 @@ import NecklineWizard from "@/pages/NecklineWizard";
 import NecklineShapingWizard from "@/pages/NecklineShapingWizard";
 import BlanketWizard from "@/pages/BlanketWizard";
 import RectangleWizard from "@/pages/RectangleWizard";
+import SleeveWizard from "@/pages/SleeveWizard";
 import NotFound from "@/pages/not-found";
 
 function Navigation() {
@@ -135,6 +136,32 @@ function Navigation() {
         >
           Rectangle/Square
         </Link>
+        <Link
+          href="/sleeve"
+          data-testid="link-sleeve-wizard"
+          style={{
+            color: 'white',
+            textDecoration: 'none',
+            padding: '0.5rem 1rem',
+            borderRadius: '4px',
+            backgroundColor: location === '/sleeve' ? 'rgba(255,255,255,0.2)' : 'transparent',
+            transition: 'background-color 0.2s',
+            fontFamily: 'Poppins, sans-serif',
+            fontWeight: 500
+          }}
+          onMouseEnter={(e) => {
+            if (location !== '/sleeve') {
+              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (location !== '/sleeve') {
+              e.currentTarget.style.backgroundColor = 'transparent';
+            }
+          }}
+        >
+          Sleeve Tester
+        </Link>
       </div>
     </nav>
   );
@@ -147,6 +174,7 @@ function Router() {
       <Route path="/neckline-shaping" component={NecklineShapingWizard}/>
       <Route path="/blanket" component={BlanketWizard}/>
       <Route path="/rectangle" component={RectangleWizard}/>
+      <Route path="/sleeve" component={SleeveWizard}/>
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
