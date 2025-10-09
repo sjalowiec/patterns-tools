@@ -4,6 +4,18 @@
 
 The Wizard Builder is a comprehensive system for creating professional knitting pattern generator wizards. The system uses modular "lego block" architecture with reusable components, shared calculation logic, and a unified olive green theme. Currently includes the Neckline/Shoulder Practice Wizard, Blanket Pattern Wizard, Rectangle/Square Wizard, Neckline Shaping Wizard, Boat Neck Sweater Wizard, and infrastructure to easily build additional wizards.
 
+## Recent Changes
+
+### October 9, 2025
+- **Boat Neck Wizard Improvements**:
+  - Fixed size lookup bug in useSleeveDropShoulder hook - now handles both string and numeric size values from sizing data
+  - Updated button styling to use Font Awesome icons ('fas fa-print', 'fas fa-download', 'fas fa-redo') with btn-round-wizard className
+  - Repositioned StickyActionButtons to correct location (after PrintHeader, before content)
+  - Added neck opening markers to body instructions using neck_opening from sizing data (Size 2 Misses: 6.5")
+  - Implemented neck marker calculation: (neck_opening × stitch_count) / 2, with bounds checking to prevent negative positions
+  - Enhanced gauge validation to ensure stitchesPerUnit > 0 and rowsPerUnit > 0 before showing pattern
+  - Sleeve diagram now renders correctly when sleeves option is selected
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
@@ -24,7 +36,7 @@ The system provides reusable wizard components in `client/src/components/lego/`:
 - **RadioGroup**: Styled radio groups with olive green accent color
 - **SchematicWrapper**: Centered SVG diagram wrapper with consistent padding and proper sizing
 - **SizeSelector**: Card-based size selector with category grouping and selection states
-- **RoundIconButton**: 56px mobile-friendly icon buttons with labels
+- **RoundIconButton**: 56px mobile-friendly icon buttons with labels, supports both Font Awesome icons and emoji
 - **WizardActionBar**: Flex layout with warning box + action buttons
 - **StickyActionButtons**: Sticky action buttons (Print, Download PDF, Start Over) that float at top with transparent background while scrolling
 - **WarningBox**: Reusable warning message box with olive green styling for important notices
@@ -32,7 +44,7 @@ The system provides reusable wizard components in `client/src/components/lego/`:
 - **PrintHeader**: Print-only header using "Shadows Into Light Two" Google Font with KnitbyMachine branding (#649841 green) and URL (hidden on screen, visible in print/PDF)
 - **PrintFooter**: Print-only footer with copyright, URL, generation date, and page numbers (hidden on screen, visible in print/PDF)
 - **useGaugeCalculations**: Hook for unit-aware gauge calculations (4" vs 10cm)
-- **useSleeveDropShoulder**: Hook for drop shoulder sleeve pattern generation with external sizing data
+- **useSleeveDropShoulder**: Hook for drop shoulder sleeve pattern generation with external sizing data, handles both string and numeric size values from sizing APIs
 
 All components use CSS variables for theming and are fully reusable across wizards.
 
