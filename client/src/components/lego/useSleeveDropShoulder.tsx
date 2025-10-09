@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { calculateShapingRows } from '@/lib/shapingRows';
 
 interface SleeveDropShoulderParams {
   category: string;
@@ -21,6 +22,12 @@ interface SleevePattern {
       stitchGauge: number;
       rowGauge: number;
     };
+  };
+  measurements: {
+    wrist: number;
+    sleeveLength: number;
+    sleeveTop: number;
+    sleeveCap: number;
   };
 }
 
@@ -130,7 +137,9 @@ export function useSleeveDropShoulder(params: SleeveDropShoulderParams | null): 
         
         let shapingInstructions = '';
         if (increasePairs >= 1 && increaseInterval > 0) {
+          const shapingRowsHTML = calculateShapingRows(1, increaseInterval, increasePairs);
           shapingInstructions = `<strong>Shaping:</strong> Increase 1 stitch each side every ${increaseInterval} rows until you have ${finalStitchCount} stitches
+<br>${shapingRowsHTML}
 <br>`;
         } else if (totalIncrease === 0) {
           shapingInstructions = `<strong>Shaping:</strong> Work straight (no increases needed)
@@ -200,6 +209,12 @@ ${shapingInstructions}<strong>Continue:</strong> Work straight until sleeve meas
               stitchGauge,
               rowGauge,
             },
+          },
+          measurements: {
+            wrist,
+            sleeveLength: sleeve_length,
+            sleeveTop: finalWidth,
+            sleeveCap: sleeve_cap,
           },
         });
       } catch (err) {

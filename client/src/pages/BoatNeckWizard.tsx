@@ -239,6 +239,30 @@ export default function BoatNeckWizard() {
                 units={units}
                 testId="boat-neck-schematic"
               />
+              
+              {withSleeves === 'sleeves' && sleevePattern && (
+                <>
+                  <h3 style={{ color: '#52682d', marginTop: '30px', marginBottom: '15px' }}>Sleeve</h3>
+                  <PanelSchematic
+                    panels={[
+                      {
+                        label: 'Sleeve',
+                        width: sleevePattern.measurements.sleeveTop,
+                        height: sleevePattern.measurements.sleeveLength,
+                        castOnSts: sleevePattern.details.castOnSts,
+                        totalRows: sleevePattern.details.finalRows
+                      }
+                    ]}
+                    marker={{
+                      label: 'Cap',
+                      depthFromTop: sleevePattern.measurements.sleeveCap,
+                      color: '#2e7d32'
+                    }}
+                    units={units}
+                    testId="sleeve-schematic"
+                  />
+                </>
+              )}
             </div>
 
             <div className="well_white">
