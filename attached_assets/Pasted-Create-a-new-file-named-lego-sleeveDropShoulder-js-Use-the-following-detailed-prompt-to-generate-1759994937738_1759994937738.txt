@@ -1,0 +1,137 @@
+Create a new file named "lego/sleeveDropShoulder.js".
+Use the following detailed prompt to generate the entire file:
+
+Create a modular pattern generator block called `sleeveDropShoulder()`.
+
+Purpose:
+Generate a *drop shoulder sleeve* pattern, shaped from the wrist to the armhole cap, using live sizing data from https://sizing-data.knitbymachine.com.  
+This block will be reusable within larger pattern builds (for example: drop-shoulder sweaters).
+
+---
+
+Inputs:
+1. category — string: which sizing chart to use (e.g. "mens", "womens", "kids", "plus", "baby").
+2. size — string: which size within the chart (e.g. "M", "L", "2XL").
+3. stitchGauge — number: stitches per inch/cm.
+4. rowGauge — number: rows per inch/cm.
+5. units — string: "in" or "cm".
+
+---
+
+Process:
+
+1. **Fetch sizing data**
+   - Fetch JSON from https://sizing-data.knitbymachine.com/{category}.json  
+     (Example: https://sizing-data.knitbymachine.com/mens.json)
+   - Parse the JSON and extract the record for the chosen size.
+
+2. **Extract measurements**
+   The sizing JSON uses *snake_case* keys.  
+   Use these exact field names:
+   - `armhole_depth`
+   - `sleeve_length`
+   - `wrist`
+
+   Example:
+   ```js
+   const armholeDepth = sizeData.armhole_depth;
+   const sleeveLength = sizeData.sleeve_length;
+   const cuffCircumference = sizeData.wrist;
+If any required field is missing, throw a clear error message.
+
+Base calculations
+
+castOnSts = cuffCircumference * stitchGauge
+
+totalRows = sleeveLength * rowGauge
+
+The sleeve tapers smoothly from the wrist width to the armhole width defined by the armhole depth × 2.
+
+Shape from wrist to cap
+
+Shaping follows a linear taper between the wrist width and the top width.
+
+Compute shaping height:
+
+const shapingHeight = armholeDepth * 2;
+const shapingRows = shapingHeight * rowGauge;
+
+
+Calculate number of increases to reach armhole width:
+
+const finalWidth = armholeDepth * 2; // using depth as the width proxy
+const totalIncrease = (finalWidth - cuffCircumference) * stitchGauge;
+const increasePairs = totalIncrease / 2;
+const increaseInterval = shapingRows / increasePairs;
+
+
+Round increaseInterval to an even number of rows.
+
+Cap and bind-off
+Once shaping is complete:
+
+Cast on {castOnSts} sts.
+Work cuff ribbing for 20 rows.
+Increase 1 st each side every {increaseInterval} rows
+until sleeve measures {sleeveLength − armholeDepth × 2}.
+Bind off remaining sts to shape the sleeve cap.
+
+
+SVG diagram
+Generate a simple SVG outline:
+
+Bottom width = wrist
+
+Height = sleeve_length
+
+Dashed horizontal line at armhole_depth × 2 (cap boundary)
+
+Label: "Cuff", "Sleeve Length", "Armhole Cap"
+
+Use scale = 5 px per inch (or convert if units = cm)
+
+REturn object:
+{
+  "source": "https://sizing-data.knitbymachine.com/{category}.json",
+  "sleevePatternText": "...knitting instructions...",
+  "sleeveSVG": "<svg>...</svg>",
+  "details": {
+    "castOnSts": ...,
+    "increaseInterval": ...,
+    "finalRows": ...,
+    "capRows": ...,
+    "gauge": {
+      "stitchGauge": ...,
+      "rowGauge": ...
+    }
+  }
+}
+
+Implementation notes:
+
+Write as an ES module so it can be imported:
+import { sleeveDropShoulder } from './lego/sleeveDropShoulder.js'
+Use await fetch() for sizing data.
+
+Keep all units consistent with units.
+
+Add clear error handling for missing fields.
+
+Return both text and SVG outputs.
+
+Output both:
+
+sleeveDropShoulder.js — contains the function.
+
+testSleeve.html — renders the SVG and pattern text for a sample size.
+
+
+
+
+
+Create a modular pattern generator block called `sleeveDropShoulder()`.
+
+Purpose:
+Generate a *drop shoulder sleeve* pattern, shaped from the wrist to the armhole cap, using live sizing data from https://sizing-data.knitbymachine.com.  
+...
+
