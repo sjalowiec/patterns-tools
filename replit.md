@@ -20,6 +20,7 @@ Preferred communication style: Simple, everyday language.
 ### Lego Block Architecture
 The system provides reusable wizard components in `client/src/components/lego/`:
 - **GaugeInputs**: Gauge measurement inputs with dynamic placeholders (per 4"/10cm)
+- **PanelSchematic**: Universal knitting panel schematic component displaying bottom-to-top orientation (cast-on at bottom, armhole/cap at top) for all sweater pieces
 - **RadioGroup**: Styled radio groups with olive green accent color
 - **SchematicWrapper**: Centered SVG diagram wrapper with consistent padding and proper sizing
 - **SizeSelector**: Card-based size selector with category grouping and selection states
