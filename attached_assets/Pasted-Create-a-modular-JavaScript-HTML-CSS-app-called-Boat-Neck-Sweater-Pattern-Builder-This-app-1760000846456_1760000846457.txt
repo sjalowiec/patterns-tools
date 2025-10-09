@@ -1,0 +1,62 @@
+Create a modular JavaScript + HTML + CSS app called "Boat Neck Sweater Pattern Builder."
+
+This app is part of a larger pattern system that assembles knitting patterns using reusable “lego blocks” for garment sections.
+
+Use the new sleeve hook module that was just created to attach sleeve logic to this Boat Neck pattern.
+
+Requirements:
+
+1. Base garment structure:
+   - Front and Back: two identical rectangular panels (no neckline shaping)
+   - Sleeves: generated using the sleeve hook module
+   - Optional finishing options (ribbing or hems)
+   - All dimensions are calculated from user inputs
+
+2. User input data (to come from localStorage or form object):
+
+{
+knittingFor: "women",
+size: "M",
+ease: { type: "standard", inches: 3 },
+needles: 180,
+gauge: { stitches: 5, rows: 7 },
+units: "inches",
+finishing: "ribbing"
+}
+
+
+3. Logic:
+- Determine body width = base size width + ease
+- Determine body length based on size chart JSON
+- Determine sleeve length and width using the new sleeve hook
+- If total stitches > available needles, display a note:
+  “This size exceeds your needle bed. Panels are recommended.”
+- Convert all measurements according to gauge and unit system
+
+4. Output:
+- Generate and display pattern instructions for:
+  • Front panel
+  • Back panel
+  • Sleeves (from sleeve hook)
+  • Finishing (ribbing or hem)
+- Include a schematic-style text summary showing:
+  Body Width, Body Length, Sleeve Length, and Needles Used
+- Display yarn estimate if gauge and swatch data are available
+
+5. Technical setup:
+- Build this as a simple, self-contained web app
+- No Bootstrap
+- Use your `.pattern-builder` class for layout
+- Include placeholder functions where the pattern engine will eventually plug in more advanced modules (neck shaping, A-line shaping, etc.)
+- Comment the code clearly so the logic blocks can be reused for Drop Shoulder, Raglan, etc.
+
+6. Visual:
+- One-page layout
+- Section for pattern summary
+- Buttons: [Recalculate] [Download PDF] [Return to Builder]
+- Light neutral styling for embedding inside Webflow
+
+Goal:
+Produce working pattern-generation code for a Boat Neck Sweater using the new sleeve hook, following the Knit by Machine modular pattern structure.
+
+
