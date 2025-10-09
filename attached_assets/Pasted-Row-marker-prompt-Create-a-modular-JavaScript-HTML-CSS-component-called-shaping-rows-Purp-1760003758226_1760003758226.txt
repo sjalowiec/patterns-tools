@@ -1,0 +1,60 @@
+Row marker prompt
+Create a modular JavaScript + HTML + CSS component called "shaping rows."
+
+Purpose:
+To display row numbers for any shaping instruction (increases, decreases, or short rows) beneath the main text instructions in smaller, subdued text.
+
+Requirements:
+
+1. Structure:
+   - The block receives three numeric inputs:
+       • startRow (integer, default = 1)
+       • repeatEvery (integer, number of rows between shaping actions)
+       • totalRepeats (integer, total number of shaping actions)
+   - Example input:
+       { startRow: 1, repeatEvery: 4, totalRepeats: 4 }
+
+2. Output logic:
+   - Calculate the specific row numbers where shaping occurs.
+   - Example:
+       Input → { startRow:1, repeatEvery:4, totalRepeats:4 }
+       Output → rows: (1, 4, 8, 12)
+   - Return both a plain text string and HTML markup so it can be rendered inline under instructions.
+
+3. Integration:
+   - Designed as a sub-block that can be attached to any shaping instruction block.
+   - Can be called like:
+       addSubBlock("rowMarkers", { start: 1, every: 4, repeats: 4 });
+   - or used standalone with:
+       renderRowMarkers(1, 4, 4);
+
+4. Display:
+   - Appears directly below the shaping instruction text.
+   - Use <small> or a CSS class to make the text visually secondary.
+
+5. Example usage:
+
+Increase 1 stitch each side every 4 rows until you have 101 stitches
+ <small>rows: (1, 4, 8, 12)</small>
+
+6. CSS styling:
+
+.pattern-instructions small {
+ display: block;
+ font-size: 0.9em;
+ color: #555;
+ margin-top: 0.2em;
+ }
+- Styling must be neutral and consistent with the existing `.pattern-builder` design.
+- It should inherit typography from the parent container.
+
+7. Code clarity:
+- Comment logic steps clearly.
+- Include error checking for invalid inputs (e.g., negative or zero values).
+- Return an empty string if repeat data is missing or not applicable.
+
+Goal:
+Produce a reusable Row Marker Block module that can be attached to any shaping instructions.
+
+
+
