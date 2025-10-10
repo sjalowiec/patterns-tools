@@ -6,6 +6,26 @@ The Wizard Builder is a comprehensive system for creating professional knitting 
 
 ## Recent Changes
 
+### October 10, 2025
+- **Machine Knitter Row-Based Instructions**:
+  - Updated useSleeveDropShoulder to prioritize row counts over length measurements
+  - Changed "work until measures X inches" to "work for Y rows total (sleeve will measure X inches at your gauge)"
+  - Added total row count to final measurements: "16.5" (46 rows)"
+  - Machine knitters now get exact row counts for all instructions
+
+- **Sleeve Diagram Trapezoid Shaping**:
+  - Enhanced PanelSchematic to support trapezoid shapes via optional `bottomWidth` prop
+  - Sleeve diagrams now visually show shaping (narrow at cuff, wide at armhole)
+  - Polygon coordinates correctly render narrower bottom (cast-on) and wider top (bind-off)
+  - Body panels remain rectangular (no bottomWidth = rectangle rendering)
+
+- **Development Navigation Redesign**:
+  - Redesigned dev menu from horizontal to vertical stacked layout
+  - Fixed position in top-left corner for easy access without fullscreen
+  - Compact design using Tailwind classes (no inline styles)
+  - CSS-based hover states (hover:bg-white/10) instead of event handlers
+  - "Dev Menu" header with 6 wizard links vertically stacked
+
 ### October 9, 2025
 - **Boat Neck Wizard Improvements**:
   - Fixed size lookup bug in useSleeveDropShoulder hook - now handles both string and numeric size values from sizing data
@@ -32,7 +52,7 @@ Preferred communication style: Simple, everyday language.
 ### Lego Block Architecture
 The system provides reusable wizard components in `client/src/components/lego/`:
 - **GaugeInputs**: Gauge measurement inputs with dynamic placeholders (per 4"/10cm)
-- **PanelSchematic**: Universal knitting panel schematic component displaying bottom-to-top orientation (cast-on at bottom, armhole/cap at top) for all sweater pieces
+- **PanelSchematic**: Universal knitting panel schematic component displaying bottom-to-top orientation (cast-on at bottom, armhole/cap at top) for all sweater pieces. Supports both rectangle (body panels) and trapezoid shapes (sleeves with shaping) via optional `bottomWidth` prop
 - **RadioGroup**: Styled radio groups with olive green accent color
 - **SchematicWrapper**: Centered SVG diagram wrapper with consistent padding and proper sizing
 - **SizeSelector**: Card-based size selector with category grouping and selection states
@@ -44,7 +64,7 @@ The system provides reusable wizard components in `client/src/components/lego/`:
 - **PrintHeader**: Print-only header using "Shadows Into Light Two" Google Font with KnitbyMachine branding (#649841 green) and URL (hidden on screen, visible in print/PDF)
 - **PrintFooter**: Print-only footer with copyright, URL, generation date, and page numbers (hidden on screen, visible in print/PDF)
 - **useGaugeCalculations**: Hook for unit-aware gauge calculations (4" vs 10cm)
-- **useSleeveDropShoulder**: Hook for drop shoulder sleeve pattern generation with external sizing data, handles both string and numeric size values from sizing APIs
+- **useSleeveDropShoulder**: Hook for drop shoulder sleeve pattern generation with external sizing data, handles both string and numeric size values from sizing APIs, generates row-based instructions for machine knitters
 
 All components use CSS variables for theming and are fully reusable across wizards.
 
