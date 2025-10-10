@@ -4,10 +4,11 @@ interface PanelSchematicProps {
   // Panel configuration
   panels: Array<{
     label: string;
-    width: number;  // in selected units
+    width: number;  // in selected units (top width for trapezoid)
     height: number; // in selected units
     castOnSts?: number;
     totalRows?: number;
+    bottomWidth?: number; // for trapezoid shapes (sleeve cuff)
   }>;
   
   // Armhole/Cap marker (optional)
@@ -62,19 +63,39 @@ export function PanelSchematic({
       <svg viewBox={`0 0 ${svgWidth} ${svgHeight}`} style={{ maxWidth: '600px', width: '100%' }}>
         {panels.map((panel, index) => {
           const panelX = startX + (index * (panelWidth + panelSpacing));
+          const isTrapezoid = panel.bottomWidth !== undefined;
+          
+          // For trapezoid (sleeve): calculate widths based on actual measurements
+          const topPanelWidth = panelWidth;
+          const bottomPanelWidth = isTrapezoid && panel.bottomWidth && panel.width > 0
+            ? (panel.bottomWidth / panel.width) * panelWidth
+            : panelWidth;
+          
+          // Center the trapezoid
+          const topX = panelX;
+          const bottomX = panelX + (topPanelWidth - bottomPanelWidth) / 2;
           
           return (
             <g key={index}>
-              {/* Panel rectangle */}
-              <rect 
-                x={panelX} 
-                y={startY} 
-                width={panelWidth} 
-                height={panelHeight} 
-                fill="none" 
-                stroke="#52682d" 
-                strokeWidth="2"
-              />
+              {/* Panel shape - rectangle or trapezoid */}
+              {isTrapezoid ? (
+                <polygon 
+                  points={`${bottomX},${startY + panelHeight} ${topX},${startY} ${topX + topPanelWidth},${startY} ${bottomX + bottomPanelWidth},${startY + panelHeight}`}
+                  fill="none" 
+                  stroke="#52682d" 
+                  strokeWidth="2"
+                />
+              ) : (
+                <rect 
+                  x={panelX} 
+                  y={startY} 
+                  width={panelWidth} 
+                  height={panelHeight} 
+                  fill="none" 
+                  stroke="#52682d" 
+                  strokeWidth="2"
+                />
+              )}
               
               {/* Panel label at top */}
               <text 

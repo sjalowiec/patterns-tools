@@ -280,7 +280,8 @@ export default function BoatNeckWizard() {
                         width: sleevePattern.measurements.sleeveTop,
                         height: sleevePattern.measurements.sleeveLength,
                         castOnSts: sleevePattern.details.castOnSts,
-                        totalRows: sleevePattern.details.finalRows
+                        totalRows: sleevePattern.details.finalRows,
+                        bottomWidth: sleevePattern.measurements.wrist
                       }
                     ]}
                     marker={{
