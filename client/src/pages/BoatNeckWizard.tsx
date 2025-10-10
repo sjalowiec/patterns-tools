@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { GaugeInputs, RadioGroup, useSleeveDropShoulder, PrintHeader, PrintFooter, PrintOnlyTitle, StickyActionButtons, PanelSchematic } from '@/components/lego';
+import { GaugeInputs, RadioGroup, useSleeveDropShoulder, PrintHeader, PrintFooter, PrintOnlyTitle, StickyActionButtons, PanelSchematic, WarningBox } from '@/components/lego';
 import type { Units } from '@shared/types/wizard';
 import html2pdf from 'html2pdf.js';
 
@@ -51,6 +51,7 @@ export default function BoatNeckWizard() {
   const armholeRows = Math.round(armholeDepthIn * rowsPerUnit) || 0;
   
   // Calculate neck opening marker positions
+  // Needles count from center zero, so divide stitches by 2 for L# and R# positions
   let neckOpeningSts = Math.round(neckOpeningIn * stitchesPerUnit);
   // Make even
   if (neckOpeningSts % 2 !== 0) {
@@ -60,10 +61,7 @@ export default function BoatNeckWizard() {
   if (neckOpeningSts > castOnSts) {
     neckOpeningSts = castOnSts;
   }
-  const neckMarkerOffset = neckOpeningSts / 2;
-  const panelCenter = Math.round(castOnSts / 2);
-  const neckMarkerLeft = Math.max(1, panelCenter - neckMarkerOffset);
-  const neckMarkerRight = Math.min(castOnSts, panelCenter + neckMarkerOffset);
+  const neckMarkerPosition = neckOpeningSts / 2; // For L# and R# format
 
   // Sleeve pattern using hook (only if user wants sleeves)
   const sleeveParams = withSleeves === 'sleeves' && stitchesIn4 && rowsIn4 ? {
@@ -77,6 +75,7 @@ export default function BoatNeckWizard() {
   const { pattern: sleevePattern, loading: sleeveLoading, error: sleeveError } = useSleeveDropShoulder(sleeveParams);
 
   const hasRequiredInputs = stitchesIn4 && rowsIn4 && !hasGaugeError && stitchesPerUnit > 0 && rowsPerUnit > 0;
+  const hasUserData = !!(stitchesIn4 || rowsIn4);
 
   // Pattern instructions - simplified since front and back are identical
   const bodyInstructions = hasRequiredInputs ? `
@@ -86,8 +85,8 @@ export default function BoatNeckWizard() {
       <p><strong>Work even:</strong> Knit in stockinette stitch (or your preferred stitch pattern) for ${bodyRowsBeforeArmhole} rows</p>
       <p><strong>Place marker:</strong> At row ${bodyRowsBeforeArmhole}, place a marker at the beginning of the row to indicate the start of the armhole</p>
       <p><strong>Continue:</strong> Work ${armholeRows} more rows (armhole section)</p>
-      <p><strong>Neck opening:</strong> Before binding off, place markers at needle ${neckMarkerLeft} (left) and needle ${neckMarkerRight} (right) to mark the ${neckOpening.toFixed(1)}${units === 'inches' ? '"' : 'cm'} boat neck opening</p>
-      <p><strong>Bind off:</strong> All stitches (total of ${totalRows} rows)</p>
+      <p><strong>Neck opening:</strong> Before binding off, place markers at L${neckMarkerPosition} and R${neckMarkerPosition} to mark the ${neckOpening.toFixed(1)}${units === 'inches' ? '"' : 'cm'} boat neck opening</p>
+      <p><strong>Bind off:</strong> All stitches</p>
       <p><em>Note: For a classic boat neck design, the front and back panels are identical.</em></p>
     </div>
   ` : '';
@@ -95,10 +94,10 @@ export default function BoatNeckWizard() {
   const finishingInstructions = hasRequiredInputs ? `
     <div class="pattern-section">
       <h3>Assembly & Finishing</h3>
-      <p><strong>Seaming:</strong> Sew shoulder seams, leaving center open for boat neck opening (approximately 1/3 of shoulder width unsewn)</p>
+      <p><strong>Seaming:</strong> Join shoulder seams, leaving center open between the markers for the neck opening</p>
       ${withSleeves === 'sleeves' ? '<p><strong>Attach sleeves:</strong> Sew sleeves to armholes</p>' : ''}
       <p><strong>Side seams:</strong> Sew side seams${withSleeves === 'sleeves' ? ' and underarm seams' : ''}</p>
-      <p><strong>Neckline:</strong> Leave as-is for a rolled edge, or pick up stitches and work 1" ribbing (k1, p1) if desired</p>
+      <p><strong>Neckline:</strong> Finish neck opening as desired</p>
       <p><strong>Finishing:</strong> Weave in all ends and block to measurements</p>
     </div>
   ` : '';
@@ -167,6 +166,11 @@ export default function BoatNeckWizard() {
       
       <div id="pattern-content">
         <PrintOnlyTitle title="Boat Neck Sweater Pattern" />
+        
+        <WarningBox 
+          message="IMPORTANT: Your pattern will not be saved on this site. Please be sure to download and save your PDF - once you leave this page, your custom details won't be available again."
+          show={hasUserData}
+        />
         
         <h1 className="no-print" style={{ color: '#52682d', marginBottom: '10px' }}>Boat Neck Sweater Pattern Builder</h1>
         <p className="no-print" style={{ marginBottom: '30px', color: '#666' }}>
