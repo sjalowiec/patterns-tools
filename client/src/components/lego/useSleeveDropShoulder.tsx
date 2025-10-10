@@ -135,6 +135,10 @@ export function useSleeveDropShoulder(params: SleeveDropShoulderParams | null): 
 
         const finalRows = totalRows;
         
+        // Calculate row counts for instructions
+        const ribbingRows = 20;
+        const bodyRows = totalRows - ribbingRows;
+        
         let shapingInstructions = '';
         if (increasePairs >= 1 && increaseInterval > 0) {
           const shapingRowsHTML = calculateShapingRows(1, increaseInterval, increasePairs);
@@ -153,13 +157,13 @@ export function useSleeveDropShoulder(params: SleeveDropShoulderParams | null): 
 <br>
 <strong>Cuff Ribbing:</strong> Work 20 rows in ribbing (K1, P1 or K2, P2)
 <br>
-${shapingInstructions}<strong>Continue:</strong> Work straight until sleeve measures ${sleeve_length}${unitLabel}
+${shapingInstructions}<strong>Continue:</strong> Work for ${bodyRows} rows total (sleeve will measure ${sleeve_length}${unitLabel} at your gauge)
 <br>
 <strong>Bind Off:</strong> All remaining stitches
 <br><br>
 <strong>Final Measurements:</strong>
 <br>• Cuff: ${wrist}${unitLabel}
-<br>• Total length: ${sleeve_length}${unitLabel}
+<br>• Total length: ${sleeve_length}${unitLabel} (${totalRows} rows)
 <br>• Top width: ${finalWidth}${unitLabel}
         `.trim();
 
