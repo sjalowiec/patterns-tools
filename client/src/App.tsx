@@ -14,181 +14,37 @@ import NotFound from "@/pages/not-found";
 function Navigation() {
   const [location] = useLocation();
   
+  const navLinks = [
+    { href: '/', label: 'Neckline/Shoulder', testId: 'link-neckline-wizard' },
+    { href: '/neckline-shaping', label: 'Neckline Shaping', testId: 'link-neckline-shaping-wizard' },
+    { href: '/blanket', label: 'Blanket Pattern', testId: 'link-blanket-wizard' },
+    { href: '/rectangle', label: 'Rectangle/Square', testId: 'link-rectangle-wizard' },
+    { href: '/sleeve', label: 'Sleeve Tester', testId: 'link-sleeve-wizard' },
+    { href: '/boat-neck', label: 'Boat Neck', testId: 'link-boat-neck-wizard' }
+  ];
+  
   return (
-    <nav style={{
-      backgroundColor: 'var(--accent)',
-      padding: '1rem 2rem',
-      display: 'flex',
-      gap: '2rem',
-      alignItems: 'center',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-    }}>
-      <h1 style={{
-        color: 'white',
-        fontSize: '1.5rem',
-        fontWeight: 600,
-        margin: 0,
-        fontFamily: 'Poppins, sans-serif'
-      }}>
-        Wizard Builder
-      </h1>
-      <div style={{ display: 'flex', gap: '1rem' }}>
-        <Link
-          href="/"
-          data-testid="link-neckline-wizard"
-          style={{
-            color: 'white',
-            textDecoration: 'none',
-            padding: '0.5rem 1rem',
-            borderRadius: '4px',
-            backgroundColor: location === '/' ? 'rgba(255,255,255,0.2)' : 'transparent',
-            transition: 'background-color 0.2s',
-            fontFamily: 'Poppins, sans-serif',
-            fontWeight: 500
-          }}
-          onMouseEnter={(e) => {
-            if (location !== '/') {
-              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (location !== '/') {
-              e.currentTarget.style.backgroundColor = 'transparent';
-            }
-          }}
-        >
-          Neckline/Shoulder Practice
-        </Link>
-        <Link
-          href="/neckline-shaping"
-          data-testid="link-neckline-shaping-wizard"
-          style={{
-            color: 'white',
-            textDecoration: 'none',
-            padding: '0.5rem 1rem',
-            borderRadius: '4px',
-            backgroundColor: location === '/neckline-shaping' ? 'rgba(255,255,255,0.2)' : 'transparent',
-            transition: 'background-color 0.2s',
-            fontFamily: 'Poppins, sans-serif',
-            fontWeight: 500
-          }}
-          onMouseEnter={(e) => {
-            if (location !== '/neckline-shaping') {
-              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (location !== '/neckline-shaping') {
-              e.currentTarget.style.backgroundColor = 'transparent';
-            }
-          }}
-        >
-          Neckline Shaping
-        </Link>
-        <Link
-          href="/blanket"
-          data-testid="link-blanket-wizard"
-          style={{
-            color: 'white',
-            textDecoration: 'none',
-            padding: '0.5rem 1rem',
-            borderRadius: '4px',
-            backgroundColor: location === '/blanket' ? 'rgba(255,255,255,0.2)' : 'transparent',
-            transition: 'background-color 0.2s',
-            fontFamily: 'Poppins, sans-serif',
-            fontWeight: 500
-          }}
-          onMouseEnter={(e) => {
-            if (location !== '/blanket') {
-              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (location !== '/blanket') {
-              e.currentTarget.style.backgroundColor = 'transparent';
-            }
-          }}
-        >
-          Blanket Pattern
-        </Link>
-        <Link
-          href="/rectangle"
-          data-testid="link-rectangle-wizard"
-          style={{
-            color: 'white',
-            textDecoration: 'none',
-            padding: '0.5rem 1rem',
-            borderRadius: '4px',
-            backgroundColor: location === '/rectangle' ? 'rgba(255,255,255,0.2)' : 'transparent',
-            transition: 'background-color 0.2s',
-            fontFamily: 'Poppins, sans-serif',
-            fontWeight: 500
-          }}
-          onMouseEnter={(e) => {
-            if (location !== '/rectangle') {
-              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (location !== '/rectangle') {
-              e.currentTarget.style.backgroundColor = 'transparent';
-            }
-          }}
-        >
-          Rectangle/Square
-        </Link>
-        <Link
-          href="/sleeve"
-          data-testid="link-sleeve-wizard"
-          style={{
-            color: 'white',
-            textDecoration: 'none',
-            padding: '0.5rem 1rem',
-            borderRadius: '4px',
-            backgroundColor: location === '/sleeve' ? 'rgba(255,255,255,0.2)' : 'transparent',
-            transition: 'background-color 0.2s',
-            fontFamily: 'Poppins, sans-serif',
-            fontWeight: 500
-          }}
-          onMouseEnter={(e) => {
-            if (location !== '/sleeve') {
-              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (location !== '/sleeve') {
-              e.currentTarget.style.backgroundColor = 'transparent';
-            }
-          }}
-        >
-          Sleeve Tester
-        </Link>
-        <Link
-          href="/boat-neck"
-          data-testid="link-boat-neck-wizard"
-          style={{
-            color: 'white',
-            textDecoration: 'none',
-            padding: '0.5rem 1rem',
-            borderRadius: '4px',
-            backgroundColor: location === '/boat-neck' ? 'rgba(255,255,255,0.2)' : 'transparent',
-            transition: 'background-color 0.2s',
-            fontFamily: 'Poppins, sans-serif',
-            fontWeight: 500
-          }}
-          onMouseEnter={(e) => {
-            if (location !== '/boat-neck') {
-              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (location !== '/boat-neck') {
-              e.currentTarget.style.backgroundColor = 'transparent';
-            }
-          }}
-        >
-          Boat Neck
-        </Link>
+    <nav className="fixed top-2 left-2 bg-[var(--accent)] rounded-lg p-3 shadow-lg z-[1000] min-w-[180px] max-w-[200px]">
+      <h2 className="text-white text-xs font-semibold mb-2 uppercase tracking-wide opacity-90" style={{ fontFamily: 'Poppins, sans-serif' }}>
+        Dev Menu
+      </h2>
+      <div className="flex flex-col gap-1">
+        {navLinks.map(link => (
+          <Link
+            key={link.href}
+            href={link.href}
+            data-testid={link.testId}
+            className={`
+              text-white no-underline px-3 py-2 rounded text-sm transition-colors
+              ${location === link.href 
+                ? 'bg-white/25 font-semibold' 
+                : 'bg-transparent hover:bg-white/10 font-normal'}
+            `}
+            style={{ fontFamily: 'Poppins, sans-serif' }}
+          >
+            {link.label}
+          </Link>
+        ))}
       </div>
     </nav>
   );
