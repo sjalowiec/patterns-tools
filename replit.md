@@ -26,6 +26,14 @@ The Wizard Builder is a comprehensive system for creating professional knitting 
   - CSS-based hover states (hover:bg-white/10) instead of event handlers
   - "Dev Menu" header with 6 wizard links vertically stacked
 
+- **Boat Neck Wizard Pattern Instruction Improvements**:
+  - Fixed neck marker format: Needles count from center zero, display as L# and R# (e.g., 50 sts = L25 and R25)
+  - Added warning message "IMPORTANT: Your pattern will not be saved..." with no-print class
+  - Removed row count from bind off instruction (now just "All stitches")
+  - Updated shoulder seam instruction: "Join shoulder seams, leaving center open between the markers for the neck opening"
+  - Simplified neckline finishing: "Finish neck opening as desired" for machine knitting
+  - Exported WarningBox from lego components for consistency across wizards
+
 ### October 9, 2025
 - **Boat Neck Wizard Improvements**:
   - Fixed size lookup bug in useSleeveDropShoulder hook - now handles both string and numeric size values from sizing data
