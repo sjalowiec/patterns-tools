@@ -2,9 +2,21 @@
 
 ## Overview
 
-The Wizard Builder is a comprehensive system for creating professional knitting pattern generator wizards. The system uses modular "lego block" architecture with reusable components, shared calculation logic, and a unified olive green theme. Currently includes the Neckline/Shoulder Practice Wizard, Blanket Pattern Wizard, Rectangle/Square Wizard, Neckline Shaping Wizard, Boat Neck Sweater Wizard, and infrastructure to easily build additional wizards.
+The Wizard Builder is a comprehensive system for creating professional knitting pattern generator wizards. The system uses modular "lego block" architecture with reusable components, shared calculation logic, and a unified olive green theme. Currently includes the Neckline/Shoulder Practice Wizard, Blanket Pattern Wizard, Rectangle/Square Wizard, Neckline Shaping Wizard, Boat Neck Sweater Wizard, Gauge Calculator Wizard, and infrastructure to easily build additional wizards.
 
 ## Recent Changes
+
+### October 12, 2025
+- **Gauge Calculator Wizard**:
+  - New wizard tool to help knitters convert swatch measurements into precise gauge numbers
+  - Supports both inches and centimeters measurement systems
+  - Calculates stitches and rows per 1" and per 4" (inches mode) or per 10cm (centimeters mode)
+  - Shows per-inch conversion in both modes for universal compatibility
+  - Copy-to-clipboard functionality for formatted gauge text
+  - localStorage persistence for all input values (gauge.unit, gauge.width, gauge.height, gauge.sts, gauge.rows)
+  - Clean Tailwind-only design with #52682d accent color and #f7f8f7 background
+  - Includes instructions, measurement tips, and placeholder for swatch drawing diagram
+  - Proper unit conversion: per-10cm ÷ 3.937 = per-inch (10cm/2.54in)
 
 ### October 10, 2025
 - **Machine Knitter Row-Based Instructions**:
