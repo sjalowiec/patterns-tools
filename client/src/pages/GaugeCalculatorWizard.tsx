@@ -194,14 +194,14 @@ export default function GaugeCalculatorWizard() {
           }}>
             <div>
               <label style={{ display: 'block', color: '#666', fontSize: '14px', marginBottom: '6px' }}>
-                Swatch Width ({units === 'inches' ? 'inches' : 'cm'})
+                Width
               </label>
               <input
                 type="number"
                 step="0.1"
                 value={swatchWidth}
                 onChange={(e) => setSwatchWidth(e.target.value)}
-                placeholder={units === 'inches' ? '4.0' : '10.0'}
+                placeholder="swatch width (in/cm)"
                 data-testid="input-width"
                 style={{
                   width: '100%',
@@ -215,14 +215,14 @@ export default function GaugeCalculatorWizard() {
 
             <div>
               <label style={{ display: 'block', color: '#666', fontSize: '14px', marginBottom: '6px' }}>
-                Swatch Height ({units === 'inches' ? 'inches' : 'cm'})
+                Height
               </label>
               <input
                 type="number"
                 step="0.1"
                 value={swatchHeight}
                 onChange={(e) => setSwatchHeight(e.target.value)}
-                placeholder={units === 'inches' ? '4.0' : '10.0'}
+                placeholder="swatch height (in/cm)"
                 data-testid="input-height"
                 style={{
                   width: '100%',
@@ -236,14 +236,14 @@ export default function GaugeCalculatorWizard() {
 
             <div>
               <label style={{ display: 'block', color: '#666', fontSize: '14px', marginBottom: '6px' }}>
-                Stitches Counted
+                Stitches
               </label>
               <input
                 type="number"
                 step="1"
                 value={stitches}
                 onChange={(e) => setStitches(e.target.value)}
-                placeholder="20"
+                placeholder="Stitches Measured"
                 data-testid="input-stitches"
                 style={{
                   width: '100%',
@@ -257,14 +257,14 @@ export default function GaugeCalculatorWizard() {
 
             <div>
               <label style={{ display: 'block', color: '#666', fontSize: '14px', marginBottom: '6px' }}>
-                Rows Counted
+                Rows
               </label>
               <input
                 type="number"
                 step="1"
                 value={rows}
                 onChange={(e) => setRows(e.target.value)}
-                placeholder="24"
+                placeholder="Rows Measured"
                 data-testid="input-rows"
                 style={{
                   width: '100%',
