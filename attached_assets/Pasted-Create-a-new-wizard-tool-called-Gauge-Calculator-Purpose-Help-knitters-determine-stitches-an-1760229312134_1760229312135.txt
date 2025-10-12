@@ -1,0 +1,97 @@
+Create a new wizard tool called “Gauge Calculator”.
+
+Purpose:
+Help knitters determine stitches and rows per 1" and per 4" (10 cm) from their knitted swatch.
+This calculator improves accuracy by translating a measured swatch into precise gauge numbers.
+
+Structure:
+Use my existing LEGO layout and formatting system:
+- instructions block
+- input block (form fields)
+- results block (two-column card)
+- tip card block with a placeholder drawing area
+- soft footer text
+
+Styling:
+- Use Tailwind only (no external CSS frameworks).
+- Accent color: #52682d
+- Light gray background (#f7f8f7)
+- Rounded corners, soft shadows, clean spacing.
+- Compact, mobile-friendly layout.
+- Persist all input fields with localStorage keys.
+- Keep design minimal — no header banner.
+
+Inputs:
+- Unit toggle: “Inches” or “Centimeters”
+- Measured swatch width
+- Measured swatch height
+- Stitches counted
+- Rows counted
+
+Logic:
+If unit = inches:
+  stitches_per_in = stitches / width
+  rows_per_in = rows / height
+  stitches_per_4in = stitches_per_in * 4
+  rows_per_4in = rows_per_in * 4
+
+If unit = centimeters:
+  stitches_per_10cm = (stitches / width) * 10
+  rows_per_10cm = (rows / height) * 10
+  stitches_per_in = stitches_per_10cm / 4
+  rows_per_in = rows_per_10cm / 4
+
+Round all results to two decimal places.
+
+Display Rules:
+- When unit = inches:
+  Show stitches and rows per 1" and per 4".
+- When unit = centimeters:
+  Show stitches and rows per 10 cm (do not show “per cm”).
+- Always display both stitch and row results side-by-side in a simple two-column layout.
+
+Results Block:
+Use a rounded results card with these elements:
+- Column 1: Stitch gauge results
+- Column 2: Row gauge results
+- Include a small copy-to-clipboard button:
+  Text format → “X sts / 4″ (10 cm), Y rows / 4″ (10 cm)”
+- Add a small note below results:
+  “Values are approximate. Always swatch carefully.”
+
+Instructions Block:
+Use the following text:
+
+Title: “Ditch the Calculator!”
+Body:
+“The Gauge Calculator helps you determine the stitch and row gauge of your knitted swatch.
+Accurate gauge measurements ensure your projects turn out as expected.”
+
+Step-by-step:
+1. Measure a 4″ (10 cm) area in the center of your swatch.
+2. Count the stitches across and the rows vertically.
+3. Enter your measurements and counts below.
+4. View stitches and rows per 1″ and 4″ (10 cm).
+
+Tip Card Block:
+Title: “Tips for Accurate Measurements”
+Bullets:
+- Always measure your swatch after resting and blocking.
+- Use a ruler with clear markings.
+- Measure multiple sections of the swatch and average the results for better accuracy.
+Include a placeholder labeled:
+“(insert drawing of swatch measurement here)”
+
+Footer:
+Small, centered text:
+“Built for machine knitters. Always swatch before you knit.”
+
+Implementation:
+- React functional component.
+- Use Tailwind for all styling.
+- Persist all input values using localStorage keys:
+  gauge.unit, gauge.width, gauge.height, gauge.sts, gauge.rows
+- Keep code modular, using reusable LEGO blocks for layout.
+- Do not include a header or hero section — start directly with the instructions block.
+
+Return the complete React component implementing this calculator, ready to embed in a wizard page.
