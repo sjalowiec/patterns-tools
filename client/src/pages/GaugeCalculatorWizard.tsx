@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { UnitsToggle, PrintHeader, PrintFooter, StickyActionButtons } from '@/components/lego';
 import { Copy, Check } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
-import '/sweater_planner_css.css';
 
 type Units = 'inches' | 'cm';
 
