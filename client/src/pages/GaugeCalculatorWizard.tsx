@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { UnitsToggle, PrintHeader, PrintFooter, StickyActionButtons } from '@/components/lego';
 import { Copy, Check } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
+import '/sweater_planner_css.css';
 
 type Units = 'inches' | 'cm';
 
@@ -192,87 +193,55 @@ export default function GaugeCalculatorWizard() {
             gap: '16px',
             marginTop: '20px'
           }}>
-            <div>
-              <label style={{ display: 'block', color: '#666', fontSize: '14px', marginBottom: '6px' }}>
-                Width
-              </label>
+            <div className="form-group">
+              <label>Width</label>
               <input
                 type="number"
                 step="0.1"
+                className="form-control"
                 value={swatchWidth}
                 onChange={(e) => setSwatchWidth(e.target.value)}
-                placeholder="swatch width (in/cm)"
+                placeholder={units === 'inches' ? 'swatch width (in)' : 'swatch width (cm)'}
                 data-testid="input-width"
-                style={{
-                  width: '100%',
-                  padding: '10px 12px',
-                  border: '1px solid #ddd',
-                  borderRadius: '6px',
-                  fontSize: '16px'
-                }}
               />
             </div>
 
-            <div>
-              <label style={{ display: 'block', color: '#666', fontSize: '14px', marginBottom: '6px' }}>
-                Height
-              </label>
+            <div className="form-group">
+              <label>Height</label>
               <input
                 type="number"
                 step="0.1"
+                className="form-control"
                 value={swatchHeight}
                 onChange={(e) => setSwatchHeight(e.target.value)}
-                placeholder="swatch height (in/cm)"
+                placeholder={units === 'inches' ? 'swatch height (in)' : 'swatch height (cm)'}
                 data-testid="input-height"
-                style={{
-                  width: '100%',
-                  padding: '10px 12px',
-                  border: '1px solid #ddd',
-                  borderRadius: '6px',
-                  fontSize: '16px'
-                }}
               />
             </div>
 
-            <div>
-              <label style={{ display: 'block', color: '#666', fontSize: '14px', marginBottom: '6px' }}>
-                Stitches
-              </label>
+            <div className="form-group">
+              <label>Stitches</label>
               <input
                 type="number"
                 step="1"
+                className="form-control"
                 value={stitches}
                 onChange={(e) => setStitches(e.target.value)}
                 placeholder="Stitches Measured"
                 data-testid="input-stitches"
-                style={{
-                  width: '100%',
-                  padding: '10px 12px',
-                  border: '1px solid #ddd',
-                  borderRadius: '6px',
-                  fontSize: '16px'
-                }}
               />
             </div>
 
-            <div>
-              <label style={{ display: 'block', color: '#666', fontSize: '14px', marginBottom: '6px' }}>
-                Rows
-              </label>
+            <div className="form-group">
+              <label>Rows</label>
               <input
                 type="number"
                 step="1"
+                className="form-control"
                 value={rows}
                 onChange={(e) => setRows(e.target.value)}
                 placeholder="Rows Measured"
                 data-testid="input-rows"
-                style={{
-                  width: '100%',
-                  padding: '10px 12px',
-                  border: '1px solid #ddd',
-                  borderRadius: '6px',
-                  fontSize: '16px'
-                }}
               />
             </div>
           </div>
@@ -389,12 +358,72 @@ export default function GaugeCalculatorWizard() {
             backgroundColor: '#f7f8f7', 
             border: '2px dashed #52682d', 
             borderRadius: '6px', 
-            padding: '40px', 
-            textAlign: 'center',
-            color: '#666',
-            fontSize: '14px'
+            padding: '20px', 
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
           }}>
-            (insert drawing of swatch measurement here)
+            <svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+              {/* Knitted swatch (white rectangle with wavy edges) */}
+              <rect x="40" y="40" width="180" height="180" fill="white" stroke="none" />
+              
+              {/* Wavy knitted edges - top */}
+              <path d="M 40 40 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5" stroke="black" strokeWidth="2" fill="none" />
+              
+              {/* Wavy knitted edges - bottom */}
+              <path d="M 40 220 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5 l 5 -5 l 5 5" stroke="black" strokeWidth="2" fill="none" />
+              
+              {/* Wavy knitted edges - left */}
+              <path d="M 40 40 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5" stroke="black" strokeWidth="2" fill="none" />
+              
+              {/* Wavy knitted edges - right */}
+              <path d="M 220 40 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5 l -5 5 l 5 5" stroke="black" strokeWidth="2" fill="none" />
+              
+              {/* Horizontal ruler at bottom */}
+              <rect x="30" y="230" width="200" height="25" fill="white" stroke="#52682d" strokeWidth="1" />
+              
+              {/* Tick marks on horizontal ruler */}
+              {[...Array(21)].map((_, i) => (
+                <line 
+                  key={`h-tick-${i}`}
+                  x1={30 + i * 10} 
+                  y1={230} 
+                  x2={30 + i * 10} 
+                  y2={i % 5 === 0 ? 240 : 235} 
+                  stroke="#52682d" 
+                  strokeWidth="1" 
+                />
+              ))}
+              
+              {/* Vertical ruler on right */}
+              <rect x="230" y="30" width="25" height="200" fill="white" stroke="#52682d" strokeWidth="1" />
+              
+              {/* Tick marks on vertical ruler */}
+              {[...Array(21)].map((_, i) => (
+                <line 
+                  key={`v-tick-${i}`}
+                  x1={230} 
+                  y1={30 + i * 10} 
+                  x2={i % 5 === 0 ? 240 : 235} 
+                  y2={30 + i * 10} 
+                  stroke="#52682d" 
+                  strokeWidth="1" 
+                />
+              ))}
+              
+              {/* V corner markers in olive green */}
+              {/* Top-left V */}
+              <path d="M 35 50 L 40 45 L 45 50" stroke="#52682d" strokeWidth="2" fill="none" />
+              
+              {/* Top-right V */}
+              <path d="M 215 50 L 220 45 L 225 50" stroke="#52682d" strokeWidth="2" fill="none" />
+              
+              {/* Bottom-left V */}
+              <path d="M 35 210 L 40 215 L 45 210" stroke="#52682d" strokeWidth="2" fill="none" />
+              
+              {/* Bottom-right V */}
+              <path d="M 215 210 L 220 215 L 225 210" stroke="#52682d" strokeWidth="2" fill="none" />
+            </svg>
           </div>
         </div>
 
