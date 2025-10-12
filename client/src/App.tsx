@@ -9,6 +9,7 @@ import BlanketWizard from "@/pages/BlanketWizard";
 import RectangleWizard from "@/pages/RectangleWizard";
 import SleeveWizard from "@/pages/SleeveWizard";
 import BoatNeckWizard from "@/pages/BoatNeckWizard";
+import GaugeCalculatorWizard from "@/pages/GaugeCalculatorWizard";
 import NotFound from "@/pages/not-found";
 
 function Navigation() {
@@ -20,7 +21,8 @@ function Navigation() {
     { href: '/blanket', label: 'Blanket Pattern', testId: 'link-blanket-wizard' },
     { href: '/rectangle', label: 'Rectangle/Square', testId: 'link-rectangle-wizard' },
     { href: '/sleeve', label: 'Sleeve Tester', testId: 'link-sleeve-wizard' },
-    { href: '/boat-neck', label: 'Boat Neck', testId: 'link-boat-neck-wizard' }
+    { href: '/boat-neck', label: 'Boat Neck', testId: 'link-boat-neck-wizard' },
+    { href: '/gauge-calculator', label: 'Gauge Calculator', testId: 'link-gauge-calculator-wizard' }
   ];
   
   return (
@@ -59,6 +61,7 @@ function Router() {
       <Route path="/rectangle" component={RectangleWizard}/>
       <Route path="/sleeve" component={SleeveWizard}/>
       <Route path="/boat-neck" component={BoatNeckWizard}/>
+      <Route path="/gauge-calculator" component={GaugeCalculatorWizard}/>
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
