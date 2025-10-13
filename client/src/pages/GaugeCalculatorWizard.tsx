@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { UnitsToggle, PrintHeader, PrintFooter, StickyActionButtons } from '@/components/lego';
-import { Copy, Check, RotateCcw, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
 
 type Units = 'inches' | 'cm';
@@ -15,7 +15,6 @@ export default function GaugeCalculatorWizard() {
   const [swatchHeight, setSwatchHeight] = useState(() => localStorage.getItem('gauge.height') || '');
   const [stitches, setStitches] = useState(() => localStorage.getItem('gauge.sts') || '');
   const [rows, setRows] = useState(() => localStorage.getItem('gauge.rows') || '');
-  const [copied, setCopied] = useState(false);
   const [tipsOpen, setTipsOpen] = useState(false);
 
   // Persist to localStorage
@@ -73,13 +72,6 @@ export default function GaugeCalculatorWizard() {
   }
 
   const hasResults = width > 0 && height > 0 && sts > 0 && rowCount > 0;
-
-  const handleCopy = () => {
-    const text = `${stitchesPer4or10.toFixed(2)} sts / ${displayLabel}, ${rowsPer4or10.toFixed(2)} rows / ${displayLabel}`;
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   const handleReset = () => {
     setSwatchWidth('');
@@ -165,12 +157,20 @@ export default function GaugeCalculatorWizard() {
         </div>
 
         {/* Two-Column Layout: Inputs + SVG */}
-        <div className="no-print" style={{ 
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '20px',
-          marginBottom: '20px'
-        }}>
+        <style>{`
+          .gauge-grid {
+            display: grid;
+            grid-template-columns: 7fr 5fr;
+            gap: 20px;
+            margin-bottom: 20px;
+          }
+          @media (max-width: 768px) {
+            .gauge-grid {
+              grid-template-columns: 1fr;
+            }
+          }
+        `}</style>
+        <div className="no-print gauge-grid">
           {/* Left Column: Inputs */}
           <div style={{ 
             backgroundColor: 'white', 
@@ -358,53 +358,9 @@ export default function GaugeCalculatorWizard() {
               }
             `}</style>
             
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
-              <h2 style={{ color: '#52682d', fontSize: '20px', fontWeight: 'bold' }}>
-                Your Gauge
-              </h2>
-              <div className="no-print" style={{ display: 'flex', gap: '8px' }}>
-                <button
-                  onClick={handleCopy}
-                  data-testid="button-copy"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    padding: '8px 16px',
-                    backgroundColor: copied ? '#52682d' : 'white',
-                    color: copied ? 'white' : '#52682d',
-                    border: `1px solid #52682d`,
-                    borderRadius: '6px',
-                    fontSize: '14px',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s'
-                  }}
-                >
-                  {copied ? <Check size={16} /> : <Copy size={16} />}
-                  {copied ? 'Copied!' : 'Copy'}
-                </button>
-                <button
-                  onClick={handleReset}
-                  data-testid="button-reset"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    padding: '8px 16px',
-                    backgroundColor: 'white',
-                    color: '#52682d',
-                    border: `1px solid #52682d`,
-                    borderRadius: '6px',
-                    fontSize: '14px',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s'
-                  }}
-                >
-                  <RotateCcw size={16} />
-                  Reset
-                </button>
-              </div>
-            </div>
+            <h2 style={{ color: '#52682d', fontSize: '20px', fontWeight: 'bold', marginBottom: '20px' }}>
+              Your Gauge
+            </h2>
 
             <div style={{ 
               display: 'grid', 
@@ -425,12 +381,14 @@ export default function GaugeCalculatorWizard() {
                 <p style={{ color: '#333', fontSize: '28px', fontWeight: 'bold', marginBottom: '8px' }}>
                   {stitchesPer4or10.toFixed(2)}
                 </p>
-                <p style={{ color: '#666', fontSize: '14px', marginBottom: '8px' }}>
+                <p style={{ color: '#666', fontSize: '14px', marginBottom: units === 'inches' ? '8px' : '0' }}>
                   stitches per {displayLabel}
                 </p>
-                <p style={{ color: '#999', fontSize: '12px' }}>
-                  ({stitchesPerInch.toFixed(2)} per 1")
-                </p>
+                {units === 'inches' && (
+                  <p style={{ color: '#999', fontSize: '12px' }}>
+                    ({stitchesPerInch.toFixed(2)} per 1")
+                  </p>
+                )}
               </div>
 
               {/* Row Gauge Column */}
@@ -446,12 +404,14 @@ export default function GaugeCalculatorWizard() {
                 <p style={{ color: '#333', fontSize: '28px', fontWeight: 'bold', marginBottom: '8px' }}>
                   {rowsPer4or10.toFixed(2)}
                 </p>
-                <p style={{ color: '#666', fontSize: '14px', marginBottom: '8px' }}>
+                <p style={{ color: '#666', fontSize: '14px', marginBottom: units === 'inches' ? '8px' : '0' }}>
                   rows per {displayLabel}
                 </p>
-                <p style={{ color: '#999', fontSize: '12px' }}>
-                  ({rowsPerInch.toFixed(2)} per 1")
-                </p>
+                {units === 'inches' && (
+                  <p style={{ color: '#999', fontSize: '12px' }}>
+                    ({rowsPerInch.toFixed(2)} per 1")
+                  </p>
+                )}
               </div>
             </div>
 
