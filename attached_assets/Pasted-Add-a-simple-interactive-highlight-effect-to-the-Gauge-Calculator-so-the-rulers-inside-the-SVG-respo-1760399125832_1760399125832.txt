@@ -1,0 +1,83 @@
+Add a simple interactive highlight effect to the Gauge Calculator so the rulers inside the SVG respond when the user focuses on related input fields.
+
+Goal:
+When a user clicks or tabs into an input box, the corresponding ruler in the SVG (horizontal or vertical) should softly highlight.
+
+⚙️ Functionality
+
+The SVG is already embedded in the page and includes:
+
+<path id="horizontal-ruler"> for width/stitches.
+
+<path id="vertical-ruler"> for height/rows.
+
+Inputs have IDs: width, height, stitches, rows.
+
+When an input receives focus:
+
+The matching ruler glows with Knit by Machine terracotta (#C2614E).
+
+The glow fades smoothly (0.3s).
+
+When focus leaves the input, the highlight returns to normal.
+
+💻 Implementation
+
+Create a small JavaScript script (animateRulers.js) that:
+
+Maps each input to its ruler.
+
+Adds event listeners for focus and blur.
+
+Toggles an .active CSS class on the correct <path> group.
+
+Example:
+
+const map = {
+  width: 'horizontal-ruler',
+  stitches: 'horizontal-ruler',
+  height: 'vertical-ruler',
+  rows: 'vertical-ruler'
+};
+
+document.querySelectorAll('input').forEach(input => {
+  input.addEventListener('focus', () => {
+    Object.values(map).forEach(id =>
+      document.getElementById(id)?.classList.remove('active')
+    );
+    document.getElementById(map[input.id])?.classList.add('active');
+  });
+  input.addEventListener('blur', () => {
+    document.getElementById(map[input.id])?.classList.remove('active');
+  });
+});
+
+
+In your CSS (animateRulers.css), style the highlight:
+
+#horizontal-ruler,
+#vertical-ruler {
+  transition: stroke 0.3s ease, filter 0.3s ease;
+}
+
+#horizontal-ruler.active,
+#vertical-ruler.active {
+  stroke: #C2614E; /* Knit by Machine terracotta */
+  filter: drop-shadow(0 0 4px rgba(194, 97, 78, 0.6));
+}
+
+
+Import both files into your main page (index.html) after the SVG:
+
+<link rel="stylesheet" href="animateRulers.css">
+<script src="animateRulers.js"></script>
+
+🧶 Notes
+
+Keep the effect subtle — the goal is to reinforce direction (stitches vs rows), not distract.
+
+Only one ruler should be active at a time.
+
+This same highlight system will be reusable in other Knit by Machine tools (e.g., sweater schematics, shaping wizards).
+
+Generate complete working HTML/CSS/JS code that integrates this behavior with the existing Gauge Calculator layout.
