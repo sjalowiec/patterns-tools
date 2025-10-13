@@ -280,9 +280,7 @@ export default function GaugeCalculatorWizard() {
                 <defs>
                   <style>{`
                     .i {
-                      transition: stroke 0.3s ease, filter 0.3s ease;
                       filter: url(#c);
-                      transition: stroke 0.3s ease, filter 0.3s ease;
                       stroke-width: .87px;
                       transition: stroke 0.3s ease, filter 0.3s ease;
                     }
@@ -295,6 +293,13 @@ export default function GaugeCalculatorWizard() {
                     .j {
                       filter: url(#f);
                       stroke-width: .89px;
+                      transition: stroke 0.3s ease, filter 0.3s ease;
+                    }
+
+                    .i.active,
+                    .j.active {
+                      stroke: #C2614E !important;
+                      filter: drop-shadow(0 0 4px rgba(194, 97, 78, 0.6)) !important;
                     }
                   `}</style>
                   <filter id="c" data-name="drop-shadow-1" x="184.7" y="61.97" width="47" height="324" filterUnits="userSpaceOnUse">
