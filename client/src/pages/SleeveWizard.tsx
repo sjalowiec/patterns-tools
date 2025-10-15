@@ -44,7 +44,15 @@ export default function SleeveWizard() {
 
   return (
     <div className="wizard-container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
-      <h1 style={{ color: '#52682d', marginBottom: '30px' }}>Drop Shoulder Sleeve Pattern Tester</h1>
+      {/* Title Section */}
+      <div style={{ marginBottom: '30px' }}>
+        <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
+          Sleeve lego Block
+        </h1>
+        <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
+          This is a test block for development only
+        </h2>
+      </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '30px' }}>
         {/* Category Selection */}
