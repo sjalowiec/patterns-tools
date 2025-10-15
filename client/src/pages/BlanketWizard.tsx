@@ -3,7 +3,7 @@ import html2pdf from 'html2pdf.js';
 import logoSvg from '@assets/knitting-brand.svg';
 import { type SizeSelection } from '@shared/sizing';
 import { useSizingData } from '@shared/hooks/useSizingData';
-import { GaugeInputs, UnitsToggle, PrintFooter, PrintHeader } from '@/components/lego';
+import { GaugeInputs, UnitsToggle, PrintFooter, PrintHeader, SiteHeader, SiteFooter } from '@/components/lego';
 import StickyActionButtons from '@/components/lego/StickyActionButtons';
 import { WarningBox } from '@/components/lego/WarningBox';
 import { PrintOnlyTitle } from '@/components/lego/PrintOnlyTitle';
@@ -446,6 +446,7 @@ export default function BlanketWizard() {
 
   return (
     <div className="wizard-container">
+      <SiteHeader />
       {/* Print-only header */}
       <PrintHeader />
       
@@ -757,6 +758,7 @@ export default function BlanketWizard() {
         {/* Print-only copyright footer */}
         <PrintFooter />
       </div>
+      <SiteFooter />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { GaugeInputs, RadioGroup, UnitsToggle, useSleeveDropShoulder, PrintHeader, PrintFooter, PrintOnlyTitle, StickyActionButtons, PanelSchematic, WarningBox } from '@/components/lego';
+import { GaugeInputs, RadioGroup, UnitsToggle, useSleeveDropShoulder, PrintHeader, PrintFooter, PrintOnlyTitle, StickyActionButtons, PanelSchematic, WarningBox, SiteHeader, SiteFooter } from '@/components/lego';
 import type { Units } from '@shared/types/wizard';
 import html2pdf from 'html2pdf.js';
 
@@ -160,6 +160,7 @@ export default function BoatNeckWizard() {
 
   return (
     <div className="wizard-container" style={{ maxWidth: '900px', margin: '0 auto', padding: '20px' }}>
+      <SiteHeader />
       <PrintHeader />
       
       <StickyActionButtons actions={actions} show={!!hasRequiredInputs} />
@@ -307,6 +308,7 @@ export default function BoatNeckWizard() {
       </div>
 
       <PrintFooter />
+      <SiteFooter />
     </div>
   );
 }

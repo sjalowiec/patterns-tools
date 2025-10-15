@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSleeveDropShoulder } from '@/components/lego';
+import { useSleeveDropShoulder, SiteHeader, SiteFooter } from '@/components/lego';
 import type { Units } from '@shared/types/wizard';
 
 export default function SleeveWizard() {
@@ -44,6 +44,7 @@ export default function SleeveWizard() {
 
   return (
     <div className="wizard-container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
+      <SiteHeader />
       {/* Title Section */}
       <div style={{ marginBottom: '30px' }}>
         <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
@@ -170,6 +171,7 @@ export default function SleeveWizard() {
           </div>
         </>
       )}
+      <SiteFooter />
     </div>
   );
 }

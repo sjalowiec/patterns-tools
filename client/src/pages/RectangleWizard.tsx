@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
-import { GaugeInputs, UnitsToggle, PrintFooter, PrintHeader } from '@/components/lego';
+import { GaugeInputs, UnitsToggle, PrintFooter, PrintHeader, SiteHeader, SiteFooter } from '@/components/lego';
 import StickyActionButtons from '@/components/lego/StickyActionButtons';
 import { WarningBox } from '@/components/lego/WarningBox';
 import { PrintOnlyTitle } from '@/components/lego/PrintOnlyTitle';
@@ -317,6 +317,7 @@ export default function RectangleWizard() {
 
   return (
     <div className="wizard-container">
+      <SiteHeader />
       {/* Print-only header */}
       <PrintHeader />
       
@@ -510,6 +511,7 @@ export default function RectangleWizard() {
         {/* Print-only copyright footer */}
         <PrintFooter />
       </div>
+      <SiteFooter />
     </div>
   );
 }
