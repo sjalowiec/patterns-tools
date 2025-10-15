@@ -500,6 +500,16 @@ export default function NecklineWizard() {
 
       <div className="content-area">
         
+        {/* Title Section */}
+        <div className="no-print" style={{ marginBottom: '20px' }}>
+          <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
+            Neckline and Shoulder Practice
+          </h1>
+          <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
+            Strengthen your shaping skills by combining neckline and shoulder practice. This blueprint gives you the structure to test ideas and build real shaping confidence.
+          </h2>
+        </div>
+
         {/* Input Form */}
         <div className="well_white">
           <h2 className="text-primary">Your Gauge</h2>
