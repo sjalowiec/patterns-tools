@@ -159,7 +159,7 @@ export default function BoatNeckWizard() {
   ];
 
   return (
-    <div className="wizard-container" style={{ maxWidth: '900px', margin: '0 auto', padding: '20px' }}>
+    <div className="wizard-container">
       <SiteHeader />
       <PrintHeader />
       
@@ -174,7 +174,7 @@ export default function BoatNeckWizard() {
         />
         
         {/* Title Section */}
-        <div className="no-print" style={{ marginBottom: '30px' }}>
+        <div className="no-print" style={{ marginBottom: '20px' }}>
           <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
             Boat Neck Pattern
           </h1>
