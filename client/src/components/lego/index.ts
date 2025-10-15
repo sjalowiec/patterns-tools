@@ -11,6 +11,8 @@ export { PrintOnlyTitle } from './PrintOnlyTitle';
 export { RadioGroup } from './RadioGroup';
 export { RoundIconButton } from './RoundIconButton';
 export { SchematicWrapper } from './SchematicWrapper';
+export { SiteFooter } from './SiteFooter';
+export { SiteHeader } from './SiteHeader';
 export { SizeSelector, type SizeOptionWithData } from './SizeSelector';
 export { default as StickyActionButtons } from './StickyActionButtons';
 export { UnitsToggle } from './UnitsToggle';
