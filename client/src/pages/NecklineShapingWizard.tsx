@@ -419,12 +419,9 @@ export default function NecklineShapingWizard() {
 
         {/* Input Form */}
         <div className="well_white">
-          <h2 className="text-primary">Your Gauge</h2>
-          
           <UnitsToggle
             units={units}
             onChange={setUnits}
-            label="Measurement Units"
           />
 
           <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
