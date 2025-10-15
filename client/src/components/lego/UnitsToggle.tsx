@@ -3,19 +3,18 @@ type Units = 'inches' | 'cm';
 interface UnitsToggleProps {
   units: Units;
   onChange: (units: Units) => void;
-  label?: string;
+  gaugeLabel?: string;
 }
 
 /**
  * UnitsToggle - Modern toggle switch for inches/cm selection
  * Replaces old-fashioned radio buttons with a sleek toggle
  */
-export function UnitsToggle({ units, onChange, label }: UnitsToggleProps) {
+export function UnitsToggle({ units, onChange, gaugeLabel = 'Your Gauge' }: UnitsToggleProps) {
   const isCm = units === 'cm';
   
   return (
     <div className="form-group" style={{ marginBottom: '20px' }}>
-      {label && <label style={{ marginBottom: '8px', display: 'block' }}>{label}</label>}
       <div style={{ 
         display: 'flex', 
         alignItems: 'center', 
@@ -28,7 +27,7 @@ export function UnitsToggle({ units, onChange, label }: UnitsToggleProps) {
           color: '#52682d',
           fontWeight: 'bold'
         }}>
-          Your Gauge
+          {gaugeLabel}
         </div>
         <div style={{ 
           display: 'flex', 

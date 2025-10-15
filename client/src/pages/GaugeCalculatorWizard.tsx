@@ -179,13 +179,10 @@ export default function GaugeCalculatorWizard() {
             padding: '24px',
             boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
           }}>
-            <h2 style={{ color: '#52682d', fontSize: '20px', fontWeight: 'bold', marginBottom: '20px' }}>
-              Your Swatch Measurements
-            </h2>
-
             <UnitsToggle
               units={units}
               onChange={setUnits}
+              gaugeLabel="Your Swatch Measurements"
             />
 
             <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
