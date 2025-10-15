@@ -152,9 +152,9 @@ export default function GaugeCalculatorWizard() {
           <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
             Gauge Calculator
           </h1>
-          <p style={{ color: '#666', lineHeight: '1.6', maxWidth: '800px' }}>
-            Calculate your stitch and row gauge from swatch measurements. Enter your swatch dimensions and stitch counts to get precise gauge numbers for your knitting projects.
-          </p>
+          <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', maxWidth: '800px', fontWeight: 'normal' }}>
+            No more guesswork — measure your swatch, enter the results, and get accurate stitch and row counts in seconds
+          </h2>
         </div>
 
         {/* Two-Column Layout: Inputs + SVG */}
@@ -186,7 +186,6 @@ export default function GaugeCalculatorWizard() {
             <UnitsToggle
               units={units}
               onChange={setUnits}
-              label="Measurement Units"
             />
 
             <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
