@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { UnitsToggle, PrintHeader, PrintFooter, StickyActionButtons } from '@/components/lego';
+import { UnitsToggle, PrintHeader, PrintFooter, StickyActionButtons, SiteHeader, SiteFooter } from '@/components/lego';
 import { ChevronDown } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
 
@@ -136,6 +136,7 @@ export default function GaugeCalculatorWizard() {
 
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px', backgroundColor: '#f7f8f7', minHeight: '100vh' }}>
+      <SiteHeader />
       <StickyActionButtons actions={actions} show={hasResults} />
 
       <div id="pattern-content">
@@ -466,6 +467,7 @@ export default function GaugeCalculatorWizard() {
 
         <PrintFooter />
       </div>
+      <SiteFooter />
     </div>
   );
 }
