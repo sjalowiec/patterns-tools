@@ -463,6 +463,16 @@ export default function BlanketWizard() {
 
       <div className="content-area">
         
+        {/* Title Section */}
+        <div className="no-print" style={{ marginBottom: '20px' }}>
+          <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
+            DIY Blanket Pattern
+          </h1>
+          <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
+            Design your own blanket — no math, no stress. Enter your gauge, choose a size, and let the wizard calculate your stitches and rows for a beautiful blanket.
+          </h2>
+        </div>
+
         {/* Input Form */}
         <div className="well_white no-print">
           <h2 className="text-primary">Your Gauge</h2>
