@@ -7,6 +7,19 @@ The Wizard Builder is a comprehensive system for creating professional knitting 
 ## Recent Changes
 
 ### October 15, 2025
+- **External Header/Footer Integration**:
+  - Created SiteHeader and SiteFooter lego components that fetch HTML from kbm-global.netlify.app
+  - Components use dangerouslySetInnerHTML with script re-execution logic for interactive dropdowns/menus
+  - Script re-execution: extracts all <script> tags and manually creates new script elements to trigger execution
+  - Added to all 7 wizards with `no-print` class (visible on screen, hidden in PDF)
+  - CSS overrides ensure header/footer links preserve Netlify styling: `color: inherit`, `text-decoration: none`
+  - Header sits flush at top (removed body top padding: `padding: 0 0 20px 0`)
+
+- **BoatNeckWizard Formatting Fix**:
+  - Removed custom inline styles (maxWidth, margin, padding) from container
+  - Changed title section marginBottom from 30px to 20px to match other wizards
+  - Now uses standard `wizard-container` class for consistent spacing
+
 - **Wizard Header Standardization**:
   - All wizards now include H1 title and H2 benefit message at the top of each page
   - Consistent styling: H1 with olive green (#52682d), 28px bold; H2 with gray (#666), 18px normal weight
@@ -86,6 +99,8 @@ Preferred communication style: Simple, everyday language.
 
 ### Lego Block Architecture
 The system provides reusable wizard components in `client/src/components/lego/`:
+- **SiteHeader**: Fetches and displays KnitbyMachine header from kbm-global.netlify.app/header.html with script re-execution for interactive menus
+- **SiteFooter**: Fetches and displays KnitbyMachine footer from kbm-global.netlify.app/footer.html with script re-execution
 - **GaugeInputs**: Gauge measurement inputs with dynamic placeholders (per 4"/10cm)
 - **PanelSchematic**: Universal knitting panel schematic component displaying bottom-to-top orientation (cast-on at bottom, armhole/cap at top) for all sweater pieces. Supports both rectangle (body panels) and trapezoid shapes (sleeves with shaping) via optional `bottomWidth` prop
 - **RadioGroup**: Styled radio groups with olive green accent color
@@ -102,6 +117,12 @@ The system provides reusable wizard components in `client/src/components/lego/`:
 - **useSleeveDropShoulder**: Hook for drop shoulder sleeve pattern generation with external sizing data, handles both string and numeric size values from sizing APIs, generates row-based instructions for machine knitters
 
 All components use CSS variables for theming and are fully reusable across wizards.
+
+**Important for Development Efficiency**:
+- Lego blocks are shared components - changing one affects all wizards automatically
+- Individual wizard files are independent - change only the specific wizard needed
+- For targeted changes: modify only the affected lego block OR specific wizard file
+- Avoid batch-editing all wizards unless truly necessary (saves significant time)
 
 ### Component Structure
 Individual wizards include:
