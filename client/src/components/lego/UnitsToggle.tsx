@@ -18,11 +18,18 @@ export function UnitsToggle({ units, onChange, label }: UnitsToggleProps) {
       {label && <label style={{ marginBottom: '8px', display: 'block' }}>{label}</label>}
       <div style={{ 
         display: 'flex', 
-        flexDirection: 'column',
         alignItems: 'center', 
-        gap: '8px',
+        justifyContent: 'flex-start',
+        gap: '16px',
         fontFamily: 'Arial, sans-serif'
       }}>
+        <div style={{
+          fontSize: '18px',
+          color: '#52682d',
+          fontWeight: 'bold'
+        }}>
+          Your Gauge
+        </div>
         <div style={{ 
           display: 'flex', 
           alignItems: 'center', 
@@ -86,13 +93,6 @@ export function UnitsToggle({ units, onChange, label }: UnitsToggleProps) {
           >
             cm
           </span>
-        </div>
-        <div style={{
-          fontSize: '14px',
-          color: '#52682d',
-          fontWeight: 'bold'
-        }}>
-          Your Gauge
         </div>
       </div>
     </div>
