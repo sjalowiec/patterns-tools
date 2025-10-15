@@ -61,6 +61,20 @@ a:hover {
   text-decoration: underline;
 }
 
+/* Preserve header/footer link styling from Netlify HTML */
+[data-testid="site-header"] a,
+[data-testid="site-footer"] a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: inherit;
+}
+
+[data-testid="site-header"] a:hover,
+[data-testid="site-footer"] a:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
 /* ==============================
    Layout Components
    ============================== */
