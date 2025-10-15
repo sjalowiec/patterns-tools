@@ -172,10 +172,15 @@ export default function BoatNeckWizard() {
           show={hasUserData}
         />
         
-        <h1 className="no-print" style={{ color: '#52682d', marginBottom: '10px' }}>Boat Neck Sweater Pattern Builder</h1>
-        <p className="no-print" style={{ marginBottom: '30px', color: '#666' }}>
-          Create a simple, elegant boat neck sweater pattern based on your gauge.
-        </p>
+        {/* Title Section */}
+        <div className="no-print" style={{ marginBottom: '30px' }}>
+          <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
+            Boat Neck Pattern
+          </h1>
+          <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
+            Create your own classic boat neck sweater — simple lines, elegant shape. Enter your gauge and fit preferences for instant results.
+          </h2>
+        </div>
 
         {/* Gauge Inputs */}
         <div className="well_white no-print">
