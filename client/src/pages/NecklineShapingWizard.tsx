@@ -407,6 +407,16 @@ export default function NecklineShapingWizard() {
 
       <div className="content-area">
         
+        {/* Title Section */}
+        <div className="no-print" style={{ marginBottom: '20px' }}>
+          <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
+            Neckline Shaping Practice
+          </h1>
+          <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
+            Use this pattern to practice neckline shaping on a small scale. No pressure, just hands-on experience to master shaping techniques
+          </h2>
+        </div>
+
         {/* Input Form */}
         <div className="well_white">
           <h2 className="text-primary">Your Gauge</h2>
