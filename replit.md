@@ -13,10 +13,13 @@ The Wizard Builder is a comprehensive system for creating professional knitting 
   - Headers hidden in print/PDF output using `.no-print` class
   - When creating new wizards, always prompt user for H1 title and H2 benefit message
   
-- **UnitsToggle Component Update**:
-  - Removed "Measurement Units" label from component
-  - Added "Your Gauge" text below toggle button in olive green (#52682d)
-  - Vertical layout with toggle (in/cm) above "Your Gauge" label
+- **UnitsToggle Component Redesign**:
+  - Horizontal layout: label on LEFT, toggle button (in/cm) on RIGHT, same line
+  - Default label "Your Gauge" in olive green (#52682d), 18px bold
+  - Custom label support via `gaugeLabel` prop
+  - Gauge Calculator uses custom label "Your Swatch Measurements"
+  - All wizards standardized: removed duplicate H2 headings, removed old `label` prop
+  - BoatNeckWizard migrated from RadioGroup to UnitsToggle for consistency
 
 ### October 12, 2025
 - **Gauge Calculator Wizard**:
