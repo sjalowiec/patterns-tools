@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { GaugeInputs, RadioGroup, useSleeveDropShoulder, PrintHeader, PrintFooter, PrintOnlyTitle, StickyActionButtons, PanelSchematic, WarningBox } from '@/components/lego';
+import { GaugeInputs, RadioGroup, UnitsToggle, useSleeveDropShoulder, PrintHeader, PrintFooter, PrintOnlyTitle, StickyActionButtons, PanelSchematic, WarningBox } from '@/components/lego';
 import type { Units } from '@shared/types/wizard';
 import html2pdf from 'html2pdf.js';
 
@@ -184,17 +184,9 @@ export default function BoatNeckWizard() {
 
         {/* Gauge Inputs */}
         <div className="well_white no-print">
-          <h2 style={{ color: '#52682d', marginBottom: '20px' }}>Your Gauge</h2>
-          
-          <RadioGroup
-            name="units"
-            label="Measurement Units"
-            options={[
-              { value: 'inches', label: 'Inches', testId: 'radio-inches' },
-              { value: 'cm', label: 'Centimeters', testId: 'radio-cm' }
-            ]}
-            selectedValue={units}
-            onChange={(value) => setUnits(value as Units)}
+          <UnitsToggle
+            units={units}
+            onChange={setUnits}
           />
           
           <GaugeInputs
