@@ -6,6 +6,18 @@ The Wizard Builder is a comprehensive system for creating professional knitting 
 
 ## Recent Changes
 
+### October 15, 2025
+- **Wizard Header Standardization**:
+  - All wizards now include H1 title and H2 benefit message at the top of each page
+  - Consistent styling: H1 with olive green (#52682d), 28px bold; H2 with gray (#666), 18px normal weight
+  - Headers hidden in print/PDF output using `.no-print` class
+  - When creating new wizards, always prompt user for H1 title and H2 benefit message
+  
+- **UnitsToggle Component Update**:
+  - Removed "Measurement Units" label from component
+  - Added "Your Gauge" text below toggle button in olive green (#52682d)
+  - Vertical layout with toggle (in/cm) above "Your Gauge" label
+
 ### October 12, 2025
 - **Gauge Calculator Wizard**:
   - New wizard tool to help knitters convert swatch measurements into precise gauge numbers
