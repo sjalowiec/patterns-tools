@@ -334,6 +334,16 @@ export default function RectangleWizard() {
 
       <div className="content-area">
         
+        {/* Title Section */}
+        <div className="no-print" style={{ marginBottom: '20px' }}>
+          <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
+            Rectangle/Square Calculator
+          </h1>
+          <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
+            Plan rectangular projects with precision — just plug in your gauge, and the tool gives you exact stitch and row counts.
+          </h2>
+        </div>
+
         {/* Input Form */}
         <div className="well_white">
           <h2 className="text-primary">Your Gauge</h2>
