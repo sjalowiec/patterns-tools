@@ -37,11 +37,12 @@ export function SiteFooter() {
           newScript.setAttribute(attr.name, attr.value);
         });
         
-        // Copy script content
+        // Copy script content - wrap in IIFE to avoid global scope conflicts
         if (oldScript.src) {
           newScript.src = oldScript.src;
         } else {
-          newScript.textContent = oldScript.textContent;
+          // Wrap inline scripts in an IIFE to prevent variable redeclaration
+          newScript.textContent = `(function() { ${oldScript.textContent} })();`;
         }
         
         // Replace old script with new one to trigger execution
