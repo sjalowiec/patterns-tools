@@ -21,6 +21,7 @@ Preferred communication style: Simple, everyday language.
 The system employs reusable components in `client/src/components/lego/` for modularity and consistency across wizards. Key components include:
 - **SiteHeader/SiteFooter**: Fetches and displays global header/footer HTML with script re-execution for interactivity.
 - **GaugeInputs**: Standardized gauge measurement inputs.
+- **YarnCalculator**: Reusable yarn estimation component with swatch inputs (width, length, weight), real-time preview, and automatic 10% safety margin calculation. Updates parent state via useEffect to avoid render-phase state updates. Shows only grams (no ball count).
 - **PanelSchematic**: Universal schematic component displaying knitting panels, supporting both rectangular and trapezoidal shapes for body and sleeve pieces.
 - **SizeSelector**: Card-based size selection with category grouping.
 - **Print/PDF Components**: `PrintOnlyTitle`, `PrintHeader`, `PrintFooter` for formatted output.
