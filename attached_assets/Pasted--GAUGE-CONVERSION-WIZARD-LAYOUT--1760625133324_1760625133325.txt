@@ -1,0 +1,99 @@
+<!-- ============================= -->
+<!-- GAUGE CONVERSION WIZARD LAYOUT -->
+<!-- ============================= -->
+
+<div class="wizard-container">
+
+  <!-- Intro -->
+  <section class="intro text-center">
+    <h1>Gauge Conversion Wizard</h1>
+    <p>Love a pattern but knitting to a different gauge?  
+    Use this tool to find your stitch and row multipliers — then instantly convert pattern instructions to match your yarn and tension.</p>
+  </section>
+
+
+  <!-- Step 1: Enter Gauges -->
+  <section class="gauge-inputs row">
+    <div class="col-md-6">
+      <div class="card">
+        <h3>Pattern Gauge</h3>
+        <label>Stitches per 4" (or 10 cm)</label>
+        <input type="number" id="patternStitches" placeholder="e.g. 16">
+        <label>Rows per 4" (or 10 cm)</label>
+        <input type="number" id="patternRows" placeholder="e.g. 24">
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card">
+        <h3>Your Gauge</h3>
+        <label>Stitches per 4" (or 10 cm)</label>
+        <input type="number" id="yourStitches" placeholder="e.g. 18">
+        <label>Rows per 4" (or 10 cm)</label>
+        <input type="number" id="yourRows" placeholder="e.g. 30">
+      </div>
+    </div>
+  </section>
+
+  <div class="text-center">
+    <button class="btn btn-primary" id="calculateBtn">Calculate Multipliers</button>
+  </div>
+
+
+  <!-- Step 2: Results -->
+  <section class="results text-center">
+    <div class="card highlight">
+      <h3>Your Multipliers</h3>
+      <p><strong>Stitch Multiplier:</strong> <span id="stitchMultiplier">–</span></p>
+      <p><strong>Row Multiplier:</strong> <span id="rowMultiplier">–</span></p>
+
+      <p class="note">
+        Multiply all stitch counts in your pattern by the stitch multiplier.<br>
+        Multiply all row counts by the row multiplier.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- Step 3: Inline Quick Converter -->
+  <section class="inline-converter">
+    <h3>Try it out:</h3>
+
+    <div class="convert-row">
+      <label>Pattern says cast on:</label>
+      <input type="number" id="patternStitchCount" placeholder="e.g. 120">
+      <span>→</span>
+      <input type="text" id="convertedStitches" readonly placeholder="Result will appear here">
+      <label>stitches at your gauge</label>
+    </div>
+
+    <div class="convert-row">
+      <label>Pattern says knit:</label>
+      <input type="number" id="patternRowCount" placeholder="e.g. 80">
+      <span>→</span>
+      <input type="text" id="convertedRows" readonly placeholder="Result will appear here">
+      <label>rows at your gauge</label>
+    </div>
+  </section>
+
+
+  <!-- Step 4: Optional Embedded Calculator -->
+  <section class="full-calculator">
+    <button class="toggle-calculator">Open Full Calculator</button>
+
+    <div class="calculator-panel" style="display:none;">
+      <h3>Quick Math Pad</h3>
+      <div class="calc-display">
+        <input type="text" id="calc-display" readonly>
+      </div>
+
+      <div class="calc-buttons">
+        <button>7</button><button>8</button><button>9</button><button>/</button>
+        <button>4</button><button>5</button><button>6</button><button>*</button>
+        <button>1</button><button>2</button><button>3</button><button>-</button>
+        <button>0</button><button>.</button><button>=</button><button>+</button>
+      </div>
+    </div>
+  </section>
+
+</div>
