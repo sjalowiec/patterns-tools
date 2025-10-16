@@ -3,7 +3,7 @@ import html2pdf from 'html2pdf.js';
 import logoSvg from '@assets/knitting-brand.svg';
 import { type SizeSelection } from '@shared/sizing';
 import { useSizingData } from '@shared/hooks/useSizingData';
-import { GaugeInputs, UnitsToggle, PrintFooter, PrintHeader, SiteHeader, SiteFooter } from '@/components/lego';
+import { GaugeInputs, UnitsToggle, PrintFooter, PrintHeader, SiteHeader, SiteFooter, YarnCalculator } from '@/components/lego';
 import StickyActionButtons from '@/components/lego/StickyActionButtons';
 import { WarningBox } from '@/components/lego/WarningBox';
 import { PrintOnlyTitle } from '@/components/lego/PrintOnlyTitle';
@@ -34,11 +34,8 @@ export default function BlanketWizard() {
   const [customSize, setCustomSize] = useState<{length: string, width: string}>({length: '', width: ''});
   const [useCustomSize, setUseCustomSize] = useState<boolean>(false);
   
-  // Yarn calculation state
-  const [calculateYarn, setCalculateYarn] = useState<boolean>(false);
-  const [swatchWidth, setSwatchWidth] = useState<string>('');
-  const [swatchLength, setSwatchLength] = useState<string>('');
-  const [swatchWeight, setSwatchWeight] = useState<string>('');
+  // Yarn estimate from YarnCalculator lego block
+  const [yarnEstimateGrams, setYarnEstimateGrams] = useState<number>(0);
 
   // Warn user before leaving page if they have entered data
   useEffect(() => {
@@ -101,39 +98,12 @@ export default function BlanketWizard() {
   // Get size options grouped by category from JSON-loaded data
   const categories = Array.from(new Set(blanketSizes.map(size => size.category)));
 
-  // Calculate yarn needed based on swatch or rough estimate
-  const calculateYarnNeeded = () => {
-    if (!sizeSelection || !widthSts || !lengthRows || !calculateYarn) {
-      return { grams: 0, balls: 0, method: 'none' };
-    }
-    
-    // If yarn calculation is enabled and we have complete swatch data
-    if (swatchWidth && swatchLength && swatchWeight) {
-      const swatchWidthNum = parseFloat(swatchWidth);
-      const swatchLengthNum = parseFloat(swatchLength);
-      const swatchWeightNum = parseFloat(swatchWeight);
-      
-      if (swatchWidthNum > 0 && swatchLengthNum > 0 && swatchWeightNum > 0) {
-        // Calculate area-based yarn estimate
-        // Swatch area = width × length
-        const swatchArea = swatchWidthNum * swatchLengthNum;
-        
-        // Blanket area = width × length
-        const blanketArea = sizeSelection.dimensions.width * sizeSelection.dimensions.length;
-        
-        // Weight needed = (blanket area / swatch area) × swatch weight
-        const gramsNeeded = Math.round((blanketArea / swatchArea) * swatchWeightNum);
-        
-        // Calculate number of 100g balls needed (round up)
-        const ballsNeeded = Math.ceil(gramsNeeded / 100);
-        
-        return { grams: gramsNeeded, balls: ballsNeeded, method: 'swatch' };
-      }
-    }
-    
-    // No fallback estimate - require swatch data
-    return { grams: 0, balls: 0, method: 'none' };
-  };
+  // Calculate blanket area in square inches for YarnCalculator
+  const blanketAreaInches = sizeSelection 
+    ? (units === 'inches' 
+        ? sizeSelection.dimensions.width * sizeSelection.dimensions.length
+        : (sizeSelection.dimensions.width / 2.54) * (sizeSelection.dimensions.length / 2.54))
+    : 0;
 
   // Generate SVG diagram
   const generateDiagram = () => {
@@ -207,8 +177,6 @@ export default function BlanketWizard() {
 
   // Replace placeholders in diagram
   const replacePlaceholders = (template: string) => {
-    const yarnCalculation = calculateYarnNeeded();
-    
     // Calculate rectangle dimensions for yarn text positioning (same logic as generateDiagram)
     if (!sizeSelection) return template;
     
@@ -233,10 +201,10 @@ export default function BlanketWizard() {
     const rectX = (svgWidth - rectWidth) / 2;
     const rectY = (svgHeight - rectHeight) / 2;
     
-    // Only show yarn text if calculation is enabled and has valid data
-    const yarnTextElement = calculateYarn && yarnCalculation.method !== 'none' 
+    // Only show yarn text if we have a valid estimate
+    const yarnTextElement = yarnEstimateGrams > 0
       ? `<text x="${rectX + rectWidth/2}" y="${rectY + rectHeight/2 + 15}" text-anchor="middle" font-size="12" fill="#666">
-          ${yarnCalculation.grams}g
+          ${yarnEstimateGrams}g
         </text>`
       : '';
     
@@ -257,10 +225,9 @@ export default function BlanketWizard() {
 
     const unitLabel = units === 'inches' ? '"' : 'cm';
     const unitSize = units === 'inches' ? '4"' : '10cm';
-    const yarnCalculation = calculateYarnNeeded();
     
-    const yarnLine = yarnCalculation.method !== 'none' 
-      ? `• Yarn: ${yarnCalculation.grams}g (based on your swatch)<br>`
+    const yarnLine = yarnEstimateGrams > 0
+      ? `• Yarn: ${yarnEstimateGrams}g (based on your swatch)<br>`
       : `• Yarn: —<br>`;
     
     return `
@@ -302,7 +269,7 @@ export default function BlanketWizard() {
           <strong style="color: #52682d;">Pattern Summary:</strong><br>
           <small style="color: #666;">
             Cast on ${widthSts} stitches, knit ${lengthRows} rows, bind off. 
-            Finished size: ${sizeSelection.dimensions.width}${unitLabel} × ${sizeSelection.dimensions.length}${unitLabel}${yarnCalculation.method !== 'none' ? `<br>Yarn needed: ${yarnCalculation.grams}g` : ''}
+            Finished size: ${sizeSelection.dimensions.width}${unitLabel} × ${sizeSelection.dimensions.length}${unitLabel}${yarnEstimateGrams > 0 ? `<br>Yarn needed: ${yarnEstimateGrams}g` : ''}
           </small>
         </div>
       </div>
@@ -364,10 +331,7 @@ export default function BlanketWizard() {
     setSelectedSize('');
     setCustomSize({length: '', width: ''});
     setUseCustomSize(false);
-    setCalculateYarn(false);
-    setSwatchWidth('');
-    setSwatchLength('');
-    setSwatchWeight('');
+    setYarnEstimateGrams(0);
   };
 
   const actions: WizardAction[] = [
@@ -633,103 +597,11 @@ export default function BlanketWizard() {
         </div>
 
         {/* Yarn Calculation (Optional) */}
-        <div className="well_white no-print">
-          <div 
-            onClick={() => setCalculateYarn(!calculateYarn)}
-            style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'space-between',
-              padding: '15px',
-              background: 'rgba(82, 104, 45, 0.1)',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              marginBottom: calculateYarn ? '15px' : '0',
-              transition: 'all 0.3s ease'
-            }}
-            data-testid="accordion-calculate-yarn"
-          >
-            <h2 className="text-primary" style={{ margin: 0, fontSize: '1.3rem' }}>Calculate Yarn Needed (Optional)</h2>
-            <i 
-              className={`fas fa-chevron-${calculateYarn ? 'up' : 'down'}`}
-              style={{ 
-                color: '#52682d', 
-                fontSize: '1.2rem',
-                transition: 'transform 0.3s ease'
-              }}
-            />
-          </div>
-          
-          {calculateYarn && (
-            <p style={{ fontSize: '14px', color: '#666', marginBottom: '15px' }}>
-              Get accurate yarn estimate based on your swatch measurements.
-            </p>
-          )}
-
-          {calculateYarn && (
-            <div style={{ marginTop: '20px', padding: '15px', background: '#f8f9fa', borderRadius: '4px', border: '1px solid #e9ecef' }}>
-              <h4 style={{ marginBottom: '15px', color: '#52682d' }}>Swatch Measurements</h4>
-              <p style={{ fontSize: '14px', color: '#666', marginBottom: '15px' }}>
-                Measure your gauge swatch and weigh it to get the most accurate yarn estimate.
-              </p>
-              
-              <div className="form-row" style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-                <div className="form-group" style={{ flex: '1', minWidth: '120px' }}>
-                  <label>Swatch Width ({units === 'inches' ? 'inches' : 'cm'})</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    value={swatchWidth}
-                    onChange={(e) => setSwatchWidth(e.target.value)}
-                    placeholder={`Swatch Width`}
-                    step="0.1"
-                    data-testid="input-swatch-width"
-                  />
-                </div>
-                
-                <div className="form-group" style={{ flex: '1', minWidth: '120px' }}>
-                  <label>Swatch Length ({units === 'inches' ? 'inches' : 'cm'})</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    value={swatchLength}
-                    onChange={(e) => setSwatchLength(e.target.value)}
-                    placeholder={`Swatch Length`}
-                    step="0.1"
-                    data-testid="input-swatch-length"
-                  />
-                </div>
-                
-                <div className="form-group" style={{ flex: '1', minWidth: '120px' }}>
-                  <label>Swatch Weight (grams)</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    value={swatchWeight}
-                    onChange={(e) => setSwatchWeight(e.target.value)}
-                    placeholder="Swatch Weight"
-                    step="0.1"
-                    data-testid="input-swatch-weight"
-                  />
-                </div>
-              </div>
-              
-              {swatchWidth && swatchLength && swatchWeight && (
-                <div style={{ marginTop: '15px', padding: '10px', background: 'rgba(82, 104, 45, 0.2)', borderRadius: '4px' }}>
-                  <strong style={{ color: '#52682d' }}>Calculation Preview:</strong><br />
-                  <small style={{ color: '#666' }}>
-                    {(() => {
-                      const calc = calculateYarnNeeded();
-                      return calc.method === 'swatch' 
-                        ? `Your blanket will need approximately ${calc.grams}g of yarn based on your swatch.`
-                        : 'Complete all swatch measurements to see the calculation.';
-                    })()}
-                  </small>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+        <YarnCalculator 
+          units={units}
+          garmentAreaInches={blanketAreaInches}
+          onYarnEstimateChange={setYarnEstimateGrams}
+        />
 
         {/* Print-only title section */}
         {sizeSelection && (
