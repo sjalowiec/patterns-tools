@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { UnitsToggle, PrintHeader, PrintFooter, StickyActionButtons, SiteHeader, SiteFooter } from '@/components/lego';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Calculator } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 type Units = 'inches' | 'cm';
 
@@ -25,6 +26,10 @@ export default function GaugeConversionWizard() {
   const [testRows, setTestRows] = useState(() => localStorage.getItem('gaugeConversion.testRows') || '');
 
   const [tipsOpen, setTipsOpen] = useState(false);
+  
+  // Quick Convert modal state
+  const [quickConvertOpen, setQuickConvertOpen] = useState(false);
+  const [lengthInput, setLengthInput] = useState('');
 
   // Persist to localStorage
   useEffect(() => {
@@ -73,6 +78,12 @@ export default function GaugeConversionWizard() {
 
   const hasResults = pSts > 0 && pRows > 0 && ySts > 0 && yRows > 0;
   const displayLabel = units === 'inches' ? '4"' : '10 cm';
+  
+  // Calculate rows per single unit for length-to-rows conversion
+  const rowsPerUnit = units === 'inches' ? yRows / 4 : yRows / 10;
+  const unitLabel = units === 'inches' ? 'inch' : 'cm';
+  const lengthNum = parseFloat(lengthInput) || 0;
+  const convertedRowsFromLength = lengthNum > 0 && rowsPerUnit > 0 ? Math.round(lengthNum * rowsPerUnit) : 0;
 
   const handleReset = () => {
     setPatternStitches('');
@@ -430,6 +441,40 @@ export default function GaugeConversionWizard() {
                   <li><strong>Example:</strong> If the pattern says "Cast on 100 stitches" and your multiplier is 1.15, you'd cast on 115 stitches instead.</li>
                   <li><strong>Important:</strong> This works best for simple patterns. Complex shaping, lace, or cables may need additional adjustments.</li>
                   <li><strong>Pro tip:</strong> Always knit a swatch in your yarn to get an accurate gauge before starting your project.</li>
+                  <li style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                    <span style={{ flex: 1 }}>
+                      <strong>Converting lengths to rows:</strong>{' '}
+                      {units === 'inches' 
+                        ? 'Hand knitting patterns often give length measurements in inches. When the pattern says "Knit until sleeve measures 15 inches," multiply 15 by your rows-per-inch gauge to find how many rows to knit.'
+                        : 'Hand knitting patterns often give measurements in centimeters. When the pattern says "Knit until sleeve measures 38 cm," multiply 38 by your rows-per-centimeter gauge to find how many rows to knit.'}
+                    </span>
+                    {hasResults && rowsPerUnit > 0 && (
+                      <button
+                        onClick={() => setQuickConvertOpen(true)}
+                        data-testid="button-quick-convert"
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          padding: '4px 8px',
+                          backgroundColor: '#52682d',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          fontSize: '12px',
+                          fontWeight: '600',
+                          cursor: 'pointer',
+                          whiteSpace: 'nowrap',
+                          transition: 'background-color 0.2s'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#6e8b3d'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#52682d'}
+                      >
+                        <Calculator size={14} />
+                        Quick Convert
+                      </button>
+                    )}
+                  </li>
                 </ul>
               </div>
             )}
@@ -440,6 +485,73 @@ export default function GaugeConversionWizard() {
       </div>
 
       <SiteFooter />
+
+      {/* Quick Convert Modal */}
+      <Dialog open={quickConvertOpen} onOpenChange={setQuickConvertOpen}>
+        <DialogContent style={{ maxWidth: '500px' }}>
+          <DialogHeader>
+            <DialogTitle style={{ color: '#52682d', fontSize: '20px' }}>
+              Quick Convert: Length to Rows
+            </DialogTitle>
+            <DialogDescription style={{ color: '#666', fontSize: '14px' }}>
+              Convert any length measurement to the number of rows you need to knit.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div style={{ marginTop: '20px' }}>
+            <div className="form-group" style={{ marginBottom: '16px' }}>
+              <label>Length ({units === 'inches' ? 'inches' : 'cm'})</label>
+              <input
+                type="number"
+                step="0.1"
+                className="form-control"
+                value={lengthInput}
+                onChange={(e) => setLengthInput(e.target.value)}
+                placeholder={units === 'inches' ? 'e.g., 15' : 'e.g., 38'}
+                data-testid="input-length-convert"
+                autoFocus
+              />
+            </div>
+
+            {lengthNum > 0 && convertedRowsFromLength > 0 && (
+              <div style={{ marginTop: '20px' }}>
+                <div style={{ 
+                  padding: '20px', 
+                  backgroundColor: '#f0f4ec', 
+                  borderRadius: '6px',
+                  border: '2px solid #52682d',
+                  marginBottom: '16px'
+                }}>
+                  <p style={{ color: '#666', fontSize: '14px', marginBottom: '8px' }}>
+                    Knit
+                  </p>
+                  <p style={{ color: '#52682d', fontSize: '32px', fontWeight: 'bold', marginBottom: '0' }} data-testid="text-length-to-rows-result">
+                    {convertedRowsFromLength} rows
+                  </p>
+                </div>
+
+                <div style={{ 
+                  padding: '12px', 
+                  backgroundColor: '#f7f8f7', 
+                  borderRadius: '4px',
+                  fontSize: '13px',
+                  color: '#666'
+                }}>
+                  <p style={{ margin: 0, fontFamily: 'monospace' }}>
+                    {lengthNum} {unitLabel}{lengthNum !== 1 ? (units === 'inches' ? 'es' : '') : ''} × {rowsPerUnit.toFixed(2)} rows per {unitLabel} = {convertedRowsFromLength} rows
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {lengthNum === 0 && (
+              <p style={{ color: '#999', fontSize: '14px', fontStyle: 'italic', marginTop: '12px' }}>
+                Enter a length to see the conversion
+              </p>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
