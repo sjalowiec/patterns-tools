@@ -136,8 +136,8 @@ export function PanelSchematic({
                   {/* Marker label on first panel only */}
                   {index === 0 && (
                     <text 
-                      x={panelX - 10} 
-                      y={markerY + 4} 
+                      x={panelX - 5} 
+                      y={markerY - 5} 
                       textAnchor="end" 
                       fill={markerColor} 
                       fontSize="12"

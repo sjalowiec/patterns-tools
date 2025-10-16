@@ -203,18 +203,19 @@ export default function BoatNeckWizard() {
           show={hasUserData}
         />
         
-        {/* Title Section */}
-        <div className="no-print" style={{ marginBottom: '20px' }}>
-          <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
-            Boat Neck Pattern
-          </h1>
-          <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
-            Create your own classic boat neck sweater — simple lines, elegant shape. Enter your gauge and fit preferences for instant results.
-          </h2>
-        </div>
+        <div className="content-area">
+          {/* Title Section */}
+          <div className="no-print" style={{ marginBottom: '20px' }}>
+            <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
+              Boat Neck Pattern
+            </h1>
+            <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
+              Create your own classic boat neck sweater — simple lines, elegant shape. Enter your gauge and fit preferences for instant results.
+            </h2>
+          </div>
 
-        {/* Gauge Inputs */}
-        <div className="well_white no-print">
+          {/* Gauge Inputs */}
+          <div className="well_white no-print">
           <UnitsToggle
             units={units}
             onChange={setUnits}
@@ -335,11 +336,6 @@ export default function BoatNeckWizard() {
                         bottomWidth: sleevePattern.measurements.wrist
                       }
                     ]}
-                    marker={{
-                      label: 'Cap',
-                      depthFromTop: sleevePattern.measurements.sleeveCap,
-                      color: '#2e7d32'
-                    }}
                     units={units}
                     testId="sleeve-schematic"
                   />
@@ -349,11 +345,12 @@ export default function BoatNeckWizard() {
           </>
         )}
 
-        {!hasRequiredInputs && !hasGaugeError && (
-          <div className="well_white" style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
-            <p>Enter your gauge above to generate your boat neck sweater pattern.</p>
-          </div>
-        )}
+          {!hasRequiredInputs && !hasGaugeError && (
+            <div className="well_white" style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
+              <p>Enter your gauge above to generate your boat neck sweater pattern.</p>
+            </div>
+          )}
+        </div>
       </div>
 
       <PrintFooter />
