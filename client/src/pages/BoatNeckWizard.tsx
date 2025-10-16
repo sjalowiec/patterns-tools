@@ -373,6 +373,20 @@ export default function BoatNeckWizard() {
                   />
                 </div>
               </div>
+              
+              {swatchWidth && swatchLength && swatchWeight && (
+                <div style={{ marginTop: '15px', padding: '10px', background: 'rgba(82, 104, 45, 0.2)', borderRadius: '4px' }}>
+                  <strong style={{ color: '#52682d' }}>Calculation Preview:</strong><br />
+                  <small style={{ color: '#666' }}>
+                    {(() => {
+                      const calc = calculateYarnNeeded();
+                      return calc.method === 'swatch' 
+                        ? `Your sweater will need approximately ${calc.grams}g of yarn based on your swatch.`
+                        : 'Complete all swatch measurements to see the calculation.';
+                    })()}
+                  </small>
+                </div>
+              )}
             </div>
           )}
         </div>
