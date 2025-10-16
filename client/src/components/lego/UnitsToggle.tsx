@@ -13,6 +13,10 @@ interface UnitsToggleProps {
 export function UnitsToggle({ units, onChange, gaugeLabel = 'Your Gauge' }: UnitsToggleProps) {
   const isCm = units === 'cm';
   
+  const handleClick = () => {
+    onChange(isCm ? 'inches' : 'cm');
+  };
+  
   return (
     <div className="form-group" style={{ marginBottom: '20px' }}>
       <div style={{ 
@@ -35,7 +39,6 @@ export function UnitsToggle({ units, onChange, gaugeLabel = 'Your Gauge' }: Unit
           gap: '8px'
         }}>
           <span 
-            className={!isCm ? 'active' : ''}
             style={{ 
               color: !isCm ? '#6e8b3d' : '#333',
               fontWeight: !isCm ? 'bold' : 'normal',
@@ -45,19 +48,20 @@ export function UnitsToggle({ units, onChange, gaugeLabel = 'Your Gauge' }: Unit
           >
             in
           </span>
-          <label style={{ 
-            position: 'relative',
-            display: 'inline-block',
-            cursor: 'pointer',
-            verticalAlign: 'middle'
-          }}>
-            <input
-              type="checkbox"
-              checked={isCm}
-              onChange={(e) => onChange(e.target.checked ? 'cm' : 'inches')}
-              data-testid="toggle-units"
-              style={{ display: 'none' }}
-            />
+          <button 
+            type="button"
+            onClick={handleClick}
+            data-testid="toggle-units"
+            style={{ 
+              position: 'relative',
+              display: 'inline-block',
+              cursor: 'pointer',
+              border: 'none',
+              padding: 0,
+              background: 'transparent',
+              verticalAlign: 'middle'
+            }}
+          >
             <span style={{
               position: 'relative',
               display: 'inline-block',
@@ -65,10 +69,9 @@ export function UnitsToggle({ units, onChange, gaugeLabel = 'Your Gauge' }: Unit
               height: '20px',
               backgroundColor: isCm ? '#8ab665' : '#6e8b3d',
               borderRadius: '20px',
-              transition: '0.3s'
+              transition: 'background-color 0.3s'
             }}>
               <span style={{
-                content: '""',
                 position: 'absolute',
                 width: '16px',
                 height: '16px',
@@ -76,13 +79,12 @@ export function UnitsToggle({ units, onChange, gaugeLabel = 'Your Gauge' }: Unit
                 top: '2px',
                 backgroundColor: 'white',
                 borderRadius: '50%',
-                transition: '0.3s',
+                transition: 'transform 0.3s',
                 transform: isCm ? 'translateX(20px)' : 'translateX(0)'
               }} />
             </span>
-          </label>
+          </button>
           <span 
-            className={isCm ? 'active' : ''}
             style={{ 
               color: isCm ? '#8ab665' : '#333',
               fontWeight: isCm ? 'bold' : 'normal',
