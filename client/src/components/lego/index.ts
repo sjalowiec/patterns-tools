@@ -18,5 +18,6 @@ export { default as StickyActionButtons } from './StickyActionButtons';
 export { UnitsToggle } from './UnitsToggle';
 export { WarningBox } from './WarningBox';
 export { WizardActionBar } from './WizardActionBar';
+export { YarnCalculator } from './YarnCalculator';
 export { useGaugeCalculations } from './useGaugeCalculations';
 export { useSleeveDropShoulder } from './useSleeveDropShoulder';
