@@ -9,6 +9,12 @@ export default function BoatNeckWizard() {
   const [rowsIn4, setRowsIn4] = useState<string>('');
   const [withSleeves, setWithSleeves] = useState<string>('sleeves');
   const [hasGaugeError, setHasGaugeError] = useState<boolean>(false);
+  
+  // Yarn calculation state
+  const [calculateYarn, setCalculateYarn] = useState<boolean>(false);
+  const [swatchWidth, setSwatchWidth] = useState<string>('');
+  const [swatchLength, setSwatchLength] = useState<string>('');
+  const [swatchWeight, setSwatchWeight] = useState<string>('');
 
   // Warn user before leaving page if they have entered data
   useEffect(() => {
@@ -77,6 +83,63 @@ export default function BoatNeckWizard() {
   const hasRequiredInputs = stitchesIn4 && rowsIn4 && !hasGaugeError && stitchesPerUnit > 0 && rowsPerUnit > 0;
   const hasUserData = !!(stitchesIn4 || rowsIn4);
 
+  // Calculate yarn needed based on swatch data
+  const calculateYarnNeeded = () => {
+    if (!hasRequiredInputs || !calculateYarn) {
+      return { grams: 0, balls: 0, method: 'none' };
+    }
+    
+    // If yarn calculation is enabled and we have complete swatch data
+    if (swatchWidth && swatchLength && swatchWeight) {
+      const swatchWidthNum = parseFloat(swatchWidth);
+      const swatchLengthNum = parseFloat(swatchLength);
+      const swatchWeightNum = parseFloat(swatchWeight);
+      
+      if (swatchWidthNum > 0 && swatchLengthNum > 0 && swatchWeightNum > 0) {
+        // Calculate total garment area in inches (all calculations in inches for consistency)
+        // Front panel area (rectangle)
+        const frontPanelArea = panelWidthIn * bodyLengthIn;
+        // Back panel area (rectangle)
+        const backPanelArea = panelWidthIn * bodyLengthIn;
+        
+        // Boat neck opening subtraction - use realistic neck depth (about 2-3" deep)
+        // Neckline is a shallow scoop, not the full armhole depth
+        const neckDepthIn = 2.5; // Typical boat neck depth in inches
+        const neckArea = neckOpeningIn * neckDepthIn;
+        
+        // Body area = front + back - neck opening
+        let totalArea = frontPanelArea + backPanelArea - neckArea;
+        
+        // Add sleeve area if user selected sleeves
+        if (withSleeves === 'sleeves' && sleevePattern) {
+          // Sleeve measurements from pattern are always in inches (source data is in inches)
+          const sleeveWidthIn = sleevePattern.measurements.sleeveTop;
+          const sleeveLengthIn = sleevePattern.measurements.sleeveLength;
+          const sleeveArea = sleeveWidthIn * sleeveLengthIn;
+          totalArea += sleeveArea * 2; // Two sleeves
+        }
+        
+        // Calculate swatch area - convert to inches if user provided cm measurements
+        const swatchAreaInches = units === 'inches' 
+          ? swatchWidthNum * swatchLengthNum
+          : (swatchWidthNum / 2.54) * (swatchLengthNum / 2.54);
+        
+        // Weight needed = (total area / swatch area) × swatch weight
+        const gramsNeeded = Math.round((totalArea / swatchAreaInches) * swatchWeightNum);
+        
+        // Calculate number of 100g balls needed (round up)
+        const ballsNeeded = Math.ceil(gramsNeeded / 100);
+        
+        return { grams: gramsNeeded, balls: ballsNeeded, method: 'swatch' };
+      }
+    }
+    
+    // No fallback estimate - require swatch data
+    return { grams: 0, balls: 0, method: 'none' };
+  };
+
+  const yarnEstimate = calculateYarnNeeded();
+
   // Pattern instructions - simplified since front and back are identical
   const bodyInstructions = hasRequiredInputs ? `
     <div class="pattern-section">
@@ -128,6 +191,10 @@ export default function BoatNeckWizard() {
       setRowsIn4('');
       setWithSleeves('sleeves');
       setHasGaugeError(false);
+      setCalculateYarn(false);
+      setSwatchWidth('');
+      setSwatchLength('');
+      setSwatchWeight('');
     }
   };
 
@@ -216,6 +283,100 @@ export default function BoatNeckWizard() {
           />
         </div>
 
+        {/* Yarn Calculator */}
+        <div className="well_white no-print">
+          <div style={{ marginBottom: '15px' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+              <input
+                type="checkbox"
+                checked={calculateYarn}
+                onChange={(e) => setCalculateYarn(e.target.checked)}
+                style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+                data-testid="checkbox-calculate-yarn"
+              />
+              <span style={{ fontSize: '16px', fontWeight: '500', color: '#52682d' }}>
+                Calculate yarn needed
+              </span>
+            </label>
+          </div>
+
+          {calculateYarn && (
+            <div style={{ marginTop: '15px', paddingLeft: '28px' }}>
+              <p style={{ marginBottom: '15px', color: '#666', fontSize: '14px' }}>
+                Weigh your gauge swatch to get an accurate yarn estimate. Enter the dimensions and weight below:
+              </p>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '15px' }}>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', color: '#333' }}>
+                    Swatch Width ({units === 'inches' ? 'inches' : 'cm'})
+                  </label>
+                  <input
+                    type="number"
+                    value={swatchWidth}
+                    onChange={(e) => setSwatchWidth(e.target.value)}
+                    placeholder="e.g., 4"
+                    min="0"
+                    step="0.1"
+                    style={{
+                      width: '100%',
+                      padding: '8px',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '14px'
+                    }}
+                    data-testid="input-swatch-width"
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', color: '#333' }}>
+                    Swatch Length ({units === 'inches' ? 'inches' : 'cm'})
+                  </label>
+                  <input
+                    type="number"
+                    value={swatchLength}
+                    onChange={(e) => setSwatchLength(e.target.value)}
+                    placeholder="e.g., 4"
+                    min="0"
+                    step="0.1"
+                    style={{
+                      width: '100%',
+                      padding: '8px',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '14px'
+                    }}
+                    data-testid="input-swatch-length"
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', color: '#333' }}>
+                    Swatch Weight (grams)
+                  </label>
+                  <input
+                    type="number"
+                    value={swatchWeight}
+                    onChange={(e) => setSwatchWeight(e.target.value)}
+                    placeholder="e.g., 15"
+                    min="0"
+                    step="0.1"
+                    style={{
+                      width: '100%',
+                      padding: '8px',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '14px'
+                    }}
+                    data-testid="input-swatch-weight"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* Pattern Display - Instructions First, Then Diagrams */}
         {hasRequiredInputs && (
           <>
@@ -248,6 +409,18 @@ export default function BoatNeckWizard() {
               <p><strong>Style:</strong> {withSleeves === 'sleeves' ? 'With Sleeves' : 'Sleeveless Vest'}</p>
               <p><strong>Each Panel Casts On:</strong> {castOnSts} stitches</p>
               <p><strong>Total Rows per Panel:</strong> {totalRows} rows</p>
+              
+              {yarnEstimate.method === 'swatch' && (
+                <div style={{ marginTop: '15px', padding: '15px', backgroundColor: '#f7f8f7', borderRadius: '4px', border: '1px solid #52682d' }}>
+                  <h3 style={{ color: '#52682d', fontSize: '16px', marginBottom: '10px' }}>Estimated Yarn Needed</h3>
+                  <p style={{ fontSize: '18px', fontWeight: 'bold', color: '#333', marginBottom: '5px' }} data-testid="text-yarn-estimate">
+                    {yarnEstimate.grams} grams ({yarnEstimate.balls} balls of 100g)
+                  </p>
+                  <p style={{ fontSize: '12px', color: '#666', fontStyle: 'italic' }}>
+                    Based on your swatch measurements. Always buy extra for gauge swatches and mistakes!
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Schematic Diagrams */}
