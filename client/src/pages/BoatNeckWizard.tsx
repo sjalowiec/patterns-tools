@@ -109,7 +109,7 @@ export default function BoatNeckWizard() {
   // Pattern instructions - simplified since front and back are identical
   const bodyInstructions = hasRequiredInputs ? `
     <div class="pattern-section">
-      <h3>Body Panels (Make 2 - Front & Back are identical)</h3>
+      <h3>Body Panels (Knit 2 - Front & Back are identical)</h3>
       <p><strong>Cast on:</strong> ${castOnSts} stitches</p>
       <p><strong>Work even:</strong> Knit in stockinette stitch (or your preferred stitch pattern) for ${bodyRowsBeforeArmhole} rows</p>
       <p><strong>Place marker:</strong> At row ${bodyRowsBeforeArmhole}, place a marker at the beginning of the row to indicate the start of the armhole</p>
@@ -267,7 +267,7 @@ export default function BoatNeckWizard() {
                   {sleeveError && <p style={{ color: '#d32f2f' }}>Error loading sleeve pattern: {sleeveError}</p>}
                   {sleevePattern && (
                     <div className="pattern-section">
-                      <h3>Sleeves (Make 2)</h3>
+                      <h3>Sleeves (Knit 2)</h3>
                       <div dangerouslySetInnerHTML={{ __html: sleevePattern.sleevePatternText }} />
                     </div>
                   )}
@@ -305,7 +305,7 @@ export default function BoatNeckWizard() {
               <PanelSchematic
                 panels={[
                   {
-                    label: 'Body Panel (Make 2)',
+                    label: 'Body Panel (Knit 2)',
                     width: bodyWidth / 2,
                     height: bodyLength,
                     castOnSts: castOnSts,
@@ -327,7 +327,7 @@ export default function BoatNeckWizard() {
                   <PanelSchematic
                     panels={[
                       {
-                        label: 'Sleeve (Make 2)',
+                        label: 'Sleeve (Knit 2)',
                         width: sleevePattern.measurements.sleeveTop,
                         height: sleevePattern.measurements.sleeveLength,
                         castOnSts: sleevePattern.details.castOnSts,

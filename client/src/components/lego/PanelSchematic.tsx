@@ -136,8 +136,8 @@ export function PanelSchematic({
                   {/* Marker label on first panel only */}
                   {index === 0 && (
                     <text 
-                      x={panelX - 5} 
-                      y={markerY - 5} 
+                      x={panelX - 10} 
+                      y={markerY + 4} 
                       textAnchor="end" 
                       fill={markerColor} 
                       fontSize="12"
@@ -214,10 +214,12 @@ export function PanelSchematic({
               strokeWidth="1"
             />
             <text 
-              x={startX + (panels.length * (panelWidth + panelSpacing)) - panelSpacing + 30} 
-              y={startY + panelHeight / 2 + 5} 
+              x={startX + (panels.length * (panelWidth + panelSpacing)) - panelSpacing + 35} 
+              y={startY + panelHeight / 2} 
               fill="#666" 
               fontSize="12"
+              transform={`rotate(-90, ${startX + (panels.length * (panelWidth + panelSpacing)) - panelSpacing + 35}, ${startY + panelHeight / 2})`}
+              textAnchor="middle"
             >
               {panels[0].height.toFixed(1)}{unitLabel}
             </text>
@@ -252,10 +254,12 @@ export function PanelSchematic({
               strokeWidth="1"
             />
             <text 
-              x={startX + (panels.length * (panelWidth + panelSpacing)) - panelSpacing + 60} 
-              y={(markerY + startY + panelHeight) / 2 + 5} 
+              x={startX + (panels.length * (panelWidth + panelSpacing)) - panelSpacing + 65} 
+              y={(markerY + startY + panelHeight) / 2} 
               fill={markerColor} 
               fontSize="12"
+              transform={`rotate(-90, ${startX + (panels.length * (panelWidth + panelSpacing)) - panelSpacing + 65}, ${(markerY + startY + panelHeight) / 2})`}
+              textAnchor="middle"
             >
               {marker.depthFromTop.toFixed(1)}{unitLabel}
             </text>
