@@ -26,6 +26,7 @@ export default function GaugeConversionWizard() {
   const [testRows, setTestRows] = useState(() => localStorage.getItem('gaugeConversion.testRows') || '');
 
   const [tipsOpen, setTipsOpen] = useState(false);
+  const [showMath, setShowMath] = useState(false);
   
   // Quick Convert modal state
   const [quickConvertOpen, setQuickConvertOpen] = useState(false);
@@ -254,7 +255,7 @@ export default function GaugeConversionWizard() {
             </div>
           </div>
 
-          {/* Multiplier Results */}
+          {/* Direct Conversion Results */}
           {hasResults && (
             <div 
               className="well_white"
@@ -270,86 +271,30 @@ export default function GaugeConversionWizard() {
                 }
               `}</style>
               
-              <h2 style={{ color: '#52682d', fontSize: '20px', fontWeight: 'bold', marginBottom: '20px' }}>
-                Your Conversion Multipliers
-              </h2>
-
-              <div style={{ 
-                display: 'grid', 
-                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
-                gap: '20px'
-              }}>
-                {/* Stitch Multiplier */}
-                <div style={{ 
-                  padding: '20px', 
-                  backgroundColor: '#f7f8f7', 
-                  borderRadius: '6px',
-                  border: '1px solid #e5e7eb'
-                }}>
-                  <h3 style={{ color: '#52682d', fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>
-                    Stitches
-                  </h3>
-                  <p style={{ color: '#666', fontSize: '14px', marginBottom: '8px' }}>
-                    Multiply all stitches by
-                  </p>
-                  <p style={{ color: '#333', fontSize: '32px', fontWeight: 'bold' }}>
-                    {stitchMultiplier.toFixed(2)}
-                  </p>
-                </div>
-
-                {/* Row Multiplier */}
-                <div style={{ 
-                  padding: '20px', 
-                  backgroundColor: '#f7f8f7', 
-                  borderRadius: '6px',
-                  border: '1px solid #e5e7eb'
-                }}>
-                  <h3 style={{ color: '#52682d', fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>
-                    Rows
-                  </h3>
-                  <p style={{ color: '#666', fontSize: '14px', marginBottom: '8px' }}>
-                    Multiply all rows by
-                  </p>
-                  <p style={{ color: '#333', fontSize: '32px', fontWeight: 'bold' }}>
-                    {rowMultiplier.toFixed(2)}
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Conversion Calculator */}
-          {hasResults && (
-            <div 
-              className="well_white no-print"
-              style={{ 
-                animation: 'fadeIn 0.3s ease-in',
-                marginBottom: '24px'
-              }}
-            >
               <h2 style={{ color: '#52682d', fontSize: '20px', fontWeight: 'bold', marginBottom: '16px' }}>
-                Quick Conversion Calculator
+                Pattern Translator
               </h2>
               <p style={{ color: '#666', fontSize: '14px', marginBottom: '20px' }}>
-                Test any number from your pattern - just type it in and see the converted result instantly.
+                Enter any number from your pattern and see what you need to work
               </p>
 
               <div style={{ 
                 display: 'grid', 
                 gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-                gap: '24px'
+                gap: '24px',
+                marginBottom: '20px'
               }}>
                 {/* Stitch Converter */}
                 <div>
                   <div className="form-group" style={{ marginBottom: '12px' }}>
-                    <label>Pattern calls for (stitches)</label>
+                    <label>Pattern says (stitches)</label>
                     <input
                       type="number"
                       step="1"
                       className="form-control"
                       value={testStitches}
                       onChange={(e) => setTestStitches(e.target.value)}
-                      placeholder="Enter number of stitches"
+                      placeholder="e.g., 100"
                       data-testid="input-test-stitches"
                     />
                   </div>
@@ -361,7 +306,7 @@ export default function GaugeConversionWizard() {
                       border: '2px solid #52682d'
                     }}>
                       <p style={{ color: '#666', fontSize: '14px', marginBottom: '4px' }}>
-                        You need:
+                        You cast on:
                       </p>
                       <p style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold' }} data-testid="text-converted-stitches">
                         {convertedStitches} stitches
@@ -373,14 +318,14 @@ export default function GaugeConversionWizard() {
                 {/* Row Converter */}
                 <div>
                   <div className="form-group" style={{ marginBottom: '12px' }}>
-                    <label>Pattern calls for (rows)</label>
+                    <label>Pattern says (rows)</label>
                     <input
                       type="number"
                       step="1"
                       className="form-control"
                       value={testRows}
                       onChange={(e) => setTestRows(e.target.value)}
-                      placeholder="Enter number of rows"
+                      placeholder="e.g., 80"
                       data-testid="input-test-rows"
                     />
                   </div>
@@ -392,7 +337,7 @@ export default function GaugeConversionWizard() {
                       border: '2px solid #52682d'
                     }}>
                       <p style={{ color: '#666', fontSize: '14px', marginBottom: '4px' }}>
-                        You need:
+                        You knit:
                       </p>
                       <p style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold' }} data-testid="text-converted-rows">
                         {convertedRows} rows
@@ -401,8 +346,79 @@ export default function GaugeConversionWizard() {
                   )}
                 </div>
               </div>
+
+              {/* Show Math Toggle */}
+              <button
+                onClick={() => setShowMath(!showMath)}
+                data-testid="button-toggle-math"
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  backgroundColor: 'transparent',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: '6px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  cursor: 'pointer',
+                  color: '#666',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#f7f8f7';
+                  e.currentTarget.style.borderColor = '#52682d';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.borderColor = '#e5e7eb';
+                }}
+              >
+                <ChevronDown 
+                  size={16} 
+                  style={{ 
+                    transform: showMath ? 'rotate(180deg)' : 'rotate(0deg)',
+                    transition: 'transform 0.2s ease'
+                  }}
+                />
+                {showMath ? 'Hide' : 'Show'} the math
+              </button>
+
+              {/* Math Details */}
+              {showMath && (
+                <div style={{ 
+                  marginTop: '16px',
+                  padding: '16px',
+                  backgroundColor: '#f7f8f7',
+                  borderRadius: '6px',
+                  fontSize: '14px',
+                  color: '#666'
+                }}>
+                  <p style={{ marginBottom: '12px', fontWeight: '600', color: '#52682d' }}>
+                    Conversion Multipliers:
+                  </p>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                    <div>
+                      <p style={{ margin: 0 }}>
+                        <strong>Stitches:</strong> Multiply by {stitchMultiplier.toFixed(2)}
+                      </p>
+                    </div>
+                    <div>
+                      <p style={{ margin: 0 }}>
+                        <strong>Rows:</strong> Multiply by {rowMultiplier.toFixed(2)}
+                      </p>
+                    </div>
+                  </div>
+                  <p style={{ marginTop: '12px', fontSize: '13px', fontStyle: 'italic' }}>
+                    These are calculated from your gauge: {ySts}/{pSts} for stitches, {yRows}/{pRows} for rows
+                  </p>
+                </div>
+              )}
             </div>
           )}
+
 
           {/* Collapsible Tips Section */}
           <div className="well_white no-print" style={{ overflow: 'hidden' }}>
