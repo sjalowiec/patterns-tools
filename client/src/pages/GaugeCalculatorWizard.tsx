@@ -135,28 +135,24 @@ export default function GaugeCalculatorWizard() {
   ];
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px', backgroundColor: '#f7f8f7', minHeight: '100vh' }}>
+    <div className="wizard-container">
       <SiteHeader />
+      
       <StickyActionButtons actions={actions} show={hasResults} />
 
       <div id="pattern-content">
         <PrintHeader />
         
-        {/* Title Section */}
-        <div className="no-print" style={{ 
-          backgroundColor: 'white', 
-          borderRadius: '8px', 
-          padding: '32px 24px', 
-          marginBottom: '20px',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-        }}>
-          <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
-            Gauge Calculator
-          </h1>
-          <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', maxWidth: '800px', fontWeight: 'normal' }}>
-            No more guesswork — measure your swatch, enter the results, and get accurate stitch and row counts in seconds
-          </h2>
-        </div>
+        <div className="content-area">
+          {/* Title Section */}
+          <div className="no-print" style={{ marginBottom: '20px' }}>
+            <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
+              Gauge Calculator
+            </h1>
+            <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
+              No more guesswork — measure your swatch, enter the results, and get accurate stitch and row counts in seconds
+            </h2>
+          </div>
 
         {/* Two-Column Layout: Inputs + SVG */}
         <style>{`
@@ -174,12 +170,7 @@ export default function GaugeCalculatorWizard() {
         `}</style>
         <div className="no-print gauge-grid">
           {/* Left Column: Inputs */}
-          <div style={{ 
-            backgroundColor: 'white', 
-            borderRadius: '8px', 
-            padding: '24px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-          }}>
+          <div className="well_white">
             <UnitsToggle
               units={units}
               onChange={setUnits}
@@ -250,11 +241,7 @@ export default function GaugeCalculatorWizard() {
           </div>
 
           {/* Right Column: SVG Diagram */}
-          <div style={{ 
-            backgroundColor: 'white', 
-            borderRadius: '8px', 
-            padding: '24px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+          <div className="well_white" style={{ 
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -325,12 +312,8 @@ export default function GaugeCalculatorWizard() {
         {/* Results Block with Fade-In Animation */}
         {hasResults && (
           <div 
+            className="well_white"
             style={{ 
-              backgroundColor: 'white', 
-              borderRadius: '8px', 
-              padding: '24px', 
-              marginBottom: '20px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
               animation: 'fadeIn 0.3s ease-in'
             }}
           >
@@ -405,12 +388,8 @@ export default function GaugeCalculatorWizard() {
         )}
 
         {/* Collapsible Tips Section */}
-        <div className="no-print" style={{ 
-          backgroundColor: 'white', 
-          borderRadius: '8px', 
-          overflow: 'hidden',
-          marginBottom: '20px',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+        <div className="well_white no-print" style={{ 
+          overflow: 'hidden'
         }}>
           <button
             onClick={() => setTipsOpen(!tipsOpen)}
@@ -464,9 +443,10 @@ export default function GaugeCalculatorWizard() {
         <div className="no-print" style={{ textAlign: 'center', color: '#999', fontSize: '14px', padding: '20px 0' }}>
           Built for machine knitters. Always swatch before you knit.
         </div>
-
-        <PrintFooter />
+        </div>
       </div>
+
+      <PrintFooter />
       <SiteFooter />
     </div>
   );
