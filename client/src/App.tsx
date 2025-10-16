@@ -10,6 +10,7 @@ import RectangleWizard from "@/pages/RectangleWizard";
 import SleeveWizard from "@/pages/SleeveWizard";
 import BoatNeckWizard from "@/pages/BoatNeckWizard";
 import GaugeCalculatorWizard from "@/pages/GaugeCalculatorWizard";
+import GaugeConversionWizard from "@/pages/GaugeConversionWizard";
 import NotFound from "@/pages/not-found";
 
 function Navigation() {
@@ -22,7 +23,8 @@ function Navigation() {
     { href: '/rectangle', label: 'Rectangle/Square', testId: 'link-rectangle-wizard' },
     { href: '/sleeve', label: 'Sleeve Tester', testId: 'link-sleeve-wizard' },
     { href: '/boat-neck', label: 'Boat Neck', testId: 'link-boat-neck-wizard' },
-    { href: '/gauge-calculator', label: 'Gauge Calculator', testId: 'link-gauge-calculator-wizard' }
+    { href: '/gauge-calculator', label: 'Gauge Calculator', testId: 'link-gauge-calculator-wizard' },
+    { href: '/gauge-conversion', label: 'Gauge Conversion', testId: 'link-gauge-conversion-wizard' }
   ];
   
   return (
@@ -62,6 +64,7 @@ function Router() {
       <Route path="/sleeve" component={SleeveWizard}/>
       <Route path="/boat-neck" component={BoatNeckWizard}/>
       <Route path="/gauge-calculator" component={GaugeCalculatorWizard}/>
+      <Route path="/gauge-conversion" component={GaugeConversionWizard}/>
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
