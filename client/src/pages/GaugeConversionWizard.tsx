@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { UnitsToggle, PrintHeader, PrintFooter, StickyActionButtons, SiteHeader, SiteFooter, LengthConverterBlock } from '@/components/lego';
+import { UnitsToggle, PrintHeader, PrintFooter, StickyActionButtons, SiteHeader, SiteFooter } from '@/components/lego';
 import { ChevronDown } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
 
@@ -94,17 +94,6 @@ export default function GaugeConversionWizard() {
   const convertedLengthFromRows = lengthMode === 'rows' && lengthNum > 0 && rowsPerUnit > 0
     ? (lengthNum / rowsPerUnit).toFixed(1)
     : '0';
-  
-  // For LengthConverterBlock - calculate rows per inch and cm with proper unit conversion
-  // 1 inch = 2.54 cm, so rows per inch is 2.54× rows per cm
-  // If gauge entered in inches (rows per 4"): rowsPerInch = yRows/4, rowsPerCm = (yRows/4)/2.54
-  // If gauge entered in cm (rows per 10cm): rowsPerCm = yRows/10, rowsPerInch = (yRows/10)*2.54
-  const rowsPerInch = yRows > 0 
-    ? (units === 'inches' ? yRows / 4 : (yRows / 10) * 2.54)
-    : 0;
-  const rowsPerCm = yRows > 0 
-    ? (units === 'cm' ? yRows / 10 : (yRows / 4) / 2.54)
-    : 0;
 
   const hasResults = pSts > 0 && pRows > 0 && ySts > 0 && yRows > 0;
   const displayLabel = units === 'inches' ? '4"' : '10 cm';
@@ -193,8 +182,6 @@ export default function GaugeConversionWizard() {
             </p>
           </div>
 
-          <PrintOnlyTitle title="Gauge Conversion Tool" />
-
           {/* Unit Toggle */}
           <div className="no-print" style={{ marginBottom: '24px' }}>
             <UnitsToggle units={units} onChange={setUnits} gaugeLabel="Gauge Units" />
@@ -223,7 +210,7 @@ export default function GaugeConversionWizard() {
                   className="form-control"
                   value={patternStitches}
                   onChange={(e) => setPatternStitches(e.target.value)}
-                  placeholder={`Stitches per ${displayLabel}`}
+                  placeholder={`Enter the pattern's gauge (per ${displayLabel})`}
                   data-testid="input-pattern-stitches"
                 />
               </div>
@@ -257,7 +244,7 @@ export default function GaugeConversionWizard() {
                   className="form-control"
                   value={yourStitches}
                   onChange={(e) => setYourStitches(e.target.value)}
-                  placeholder={`Stitches per ${displayLabel}`}
+                  placeholder={`Enter your measured gauge (per ${displayLabel})`}
                   data-testid="input-your-stitches"
                 />
               </div>
@@ -351,36 +338,65 @@ export default function GaugeConversionWizard() {
                         data-testid="input-pattern-length"
                         style={{ flex: 1 }}
                       />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setLengthMode(lengthMode === 'length' ? 'rows' : 'length');
-                          setLengthValue('');
-                        }}
-                        data-testid="button-toggle-length-mode"
+                      <div 
                         style={{
-                          padding: '8px 12px',
+                          display: 'inline-flex',
                           backgroundColor: '#f7f8f7',
                           border: '1px solid #e5e7eb',
                           borderRadius: '6px',
-                          fontSize: '12px',
-                          fontWeight: '600',
-                          cursor: 'pointer',
-                          color: '#52682d',
-                          whiteSpace: 'nowrap',
-                          transition: 'all 0.2s'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = '#52682d';
-                          e.currentTarget.style.color = 'white';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = '#f7f8f7';
-                          e.currentTarget.style.color = '#52682d';
+                          padding: '2px',
+                          gap: '2px'
                         }}
                       >
-                        Switch
-                      </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (lengthMode === 'rows') {
+                              setLengthMode('length');
+                              setLengthValue('');
+                            }
+                          }}
+                          data-testid="button-length-mode-inches"
+                          style={{
+                            padding: '6px 10px',
+                            backgroundColor: lengthMode === 'length' ? '#52682d' : 'transparent',
+                            color: lengthMode === 'length' ? 'white' : '#666',
+                            border: 'none',
+                            borderRadius: '4px',
+                            fontSize: '12px',
+                            fontWeight: '600',
+                            cursor: 'pointer',
+                            whiteSpace: 'nowrap',
+                            transition: 'all 0.2s'
+                          }}
+                        >
+                          {units === 'inches' ? 'in' : 'cm'}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (lengthMode === 'length') {
+                              setLengthMode('rows');
+                              setLengthValue('');
+                            }
+                          }}
+                          data-testid="button-length-mode-rows"
+                          style={{
+                            padding: '6px 10px',
+                            backgroundColor: lengthMode === 'rows' ? '#52682d' : 'transparent',
+                            color: lengthMode === 'rows' ? 'white' : '#666',
+                            border: 'none',
+                            borderRadius: '4px',
+                            fontSize: '12px',
+                            fontWeight: '600',
+                            cursor: 'pointer',
+                            whiteSpace: 'nowrap',
+                            transition: 'all 0.2s'
+                          }}
+                        >
+                          rows
+                        </button>
+                      </div>
                     </div>
                   </div>
                   {lengthMode === 'length' && convertedRowsFromLength > 0 && (
@@ -485,16 +501,6 @@ export default function GaugeConversionWizard() {
                   </p>
                 </div>
               )}
-            </div>
-          )}
-
-          {/* Length Converter for Machine Knitters */}
-          {hasResults && (
-            <div style={{ marginBottom: '24px' }}>
-              <LengthConverterBlock 
-                rowsPerInch={rowsPerInch}
-                rowsPerCm={rowsPerCm}
-              />
             </div>
           )}
 
