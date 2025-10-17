@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { UnitsToggle, PrintHeader, PrintFooter, StickyActionButtons, SiteHeader, SiteFooter } from '@/components/lego';
+import { UnitsToggle, PrintHeader, PrintFooter, StickyActionButtons, SiteHeader, SiteFooter, LengthConverterBlock } from '@/components/lego';
 import { ChevronDown } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
 
@@ -94,6 +94,17 @@ export default function GaugeConversionWizard() {
   const convertedLengthFromRows = lengthMode === 'rows' && lengthNum > 0 && rowsPerUnit > 0
     ? (lengthNum / rowsPerUnit).toFixed(1)
     : '0';
+  
+  // For LengthConverterBlock - calculate rows per inch and cm with proper unit conversion
+  // 1 inch = 2.54 cm, so rows per inch is 2.54× rows per cm
+  // If gauge entered in inches (rows per 4"): rowsPerInch = yRows/4, rowsPerCm = (yRows/4)/2.54
+  // If gauge entered in cm (rows per 10cm): rowsPerCm = yRows/10, rowsPerInch = (yRows/10)*2.54
+  const rowsPerInch = yRows > 0 
+    ? (units === 'inches' ? yRows / 4 : (yRows / 10) * 2.54)
+    : 0;
+  const rowsPerCm = yRows > 0 
+    ? (units === 'cm' ? yRows / 10 : (yRows / 4) / 2.54)
+    : 0;
 
   const hasResults = pSts > 0 && pRows > 0 && ySts > 0 && yRows > 0;
   const displayLabel = units === 'inches' ? '4"' : '10 cm';
@@ -174,6 +185,9 @@ export default function GaugeConversionWizard() {
         <div className="content-area">
           {/* Title Section */}
           <div className="no-print" style={{ marginBottom: '20px' }}>
+            <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
+              Gauge Conversion Tool
+            </h1>
             <p style={{ color: '#666', fontSize: '16px', lineHeight: '1.6' }}>
               Convert pattern numbers to match your gauge. Enter the pattern's gauge and your actual gauge below.
             </p>
@@ -203,27 +217,25 @@ export default function GaugeConversionWizard() {
               </p>
               
               <div className="form-group" style={{ marginBottom: '16px' }}>
-                <label>Stitches per {displayLabel}</label>
                 <input
                   type="number"
                   step="0.1"
                   className="form-control"
                   value={patternStitches}
                   onChange={(e) => setPatternStitches(e.target.value)}
-                  placeholder={`e.g., 20`}
+                  placeholder={`Stitches per ${displayLabel}`}
                   data-testid="input-pattern-stitches"
                 />
               </div>
 
               <div className="form-group">
-                <label>Rows per {displayLabel}</label>
                 <input
                   type="number"
                   step="0.1"
                   className="form-control"
                   value={patternRows}
                   onChange={(e) => setPatternRows(e.target.value)}
-                  placeholder={`e.g., 28`}
+                  placeholder={`Rows per ${displayLabel}`}
                   data-testid="input-pattern-rows"
                 />
               </div>
@@ -239,27 +251,25 @@ export default function GaugeConversionWizard() {
               </p>
               
               <div className="form-group" style={{ marginBottom: '16px' }}>
-                <label>Stitches per {displayLabel}</label>
                 <input
                   type="number"
                   step="0.1"
                   className="form-control"
                   value={yourStitches}
                   onChange={(e) => setYourStitches(e.target.value)}
-                  placeholder={`e.g., 23`}
+                  placeholder={`Stitches per ${displayLabel}`}
                   data-testid="input-your-stitches"
                 />
               </div>
 
               <div className="form-group">
-                <label>Rows per {displayLabel}</label>
                 <input
                   type="number"
                   step="0.1"
                   className="form-control"
                   value={yourRows}
                   onChange={(e) => setYourRows(e.target.value)}
-                  placeholder={`e.g., 26`}
+                  placeholder={`Rows per ${displayLabel}`}
                   data-testid="input-your-rows"
                 />
               </div>
@@ -298,14 +308,13 @@ export default function GaugeConversionWizard() {
                 {/* Stitch Converter */}
                 <div>
                   <div className="form-group" style={{ marginBottom: '12px' }}>
-                    <label>Pattern says (stitches)</label>
                     <input
                       type="number"
                       step="1"
                       className="form-control"
                       value={testStitches}
                       onChange={(e) => setTestStitches(e.target.value)}
-                      placeholder="e.g., 100"
+                      placeholder="Pattern says (stitches)"
                       data-testid="input-test-stitches"
                     />
                   </div>
@@ -329,12 +338,6 @@ export default function GaugeConversionWizard() {
                 {/* Length/Row Converter */}
                 <div>
                   <div className="form-group" style={{ marginBottom: '12px' }}>
-                    <label>
-                      Pattern length 
-                      <span style={{ marginLeft: '8px', fontSize: '13px', color: '#666' }}>
-                        ({lengthMode === 'length' ? (units === 'inches' ? 'inches' : 'cm') : 'rows'})
-                      </span>
-                    </label>
                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                       <input
                         type="number"
@@ -342,7 +345,9 @@ export default function GaugeConversionWizard() {
                         className="form-control"
                         value={lengthValue}
                         onChange={(e) => setLengthValue(e.target.value)}
-                        placeholder={lengthMode === 'length' ? 'e.g., 15' : 'e.g., 80'}
+                        placeholder={lengthMode === 'length' 
+                          ? `Pattern length (${units === 'inches' ? 'inches' : 'cm'})`
+                          : 'Pattern length (rows)'}
                         data-testid="input-pattern-length"
                         style={{ flex: 1 }}
                       />
@@ -483,6 +488,15 @@ export default function GaugeConversionWizard() {
             </div>
           )}
 
+          {/* Length Converter for Machine Knitters */}
+          {hasResults && (
+            <div style={{ marginBottom: '24px' }}>
+              <LengthConverterBlock 
+                rowsPerInch={rowsPerInch}
+                rowsPerCm={rowsPerCm}
+              />
+            </div>
+          )}
 
           {/* Collapsible Tips Section */}
           <div className="well_white no-print" style={{ overflow: 'hidden' }}>

@@ -4,6 +4,7 @@
  */
 
 export { GaugeInputs } from './GaugeInputs';
+export { LengthConverterBlock } from './LengthConverterBlock';
 export { PanelSchematic } from './PanelSchematic';
 export { PrintFooter } from './PrintFooter';
 export { PrintHeader } from './PrintHeader';
