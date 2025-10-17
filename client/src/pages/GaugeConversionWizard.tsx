@@ -585,7 +585,7 @@ export default function GaugeConversionWizard() {
                   <li><strong>When to use:</strong> This tool is perfect when you want to use a different yarn weight or knit at a different tension than the pattern specifies.</li>
                   <li><strong>How it works:</strong> The multipliers show you how much larger or smaller your knitting will be compared to the pattern. Numbers above 1.0 mean you need MORE stitches/rows, below 1.0 means FEWER.</li>
                   <li><strong>Example:</strong> If the pattern says "Cast on 100 stitches" and your multiplier is 1.15, you'd cast on 115 stitches instead.</li>
-                  <li><strong>Important:</strong> This works best for simple patterns. Complex shaping, lace, or cables may need additional adjustments.</li>
+                  <li><strong>Important:</strong> This works best for simple shapes. For detailed shaping, pair this with other <a href="https://www.knitbymachine.com/tools" target="_blank" rel="noopener noreferrer" style={{ color: '#52682d', textDecoration: 'underline' }}>Knit by Machine tools</a>.</li>
                   <li><strong>Pro tip:</strong> Always knit a swatch in your yarn to get an accurate gauge before starting your project.</li>
                 </ul>
               </div>
