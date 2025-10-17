@@ -554,14 +554,3 @@ export default function GaugeConversionWizard() {
     </div>
   );
 }
-
-// Print-only title component
-function PrintOnlyTitle({ title }: { title: string }) {
-  return (
-    <div className="print-only" style={{ marginBottom: '24px' }}>
-      <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold' }}>
-        {title}
-      </h1>
-    </div>
-  );
-}
