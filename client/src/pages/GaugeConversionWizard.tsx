@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { UnitsToggle, PrintHeader, PrintFooter, StickyActionButtons, SiteHeader, SiteFooter } from '@/components/lego';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, PlayCircle } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import html2pdf from 'html2pdf.js';
 
 type Units = 'inches' | 'cm';
@@ -279,11 +280,56 @@ export default function GaugeConversionWizard() {
                 }
               `}</style>
               
-              <h2 style={{ color: '#52682d', fontSize: '20px', fontWeight: 'bold', marginBottom: '16px' }}>
-                Pattern Translator
-              </h2>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                <h2 style={{ color: '#52682d', fontSize: '20px', fontWeight: 'bold', margin: 0 }}>
+                  Pattern Translator
+                </h2>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <button
+                      type="button"
+                      data-testid="button-video-tutorial"
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        padding: '4px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        color: '#52682d',
+                        transition: 'opacity 0.2s'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
+                      onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                    >
+                      <PlayCircle size={24} />
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent style={{ maxWidth: '800px' }}>
+                    <DialogHeader>
+                      <DialogTitle>How to Use Pattern Translator</DialogTitle>
+                    </DialogHeader>
+                    <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden' }}>
+                      <iframe
+                        src="https://player.vimeo.com/video/YOUR_VIDEO_ID"
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          height: '100%',
+                          border: 0
+                        }}
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        allowFullScreen
+                        title="Pattern Translator Tutorial"
+                      />
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </div>
               <p style={{ color: '#666', fontSize: '14px', marginBottom: '20px' }}>
-                Enter any number from your pattern and see what you need to work
+                Work through your pattern one part at a time — cast-on, body, sleeve, neck, etc. Enter the numbers from the pattern, and we'll show you what they become at your gauge.
               </p>
 
               <div style={{ 
@@ -497,7 +543,7 @@ export default function GaugeConversionWizard() {
                     </div>
                   </div>
                   <p style={{ marginTop: '12px', fontSize: '13px', fontStyle: 'italic' }}>
-                    These are calculated from your gauge: {ySts}/{pSts} for stitches, {yRows}/{pRows} for rows
+                    Based on your gauge: {ySts} stitches and {yRows} rows per {displayLabel}
                   </p>
                 </div>
               )}
