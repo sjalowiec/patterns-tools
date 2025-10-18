@@ -68,7 +68,7 @@ const iconSvgs = {
           .pattern-outer { stroke: currentColor; stroke-width: 16.24px; fill: none; stroke-linejoin: round; }
           .pattern-inner { stroke: currentColor; stroke-width: 11.37px; fill: none; stroke-linejoin: round; }
           .pattern-fill-light { fill: currentColor; opacity: .13; stroke: currentColor; stroke-miterlimit: 10; }
-          .pattern-sweater { fill: currentColor; stroke: currentColor; stroke-width: 1.39px; stroke-miterlimit: 10; }
+          .pattern-sweater { fill: none; stroke: currentColor; stroke-width: 11.5px; stroke-linejoin: round; stroke-miterlimit: 10; }
         `}</style>
       </defs>
       <g>
