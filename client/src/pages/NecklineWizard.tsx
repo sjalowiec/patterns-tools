@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
 import { calcShoulderWidth, rowsForOneInch, distributeEvenly, generateLeftShoulderTemplate, generateRightShoulderTemplate } from '@shared/calculations';
-import { GaugeInputs, UnitsToggle, useGaugeCalculations, PrintFooter, PrintHeader, SiteHeader, SiteFooter } from '@/components/lego';
+import { GaugeInputs, UnitsToggle, useGaugeCalculations, PrintFooter, PrintHeader, SiteHeader, SiteFooter, WizardIcon } from '@/components/lego';
 import StickyActionButtons from '@/components/lego/StickyActionButtons';
 import { WarningBox } from '@/components/lego/WarningBox';
 import { PrintOnlyTitle } from '@/components/lego/PrintOnlyTitle';
@@ -502,13 +502,16 @@ export default function NecklineWizard() {
       <div className="content-area">
         
         {/* Title Section */}
-        <div className="no-print" style={{ marginBottom: '20px' }}>
-          <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
-            Neckline and Shoulder Practice
-          </h1>
-          <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
-            Strengthen your shaping skills by combining neckline and shoulder practice. This blueprint gives you the structure to test ideas and build real shaping confidence.
-          </h2>
+        <div className="no-print" style={{ marginBottom: '20px', display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+          <WizardIcon iconName="practice-icon" />
+          <div style={{ flex: 1 }}>
+            <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
+              Neckline and Shoulder Practice
+            </h1>
+            <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
+              Strengthen your shaping skills by combining neckline and shoulder practice. This blueprint gives you the structure to test ideas and build real shaping confidence.
+            </h2>
+          </div>
         </div>
 
         {/* Input Form */}

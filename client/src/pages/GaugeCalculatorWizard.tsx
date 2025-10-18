@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { UnitsToggle, PrintHeader, PrintFooter, StickyActionButtons, SiteHeader, SiteFooter } from '@/components/lego';
+import { UnitsToggle, PrintHeader, PrintFooter, StickyActionButtons, SiteHeader, SiteFooter, WizardIcon } from '@/components/lego';
 import { ChevronDown } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
 
@@ -145,13 +145,16 @@ export default function GaugeCalculatorWizard() {
         
         <div className="content-area">
           {/* Title Section */}
-          <div className="no-print" style={{ marginBottom: '20px' }}>
-            <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
-              Gauge Calculator
-            </h1>
-            <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
-              No more guesswork — measure your swatch, enter the results, and get accurate stitch and row counts in seconds
-            </h2>
+          <div className="no-print" style={{ marginBottom: '20px', display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+            <WizardIcon iconName="tools-icon" />
+            <div style={{ flex: 1 }}>
+              <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
+                Gauge Calculator
+              </h1>
+              <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
+                No more guesswork — measure your swatch, enter the results, and get accurate stitch and row counts in seconds
+              </h2>
+            </div>
           </div>
 
         {/* Two-Column Layout: Inputs + SVG */}

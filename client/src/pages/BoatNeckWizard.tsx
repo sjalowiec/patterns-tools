@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { GaugeInputs, RadioGroup, UnitsToggle, useSleeveDropShoulder, PrintHeader, PrintFooter, PrintOnlyTitle, StickyActionButtons, PanelSchematic, WarningBox, SiteHeader, SiteFooter, YarnCalculator } from '@/components/lego';
+import { GaugeInputs, RadioGroup, UnitsToggle, useSleeveDropShoulder, PrintHeader, PrintFooter, PrintOnlyTitle, StickyActionButtons, PanelSchematic, WarningBox, SiteHeader, SiteFooter, YarnCalculator, WizardIcon } from '@/components/lego';
 import type { Units } from '@shared/types/wizard';
 import html2pdf from 'html2pdf.js';
 
@@ -205,13 +205,16 @@ export default function BoatNeckWizard() {
         
         <div className="content-area">
           {/* Title Section */}
-          <div className="no-print" style={{ marginBottom: '20px' }}>
-            <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
-              Boat Neck Pattern
-            </h1>
-            <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
-              Create your own classic boat neck sweater — simple lines, elegant shape. Enter your gauge and fit preferences for instant results.
-            </h2>
+          <div className="no-print" style={{ marginBottom: '20px', display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+            <WizardIcon iconName="pattern-icon" />
+            <div style={{ flex: 1 }}>
+              <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
+                Boat Neck Pattern
+              </h1>
+              <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
+                Create your own classic boat neck sweater — simple lines, elegant shape. Enter your gauge and fit preferences for instant results.
+              </h2>
+            </div>
           </div>
 
           {/* Gauge Inputs */}

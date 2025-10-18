@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { UnitsToggle, PrintHeader, PrintFooter, StickyActionButtons, SiteHeader, SiteFooter } from '@/components/lego';
+import { UnitsToggle, PrintHeader, PrintFooter, StickyActionButtons, SiteHeader, SiteFooter, WizardIcon } from '@/components/lego';
 import { ChevronDown, PlayCircle } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import html2pdf from 'html2pdf.js';
@@ -174,13 +174,16 @@ export default function GaugeConversionWizard() {
         
         <div className="content-area">
           {/* Title Section */}
-          <div className="no-print" style={{ marginBottom: '20px' }}>
-            <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
-              Gauge Conversion Tool
-            </h1>
-            <p style={{ color: '#666', fontSize: '16px', lineHeight: '1.6' }}>
-              Convert pattern numbers to match your gauge. Enter the pattern's gauge and your actual gauge below.
-            </p>
+          <div className="no-print" style={{ marginBottom: '20px', display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+            <WizardIcon iconName="tools-icon" />
+            <div style={{ flex: 1 }}>
+              <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
+                Gauge Conversion Tool
+              </h1>
+              <p style={{ color: '#666', fontSize: '16px', lineHeight: '1.6' }}>
+                Convert pattern numbers to match your gauge. Enter the pattern's gauge and your actual gauge below.
+              </p>
+            </div>
           </div>
 
           {/* Unit Toggle */}

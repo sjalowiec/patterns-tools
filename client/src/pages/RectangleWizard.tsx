@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
-import { GaugeInputs, UnitsToggle, PrintFooter, PrintHeader, SiteHeader, SiteFooter } from '@/components/lego';
+import { GaugeInputs, UnitsToggle, PrintFooter, PrintHeader, SiteHeader, SiteFooter, WizardIcon } from '@/components/lego';
 import StickyActionButtons from '@/components/lego/StickyActionButtons';
 import { WarningBox } from '@/components/lego/WarningBox';
 import { PrintOnlyTitle } from '@/components/lego/PrintOnlyTitle';
@@ -336,13 +336,16 @@ export default function RectangleWizard() {
       <div className="content-area">
         
         {/* Title Section */}
-        <div className="no-print" style={{ marginBottom: '20px' }}>
-          <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
-            Rectangle/Square Calculator
-          </h1>
-          <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
-            Plan rectangular projects with precision — just plug in your gauge, and the tool gives you exact stitch and row counts.
-          </h2>
+        <div className="no-print" style={{ marginBottom: '20px', display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+          <WizardIcon iconName="tools-icon" />
+          <div style={{ flex: 1 }}>
+            <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
+              Rectangle/Square Calculator
+            </h1>
+            <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
+              Plan rectangular projects with precision — just plug in your gauge, and the tool gives you exact stitch and row counts.
+            </h2>
+          </div>
         </div>
 
         {/* Input Form */}

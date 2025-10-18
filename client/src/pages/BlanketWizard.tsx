@@ -3,7 +3,7 @@ import html2pdf from 'html2pdf.js';
 import logoSvg from '@assets/knitting-brand.svg';
 import { type SizeSelection } from '@shared/sizing';
 import { useSizingData } from '@shared/hooks/useSizingData';
-import { GaugeInputs, UnitsToggle, PrintFooter, PrintHeader, SiteHeader, SiteFooter, YarnCalculator } from '@/components/lego';
+import { GaugeInputs, UnitsToggle, PrintFooter, PrintHeader, SiteHeader, SiteFooter, YarnCalculator, WizardIcon } from '@/components/lego';
 import StickyActionButtons from '@/components/lego/StickyActionButtons';
 import { WarningBox } from '@/components/lego/WarningBox';
 import { PrintOnlyTitle } from '@/components/lego/PrintOnlyTitle';
@@ -429,13 +429,16 @@ export default function BlanketWizard() {
       <div className="content-area">
         
         {/* Title Section */}
-        <div className="no-print" style={{ marginBottom: '20px' }}>
-          <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
-            DIY Blanket Pattern
-          </h1>
-          <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
-            Design your own blanket — no math, no stress. Enter your gauge, choose a size, and let the wizard calculate your stitches and rows for a beautiful blanket.
-          </h2>
+        <div className="no-print" style={{ marginBottom: '20px', display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+          <WizardIcon iconName="pattern-icon" />
+          <div style={{ flex: 1 }}>
+            <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
+              DIY Blanket Pattern
+            </h1>
+            <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
+              Design your own blanket — no math, no stress. Enter your gauge, choose a size, and let the wizard calculate your stitches and rows for a beautiful blanket.
+            </h2>
+          </div>
         </div>
 
         {/* Input Form */}
