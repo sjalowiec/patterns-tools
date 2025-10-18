@@ -42,17 +42,41 @@ const iconSvgs = {
     </svg>
   ),
   'practice-icon': (
-    <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M30 90 L60 30 L90 90 Z" stroke="currentColor" strokeWidth="4" fill="transparent" strokeLinejoin="round"/>
-      <path d="M45 70 L75 70" stroke="currentColor" strokeWidth="3"/>
-      <circle cx="60" cy="45" r="6" fill="currentColor"/>
+    <svg viewBox="0 0 493.6 442.86" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: 'auto' }}>
+      <defs>
+        <style>{`
+          .practice-outer { stroke: currentColor; stroke-width: 16.24px; fill: none; stroke-linejoin: round; }
+          .practice-inner { stroke: currentColor; stroke-width: 11.37px; fill: none; stroke-linejoin: round; }
+          .practice-fill-light { fill: currentColor; opacity: .13; stroke: currentColor; stroke-miterlimit: 10; }
+          .practice-blocks { fill: currentColor; stroke: currentColor; stroke-width: 1.43px; stroke-miterlimit: 10; }
+        `}</style>
+      </defs>
+      <g>
+        <path className="practice-outer" d="M341.49,8.12h-189.37c-17.62,0-33.9,9.4-42.7,24.65L14.73,196.78c-8.81,15.26-8.81,34.05,0,49.31l94.69,164c8.81,15.26,25.09,24.65,42.7,24.65h189.37c17.62,0,33.9-9.4,42.7-24.65l94.69-164c8.81-15.26,8.81-34.05,0-49.31l-94.69-164c-8.81-15.26-25.09-24.65-42.7-24.65Z"/>
+        <path className="practice-inner" d="M326.34,37.97h-159.07c-14.8,0-28.47,7.89-35.87,20.71L51.86,196.44c-7.4,12.82-7.4,28.6,0,41.42l79.54,137.76c7.4,12.82,21.07,20.71,35.87,20.71h159.07c14.8,0,28.47-7.89,35.87-20.71l79.54-137.76c7.4-12.82,7.4-28.6,0-41.42l-79.54-137.76c-7.4-12.82-21.07-20.71-35.87-20.71Z"/>
+        <path className="practice-fill-light" d="M328.36,42.2h-159.07c-14.8,0-28.47,7.89-35.87,20.71L53.88,200.67c-7.4,12.82-7.4,28.6,0,41.42l79.54,137.76c7.4,12.82,21.07,20.71,35.87,20.71h159.07c14.8,0,28.47-7.89,35.87-20.71l79.54-137.76c7.4-12.82,7.4-28.6,0-41.42l-79.54-137.76c-7.4-12.82-21.07-20.71-35.87-20.71Z"/>
+        <rect className="practice-blocks" x="259.52" y="212" width="113.01" height="98.52"/>
+        <rect className="practice-blocks" x="197.06" y="102.51" width="113.01" height="98.52"/>
+        <rect className="practice-blocks" x="125.69" y="212" width="113.01" height="98.52"/>
+      </g>
     </svg>
   ),
   'pattern-icon': (
-    <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="30" y="30" width="60" height="60" stroke="currentColor" strokeWidth="4" fill="transparent" rx="4"/>
-      <path d="M30 50 L90 50 M30 70 L90 70" stroke="currentColor" strokeWidth="2"/>
-      <path d="M50 30 L50 90 M70 30 L70 90" stroke="currentColor" strokeWidth="2"/>
+    <svg viewBox="0 0 493.6 442.86" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: 'auto' }}>
+      <defs>
+        <style>{`
+          .pattern-outer { stroke: currentColor; stroke-width: 16.24px; fill: none; stroke-linejoin: round; }
+          .pattern-inner { stroke: currentColor; stroke-width: 11.37px; fill: none; stroke-linejoin: round; }
+          .pattern-fill-light { fill: currentColor; opacity: .13; stroke: currentColor; stroke-miterlimit: 10; }
+          .pattern-sweater { fill: currentColor; stroke: currentColor; stroke-width: 1.39px; stroke-miterlimit: 10; }
+        `}</style>
+      </defs>
+      <g>
+        <path className="pattern-outer" d="M341.49,8.12h-189.37c-17.62,0-33.9,9.4-42.7,24.65L14.73,196.78c-8.81,15.26-8.81,34.05,0,49.31l94.69,164c8.81,15.26,25.09,24.65,42.7,24.65h189.37c17.62,0,33.9-9.4,42.7-24.65l94.69-164c8.81-15.26,8.81-34.05,0-49.31l-94.69-164c-8.81-15.26-25.09-24.65-42.7-24.65Z"/>
+        <path className="pattern-inner" d="M326.34,37.97h-159.07c-14.8,0-28.47,7.89-35.87,20.71L51.86,196.44c-7.4,12.82-7.4,28.6,0,41.42l79.54,137.76c7.4,12.82,21.07,20.71,35.87,20.71h159.07c14.8,0,28.47-7.89,35.87-20.71l79.54-137.76c7.4-12.82,7.4-28.6,0-41.42l-79.54-137.76c-7.4-12.82-21.07-20.71-35.87-20.71Z"/>
+        <path className="pattern-fill-light" d="M327.29,38.81h-159.07c-14.8,0-28.47,7.89-35.87,20.71L52.81,197.28c-7.4,12.82-7.4,28.6,0,41.42l79.54,137.76c7.4,12.82,21.07,20.71,35.87,20.71h159.07c14.8,0,28.47-7.89,35.87-20.71l79.54-137.76c7.4-12.82,7.4-28.6,0-41.42l-79.54-137.76c-7.4-12.82-21.07-20.71-35.87-20.71Z"/>
+        <path className="pattern-sweater" d="M171.42,217.46l-29.54,63.5c-1.24.6-2.62.94-4,.71-3.68-.61-34.26-10.91-36.44-12.54-.83-.62-1.37-1.41-1.62-2.42l45.17-150.43c3.49-9.08,6.86-14.28,15.75-18.74s43.62-18.3,52.21-19.92c11.52-2.16,52.77-1.38,65.66-.29,8.96.76,40.97,13.64,50.93,18.06,16.1,7.16,17.7,13.54,23,29.26,15.31,45.41,26.55,92.33,42.1,137.68.89,4.42,1.51,5.72-2.65,7.9-3.02,1.58-32.36,10.93-35.09,11.01-1.26.04-2.49.17-3.61-.55l-29.25-62.21v90.42c0,1.9-5.9,3.53-7.49,4.01-44.31,13.31-97,13.44-141.73.61-2.14-.61-4.43-1.4-4.43-3.92v-91.15Z"/>
+      </g>
     </svg>
   )
 };
