@@ -182,37 +182,6 @@ export default function GaugeCalculatorWizard() {
 
             <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div className="form-group">
-                <label>Width</label>
-                <input
-                  type="number"
-                  step="0.1"
-                  className="form-control"
-                  value={swatchWidth}
-                  onChange={(e) => setSwatchWidth(e.target.value)}
-                  onFocus={() => setActiveRuler('horizontal')}
-                  onBlur={() => setActiveRuler(null)}
-                  placeholder={units === 'inches' ? 'e.g., 4' : 'e.g., 10'}
-                  data-testid="input-width"
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Height</label>
-                <input
-                  type="number"
-                  step="0.1"
-                  className="form-control"
-                  value={swatchHeight}
-                  onChange={(e) => setSwatchHeight(e.target.value)}
-                  onFocus={() => setActiveRuler('vertical')}
-                  onBlur={() => setActiveRuler(null)}
-                  placeholder={units === 'inches' ? 'e.g., 4' : 'e.g., 10'}
-                  data-testid="input-height"
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Stitches</label>
                 <input
                   type="number"
                   step="1"
@@ -222,12 +191,12 @@ export default function GaugeCalculatorWizard() {
                   onFocus={() => setActiveRuler('horizontal')}
                   onBlur={() => setActiveRuler(null)}
                   placeholder="Count of stitches"
+                  aria-label="Count of stitches"
                   data-testid="input-stitches"
                 />
               </div>
 
               <div className="form-group">
-                <label>Rows</label>
                 <input
                   type="number"
                   step="1"
@@ -237,7 +206,46 @@ export default function GaugeCalculatorWizard() {
                   onFocus={() => setActiveRuler('vertical')}
                   onBlur={() => setActiveRuler(null)}
                   placeholder="Count of rows"
+                  aria-label="Count of rows"
                   data-testid="input-rows"
+                />
+              </div>
+
+              <div className="form-group">
+                <input
+                  type="number"
+                  step="0.1"
+                  className="form-control"
+                  value={swatchWidth}
+                  onChange={(e) => setSwatchWidth(e.target.value)}
+                  onFocus={() => setActiveRuler('horizontal')}
+                  onBlur={() => setActiveRuler(null)}
+                  placeholder={
+                    sts > 0 
+                      ? `Width over ${sts} stitches` 
+                      : (units === 'inches' ? 'e.g., 4' : 'e.g., 10')
+                  }
+                  aria-label="Swatch width"
+                  data-testid="input-width"
+                />
+              </div>
+
+              <div className="form-group">
+                <input
+                  type="number"
+                  step="0.1"
+                  className="form-control"
+                  value={swatchHeight}
+                  onChange={(e) => setSwatchHeight(e.target.value)}
+                  onFocus={() => setActiveRuler('vertical')}
+                  onBlur={() => setActiveRuler(null)}
+                  placeholder={
+                    rowCount > 0 
+                      ? `Height over ${rowCount} rows` 
+                      : (units === 'inches' ? 'e.g., 4' : 'e.g., 10')
+                  }
+                  aria-label="Swatch height"
+                  data-testid="input-height"
                 />
               </div>
             </div>
