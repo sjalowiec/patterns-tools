@@ -223,7 +223,7 @@ export default function GaugeCalculatorWizard() {
                   placeholder={
                     sts > 0 
                       ? `Width over ${sts} stitches` 
-                      : (units === 'inches' ? 'e.g., 4' : 'e.g., 10')
+                      : 'Measure stitches'
                   }
                   aria-label="Swatch width"
                   data-testid="input-width"
@@ -242,7 +242,7 @@ export default function GaugeCalculatorWizard() {
                   placeholder={
                     rowCount > 0 
                       ? `Height over ${rowCount} rows` 
-                      : (units === 'inches' ? 'e.g., 4' : 'e.g., 10')
+                      : 'Measure rows'
                   }
                   aria-label="Swatch height"
                   data-testid="input-height"
