@@ -41,12 +41,11 @@ function Navigation() {
               href={link.href}
               data-testid={link.testId}
               className={`
-                no-underline transition-colors
+                text-white no-underline transition-colors
                 ${location === link.href 
                   ? 'font-bold underline' 
                   : 'hover:underline font-normal'}
               `}
-              style={{ color: 'white' }}
             >
               {link.label}
             </Link>
