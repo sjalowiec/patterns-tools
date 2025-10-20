@@ -10,7 +10,13 @@ const iconSvgs = {
     <img 
       src={toolsIconPng} 
       alt="Gauge tools icon" 
-      style={{ width: '100%', height: 'auto', display: 'block' }}
+      style={{ 
+        width: '100%', 
+        height: 'auto', 
+        display: 'block',
+        transition: 'filter 0.2s ease'
+      }}
+      className="tools-icon-img"
     />
   ),
   'practice-icon': (
@@ -85,9 +91,19 @@ export function WizardIcon({ iconName, className = '' }: WizardIconProps) {
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.color = '#6E8B3D';
+        // Apply brightness filter to PNG icons on hover
+        const img = e.currentTarget.querySelector('.tools-icon-img') as HTMLImageElement;
+        if (img) {
+          img.style.filter = 'brightness(1.15)';
+        }
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.color = '#52682d';
+        // Reset brightness filter on PNG icons
+        const img = e.currentTarget.querySelector('.tools-icon-img') as HTMLImageElement;
+        if (img) {
+          img.style.filter = 'brightness(1)';
+        }
       }}
     >
       {svg}
