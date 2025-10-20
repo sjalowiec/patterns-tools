@@ -52,9 +52,9 @@ export default function HalfStitchShockWizard() {
       
       rows.push({
         stitches,
-        width1: width1.toFixed(2),
-        width2: width2.toFixed(2),
-        difference: difference.toFixed(2)
+        width1: width1.toFixed(1),
+        width2: width2.toFixed(1),
+        difference: difference.toFixed(1)
       });
     }
     return rows;
@@ -361,8 +361,7 @@ export default function HalfStitchShockWizard() {
                   textAlign: 'center',
                   animation: isCalloutVisible ? 'dramatic 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both, pulse 2s ease-in-out 0.8s infinite' : 'none',
                   position: 'relative',
-                  overflow: 'visible',
-                  opacity: isCalloutVisible ? 1 : 0
+                  overflow: 'visible'
                 }}
               >
                 <div style={{
