@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { UnitsToggle, PrintHeader, PrintFooter, StickyActionButtons, SiteHeader, SiteFooter, WizardIcon } from '@/components/lego';
 import html2pdf from 'html2pdf.js';
 
@@ -8,12 +8,38 @@ export default function HalfStitchShockWizard() {
   const [units, setUnits] = useState<Units>('inches');
   const [gauge1, setGauge1] = useState('');
   const [gauge2, setGauge2] = useState('');
+  const [isCalloutVisible, setIsCalloutVisible] = useState(false);
+  const calloutRef = useRef<HTMLDivElement>(null);
 
   // Parse inputs
   const g1 = parseFloat(gauge1) || 0;
   const g2 = parseFloat(gauge2) || 0;
 
   const hasResults = g1 > 0 && g2 > 0;
+
+  // Intersection Observer for scroll-triggered animation
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !isCalloutVisible) {
+            setIsCalloutVisible(true);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    if (calloutRef.current) {
+      observer.observe(calloutRef.current);
+    }
+
+    return () => {
+      if (calloutRef.current) {
+        observer.unobserve(calloutRef.current);
+      }
+    };
+  }, [isCalloutVisible]);
 
   // Generate comparison rows
   const generateComparisonRows = () => {
@@ -324,17 +350,21 @@ export default function HalfStitchShockWizard() {
               </div>
 
               {/* Dramatic Callout */}
-              <div style={{ 
-                marginTop: '32px', 
-                padding: '28px 32px', 
-                background: 'linear-gradient(135deg, rgba(82, 104, 45, 0.08) 0%, rgba(82, 104, 45, 0.12) 100%)',
-                border: '3px solid #52682d',
-                borderRadius: '12px',
-                textAlign: 'center',
-                animation: 'dramatic 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both, pulse 2s ease-in-out 1.1s infinite',
-                position: 'relative',
-                overflow: 'visible'
-              }}>
+              <div 
+                ref={calloutRef}
+                style={{ 
+                  marginTop: '32px', 
+                  padding: '28px 32px', 
+                  background: 'linear-gradient(135deg, rgba(82, 104, 45, 0.08) 0%, rgba(82, 104, 45, 0.12) 100%)',
+                  border: '3px solid #52682d',
+                  borderRadius: '12px',
+                  textAlign: 'center',
+                  animation: isCalloutVisible ? 'dramatic 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both, pulse 2s ease-in-out 0.8s infinite' : 'none',
+                  position: 'relative',
+                  overflow: 'visible',
+                  opacity: isCalloutVisible ? 1 : 0
+                }}
+              >
                 <div style={{
                   position: 'absolute',
                   top: '-16px',
@@ -348,7 +378,8 @@ export default function HalfStitchShockWizard() {
                   fontWeight: 'bold',
                   letterSpacing: '0.5px'
                 }}>
-                  ⚡ KEY INSIGHT
+                  <i className="fa-solid fa-eye" style={{ marginRight: '6px' }}></i>
+                  What this means
                 </div>
                 <p style={{ 
                   fontSize: '20px', 
