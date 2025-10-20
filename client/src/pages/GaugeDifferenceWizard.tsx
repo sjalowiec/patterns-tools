@@ -4,7 +4,7 @@ import html2pdf from 'html2pdf.js';
 
 type Units = 'inches' | 'cm';
 
-export default function HalfStitchShockWizard() {
+export default function GaugeDifferenceWizard() {
   const [units, setUnits] = useState<Units>('inches');
   const [gauge1, setGauge1] = useState('');
   const [gauge2, setGauge2] = useState('');
@@ -77,7 +77,7 @@ export default function HalfStitchShockWizard() {
 
     const opt = {
       margin: [0.5, 0.5, 0.75, 0.5] as [number, number, number, number],
-      filename: 'half-stitch-shock.pdf',
+      filename: 'gauge-difference.pdf',
       image: { type: 'jpeg' as const, quality: 0.98 },
       html2canvas: { scale: 2, useCORS: true },
       jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' as const },

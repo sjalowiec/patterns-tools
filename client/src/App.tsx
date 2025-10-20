@@ -11,7 +11,7 @@ import SleeveWizard from "@/pages/SleeveWizard";
 import BoatNeckWizard from "@/pages/BoatNeckWizard";
 import GaugeCalculatorWizard from "@/pages/GaugeCalculatorWizard";
 import GaugeConversionWizard from "@/pages/GaugeConversionWizard";
-import HalfStitchShockWizard from "@/pages/HalfStitchShockWizard";
+import GaugeDifferenceWizard from "@/pages/GaugeDifferenceWizard";
 import NotFound from "@/pages/not-found";
 
 function Navigation() {
@@ -26,30 +26,37 @@ function Navigation() {
     { href: '/boat-neck', label: 'Boat Neck', testId: 'link-boat-neck-wizard' },
     { href: '/gauge-calculator', label: 'Gauge Calculator', testId: 'link-gauge-calculator-wizard' },
     { href: '/gauge-conversion', label: 'Gauge Conversion', testId: 'link-gauge-conversion-wizard' },
-    { href: '/half-stitch-shock', label: 'Half-Stitch Shock', testId: 'link-half-stitch-shock-wizard' }
+    { href: '/gauge-difference', label: 'Gauge Difference', testId: 'link-gauge-difference-wizard' }
   ];
   
   return (
-    <nav className="fixed top-2 left-2 bg-[var(--accent)] rounded-lg p-3 shadow-lg z-[1000] min-w-[180px] max-w-[200px]">
+    <nav className="fixed top-2 left-2 bg-[var(--accent)] rounded-lg p-3 shadow-lg z-[1000]">
       <h2 className="text-white text-xs font-semibold mb-2 uppercase tracking-wide opacity-90" style={{ fontFamily: 'Poppins, sans-serif' }}>
         Dev Menu
       </h2>
-      <div className="flex flex-col gap-1">
-        {navLinks.map(link => (
-          <Link
-            key={link.href}
-            href={link.href}
-            data-testid={link.testId}
-            className={`
-              text-white no-underline px-3 py-2 rounded text-sm transition-colors
-              ${location === link.href 
-                ? 'bg-white/25 font-semibold' 
-                : 'bg-transparent hover:bg-white/10 font-normal'}
-            `}
-            style={{ fontFamily: 'Poppins, sans-serif' }}
-          >
-            {link.label}
-          </Link>
+      <div className="text-white text-sm" style={{ fontFamily: 'Poppins, sans-serif', lineHeight: '1.8' }}>
+        {navLinks.map((link, index) => (
+          <span key={link.href}>
+            <Link
+              href={link.href}
+              data-testid={link.testId}
+              className={`
+                no-underline transition-colors
+                ${location === link.href 
+                  ? 'font-bold underline' 
+                  : 'hover:underline font-normal'}
+              `}
+              style={{ color: 'white' }}
+            >
+              {link.label}
+            </Link>
+            {index < navLinks.length - 1 && (
+              <>
+                <span className="mx-2 opacity-50">|</span>
+                {(index + 1) % 3 === 0 && <br />}
+              </>
+            )}
+          </span>
         ))}
       </div>
     </nav>
@@ -67,7 +74,7 @@ function Router() {
       <Route path="/boat-neck" component={BoatNeckWizard}/>
       <Route path="/gauge-calculator" component={GaugeCalculatorWizard}/>
       <Route path="/gauge-conversion" component={GaugeConversionWizard}/>
-      <Route path="/half-stitch-shock" component={HalfStitchShockWizard}/>
+      <Route path="/gauge-difference" component={GaugeDifferenceWizard}/>
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
