@@ -1,0 +1,124 @@
+Replit Prompt — “Half-Stitch Shock” Gauge Comparison Wizard
+
+Prompt for Replit:
+
+Build a new Knit by Machine wizard called “Half-Stitch Shock” — an interactive tool that helps knitters visualize how small changes in gauge affect finished size.
+
+The tool should use my existing lego-block components (GaugeInput, TableDisplay, UnitToggle, and ResultChart if available).
+
+Purpose
+
+Show knitters how even a small change (like ½ stitch per inch) can dramatically change project width. Reinforce the importance of knitting a proper swatch.
+
+Structure
+
+1. Hero Section
+
+Use HeroMessage block.
+
+Hero text:
+A tiny change in gauge can make a big difference. See how your project grows (or shrinks) — one stitch at a time.
+
+Subtext paragraph:
+Even a half-stitch variation can add or subtract inches across a full garment. Enter two gauges below to see how your finished width changes.
+
+2. Input Section
+
+Use UnitToggle (Inches / CM).
+
+Two labeled GaugeInput fields side-by-side:
+
+Label 1: “Gauge 1 (stitches per 4 inches)”
+
+Label 2: “Gauge 2 (stitches per 4 inches)”
+
+Default example values: 20 and 21.
+
+Add an info tooltip:
+"Tip: If you change yarn or tension, even a ½ stitch difference can make your sweater an inch or two off!"
+
+Add a “Compare” button that triggers the results table.
+
+3. Results Section
+
+On click, generate a comparison table like this:
+
+Stitches Cast On	Width at Gauge 1	Width at Gauge 2	Total Difference
+50	10.00	9.52	0.48
+75	15.00	14.29	0.71
+100	20.00	19.05	0.95
+… etc (up to 200 in 25-st increments)			
+
+Calculation formula:
+
+Width = (Stitches / Gauge) * 4
+
+Difference = |Width1 - Width2|
+
+Use a loop to generate rows automatically up to 200 stitches.
+
+Display enhancements:
+
+Use soft color highlights (#52682D for Gauge 1, #6E8B3D for Gauge 2).
+
+Animate table rows appearing when the user clicks “Compare.”
+
+Show the Difference column in bold.
+
+Optional: small horizontal bar chart or subtle progress indicator for width difference.
+
+4. Reflection Section (below table)
+
+Text block with this message:
+Now imagine this difference across the full width of your sweater or blanket — even a half-stitch can change your project by several inches!
+
+Add a CTA button:
+“Plan a Proper Swatch” → link to /skill-builders/swatch (or placeholder for now).
+
+5. Styling
+
+Use Knit by Machine color palette:
+
+Deep green: #52682D
+
+Accent green: #6E8B3D
+
+Soft neutral background: #F7F6F2
+
+Rounded corners and subtle drop shadows for the chart table.
+
+Fonts: Poppins for headings, Inter for body.
+
+Use existing layout grid and spacing conventions from other KBM wizards.
+
+6. Components & Behavior
+
+Use GaugeInput, UnitToggle, and TableDisplay lego blocks.
+
+Ensure responsive layout for mobile (inputs stacked, chart scrolls horizontally if needed).
+
+When Compare is clicked:
+
+Validate input (non-empty, positive numbers).
+
+Smooth-scroll to results.
+
+Auto-highlight the difference column.
+
+7. Meta
+
+Wizard Title: “Half-Stitch Shock”
+
+Category: Tools
+
+Short Description: “See how even a small change in gauge impacts your finished size.”
+
+Long Description:
+A visual gauge comparison calculator. Compare two gauges side by side and see how much your finished project width changes.
+
+Hero Message:
+Get a wake-up call about your swatch — even half a stitch makes a big difference!
+
+End Result
+A single-page wizard that educates knitters on gauge sensitivity with an interactive, visual, and friendly experience.
+Emphasize learning and confidence — not just math.
