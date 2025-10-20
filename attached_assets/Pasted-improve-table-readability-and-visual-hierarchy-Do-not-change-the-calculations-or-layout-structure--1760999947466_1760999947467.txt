@@ -1,0 +1,144 @@
+improve table readability and visual hierarchy.
+Do not change the calculations or layout structure — only adjust the table’s width, spacing, and visual grouping for a clearer reading experience.
+
+Goals
+
+Make the comparison table easier to scan on desktop and mobile.
+
+Reduce excessive horizontal width.
+
+Visually group related columns (Gauge 1 / Gauge 2).
+
+Maintain alignment and clean spacing using the existing Knit by Machine design system.
+
+Design Updates
+
+1. Table Container
+
+Center the table within the page using a fixed maximum width.
+
+Example CSS:
+
+.table-container {
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+
+Ensure the table remains responsive and scrollable horizontally on very narrow screens.
+
+2. Column Layout & Widths
+
+Apply proportional widths for readability:
+
+table th:nth-child(1) { width: 20%; }
+table th:nth-child(2),
+table th:nth-child(3) { width: 30%; }
+table th:nth-child(4) { width: 20%; }
+
+
+Right-align numeric data for quick vertical comparison:
+
+table td {
+  text-align: right;
+}
+table th {
+  text-align: right;
+}
+table th:first-child,
+table td:first-child {
+  text-align: left;
+}
+
+
+3. Visual Grouping
+
+Add a thin divider line between Gauge 1 and Gauge 2 columns to visually separate them:
+
+table td:nth-child(3),
+table th:nth-child(3) {
+  border-left: 1px solid #d8d8d8;
+}
+
+
+Optionally, use a very light background tint behind both Gauge columns:
+
+table td:nth-child(2),
+table td:nth-child(3) {
+  background-color: #fafaf8;
+}
+
+
+4. Emphasize the “Difference” Column
+
+Keep the “Total Difference” column visually distinct:
+
+table td:last-child,
+table th:last-child {
+  color: #C2614E;
+  font-weight: 600;
+  min-width: 80px;
+}
+
+
+Optional: slightly larger font-size (0.1 em larger than table body).
+
+5. Rounded Corners and Subtle Shadow
+
+Apply the KBM standard for data boxes:
+
+table {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+}
+
+
+6. Optional Scroll Animation
+Add a fade-in effect for the “What this means” box when it comes into view.
+Use Intersection Observer:
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.2 });
+observer.observe(document.querySelector('.insight-box'));
+
+.insight-box {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.insight-box.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+Styling Notes
+
+Keep all colors aligned with Knit by Machine palette:
+
+Deep green #52682D
+
+Accent green #6E8B3D
+
+Soft neutral background #F7F6F2
+
+Accent terracotta #C2614E for key highlights
+
+Preserve Poppins for headings and Inter for body.
+
+Match table font-size to other wizard data tables (approx. 0.95em).
+
+End Result
+
+The table feels centered, balanced, and easy to scan vertically.
+
+Gauge 1 and Gauge 2 are visually grouped but distinct.
+
+The “Total Difference” column draws attention without overpowering the design.
+
+The “What this means” insight box animates subtly when scrolled into view, reinforcing the educational tone of the wizard.
