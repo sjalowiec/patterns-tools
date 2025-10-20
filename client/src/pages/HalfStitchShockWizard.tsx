@@ -254,11 +254,19 @@ export default function HalfStitchShockWizard() {
                 Width Comparison
               </h2>
 
-              <div style={{ overflowX: 'auto' }}>
+              <div style={{ 
+                maxWidth: '580px', 
+                margin: '0 auto',
+                overflowX: 'auto' 
+              }}>
                 <table style={{ 
-                  width: '100%', 
+                  width: '100%',
+                  minWidth: '520px',
                   borderCollapse: 'collapse',
-                  fontSize: '14px'
+                  fontSize: '0.95em',
+                  borderRadius: '8px',
+                  overflow: 'hidden',
+                  boxShadow: '0 2px 5px rgba(0,0,0,0.04)'
                 }}>
                   <thead>
                     <tr style={{ backgroundColor: '#f7f6f2' }}>
@@ -266,7 +274,8 @@ export default function HalfStitchShockWizard() {
                         padding: '12px', 
                         textAlign: 'left', 
                         borderBottom: '2px solid #52682d',
-                        fontWeight: 'bold'
+                        fontWeight: 'bold',
+                        width: '20%'
                       }}>
                         Stitches Cast On
                       </th>
@@ -275,7 +284,8 @@ export default function HalfStitchShockWizard() {
                         textAlign: 'right', 
                         borderBottom: '2px solid #52682d',
                         fontWeight: 'bold',
-                        color: '#52682d'
+                        color: '#52682d',
+                        width: '30%'
                       }}>
                         Width at Gauge 1 ({unitDisplay})
                       </th>
@@ -284,7 +294,9 @@ export default function HalfStitchShockWizard() {
                         textAlign: 'right', 
                         borderBottom: '2px solid #52682d',
                         fontWeight: 'bold',
-                        color: '#6E8B3D'
+                        color: '#6E8B3D',
+                        borderLeft: '1px solid #d8d8d8',
+                        width: '30%'
                       }}>
                         Width at Gauge 2 ({unitDisplay})
                       </th>
@@ -292,9 +304,10 @@ export default function HalfStitchShockWizard() {
                         padding: '12px', 
                         textAlign: 'right', 
                         borderBottom: '2px solid #52682d',
-                        fontWeight: 'bold',
-                        backgroundColor: 'rgba(82, 104, 45, 0.1)',
-                        fontSize: '16px'
+                        fontWeight: '600',
+                        color: '#C2614E',
+                        minWidth: '80px',
+                        width: '20%'
                       }}>
                         Total Difference ({unitDisplay})
                       </th>
@@ -320,7 +333,8 @@ export default function HalfStitchShockWizard() {
                           padding: '10px 12px', 
                           borderBottom: '1px solid #eee',
                           textAlign: 'right',
-                          color: '#52682d'
+                          color: '#52682d',
+                          backgroundColor: '#fafaf8'
                         }}>
                           {row.width1}
                         </td>
@@ -328,7 +342,9 @@ export default function HalfStitchShockWizard() {
                           padding: '10px 12px', 
                           borderBottom: '1px solid #eee',
                           textAlign: 'right',
-                          color: '#6E8B3D'
+                          color: '#6E8B3D',
+                          backgroundColor: '#fafaf8',
+                          borderLeft: '1px solid #d8d8d8'
                         }}>
                           {row.width2}
                         </td>
@@ -336,7 +352,7 @@ export default function HalfStitchShockWizard() {
                           padding: '10px 12px', 
                           borderBottom: '1px solid #eee',
                           textAlign: 'right',
-                          fontWeight: 'bold',
+                          fontWeight: '600',
                           color: '#C2614E',
                           backgroundColor: 'rgba(82, 104, 45, 0.05)',
                           fontSize: '18px'
@@ -377,7 +393,7 @@ export default function HalfStitchShockWizard() {
                   fontWeight: 'bold',
                   letterSpacing: '0.5px'
                 }}>
-                  <i className="fa-solid fa-eye" style={{ marginRight: '6px' }}></i>
+                  <i className="fas fa-eye" style={{ marginRight: '6px' }}></i>
                   What this means
                 </div>
                 <p style={{ 
