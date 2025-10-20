@@ -162,7 +162,7 @@ export default function HalfStitchShockWizard() {
             />
 
             <div style={{ marginTop: '20px', display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-              <div className="form-group" style={{ flex: 1, minWidth: '250px' }}>
+              <div className="form-group" style={{ maxWidth: '180px' }}>
                 <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#52682d' }}>
                   Gauge 1
                 </label>
@@ -172,13 +172,14 @@ export default function HalfStitchShockWizard() {
                   className="form-control"
                   value={gauge1}
                   onChange={(e) => setGauge1(e.target.value)}
-                  placeholder={units === 'inches' ? 'stitches per 4" (10cm)' : 'stitches per 10cm'}
+                  placeholder={units === 'inches' ? 'e.g. 18' : 'e.g. 18'}
                   aria-label="Gauge 1"
                   data-testid="input-gauge1"
+                  style={{ fontSize: '16px', padding: '8px 12px' }}
                 />
               </div>
 
-              <div className="form-group" style={{ flex: 1, minWidth: '250px' }}>
+              <div className="form-group" style={{ maxWidth: '180px' }}>
                 <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#6E8B3D' }}>
                   Gauge 2
                 </label>
@@ -188,9 +189,10 @@ export default function HalfStitchShockWizard() {
                   className="form-control"
                   value={gauge2}
                   onChange={(e) => setGauge2(e.target.value)}
-                  placeholder={units === 'inches' ? 'stitches per 4" (10cm)' : 'stitches per 10cm'}
+                  placeholder={units === 'inches' ? 'e.g. 19' : 'e.g. 19'}
                   aria-label="Gauge 2"
                   data-testid="input-gauge2"
+                  style={{ fontSize: '16px', padding: '8px 12px' }}
                 />
               </div>
             </div>
@@ -272,7 +274,7 @@ export default function HalfStitchShockWizard() {
                     <tr style={{ backgroundColor: '#f7f6f2' }}>
                       <th style={{ 
                         padding: '12px', 
-                        textAlign: 'left', 
+                        textAlign: 'right', 
                         borderBottom: '2px solid #52682d',
                         fontWeight: 'bold',
                         width: '20%'
@@ -325,6 +327,7 @@ export default function HalfStitchShockWizard() {
                         <td style={{ 
                           padding: '10px 12px', 
                           borderBottom: '1px solid #eee',
+                          textAlign: 'right',
                           fontWeight: 'bold'
                         }}>
                           {row.stitches}
@@ -393,7 +396,7 @@ export default function HalfStitchShockWizard() {
                   fontWeight: 'bold',
                   letterSpacing: '0.5px'
                 }}>
-                  <i className="fas fa-eye" style={{ marginRight: '6px' }}></i>
+                  <i className="fas fa-eyes" style={{ marginRight: '6px' }}></i>
                   What this means
                 </div>
                 <p style={{ 
