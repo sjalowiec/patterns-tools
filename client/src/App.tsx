@@ -11,6 +11,7 @@ import SleeveWizard from "@/pages/SleeveWizard";
 import BoatNeckWizard from "@/pages/BoatNeckWizard";
 import GaugeCalculatorWizard from "@/pages/GaugeCalculatorWizard";
 import GaugeConversionWizard from "@/pages/GaugeConversionWizard";
+import HalfStitchShockWizard from "@/pages/HalfStitchShockWizard";
 import NotFound from "@/pages/not-found";
 
 function Navigation() {
@@ -24,7 +25,8 @@ function Navigation() {
     { href: '/sleeve', label: 'Sleeve Tester', testId: 'link-sleeve-wizard' },
     { href: '/boat-neck', label: 'Boat Neck', testId: 'link-boat-neck-wizard' },
     { href: '/gauge-calculator', label: 'Gauge Calculator', testId: 'link-gauge-calculator-wizard' },
-    { href: '/gauge-conversion', label: 'Gauge Conversion', testId: 'link-gauge-conversion-wizard' }
+    { href: '/gauge-conversion', label: 'Gauge Conversion', testId: 'link-gauge-conversion-wizard' },
+    { href: '/half-stitch-shock', label: 'Half-Stitch Shock', testId: 'link-half-stitch-shock-wizard' }
   ];
   
   return (
@@ -65,6 +67,7 @@ function Router() {
       <Route path="/boat-neck" component={BoatNeckWizard}/>
       <Route path="/gauge-calculator" component={GaugeCalculatorWizard}/>
       <Route path="/gauge-conversion" component={GaugeConversionWizard}/>
+      <Route path="/half-stitch-shock" component={HalfStitchShockWizard}/>
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
