@@ -112,7 +112,7 @@ export default function HalfStitchShockWizard() {
             <WizardIcon iconName="tools-icon" />
             <div style={{ flex: 1 }}>
               <h1 style={{ color: '#52682d', fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>
-                Half-Stitch Shock
+                What a Difference a Stitch Makes
               </h1>
               <h2 style={{ color: '#666', fontSize: '18px', lineHeight: '1.6', fontWeight: 'normal' }}>
                 A tiny change in gauge can make a big difference. See how your project grows (or shrinks) — one stitch at a time.
@@ -201,6 +201,27 @@ export default function HalfStitchShockWizard() {
                   from { opacity: 0; transform: translateX(-10px); }
                   to { opacity: 1; transform: translateX(0); }
                 }
+                @keyframes dramatic {
+                  0% { 
+                    opacity: 0; 
+                    transform: scale(0.95) translateY(10px); 
+                  }
+                  50% { 
+                    transform: scale(1.02); 
+                  }
+                  100% { 
+                    opacity: 1; 
+                    transform: scale(1) translateY(0); 
+                  }
+                }
+                @keyframes pulse {
+                  0%, 100% { 
+                    box-shadow: 0 4px 20px rgba(82, 104, 45, 0.15); 
+                  }
+                  50% { 
+                    box-shadow: 0 6px 30px rgba(82, 104, 45, 0.25); 
+                  }
+                }
               `}</style>
               
               <h2 style={{ color: '#52682d', fontSize: '20px', fontWeight: 'bold', marginBottom: '20px' }}>
@@ -245,7 +266,9 @@ export default function HalfStitchShockWizard() {
                         padding: '12px', 
                         textAlign: 'right', 
                         borderBottom: '2px solid #52682d',
-                        fontWeight: 'bold'
+                        fontWeight: 'bold',
+                        backgroundColor: 'rgba(82, 104, 45, 0.1)',
+                        fontSize: '16px'
                       }}>
                         Total Difference ({unitDisplay})
                       </th>
@@ -288,7 +311,9 @@ export default function HalfStitchShockWizard() {
                           borderBottom: '1px solid #eee',
                           textAlign: 'right',
                           fontWeight: 'bold',
-                          color: '#C2614E'
+                          color: '#C2614E',
+                          backgroundColor: 'rgba(82, 104, 45, 0.05)',
+                          fontSize: '18px'
                         }}>
                           {row.difference}
                         </td>
@@ -298,42 +323,43 @@ export default function HalfStitchShockWizard() {
                 </table>
               </div>
 
-              {/* Reflection Section */}
+              {/* Dramatic Callout */}
               <div style={{ 
-                marginTop: '24px', 
-                padding: '20px', 
-                backgroundColor: '#f7f6f2', 
-                borderRadius: '8px',
-                textAlign: 'center'
+                marginTop: '32px', 
+                padding: '28px 32px', 
+                background: 'linear-gradient(135deg, rgba(82, 104, 45, 0.08) 0%, rgba(82, 104, 45, 0.12) 100%)',
+                border: '3px solid #52682d',
+                borderRadius: '12px',
+                textAlign: 'center',
+                animation: 'dramatic 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both, pulse 2s ease-in-out 1.1s infinite',
+                position: 'relative',
+                overflow: 'visible'
               }}>
+                <div style={{
+                  position: 'absolute',
+                  top: '-16px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  backgroundColor: '#52682d',
+                  color: 'white',
+                  padding: '6px 16px',
+                  borderRadius: '20px',
+                  fontSize: '14px',
+                  fontWeight: 'bold',
+                  letterSpacing: '0.5px'
+                }}>
+                  ⚡ KEY INSIGHT
+                </div>
                 <p style={{ 
-                  fontSize: '16px', 
-                  lineHeight: '1.6', 
-                  color: '#333', 
-                  marginBottom: '16px',
-                  fontWeight: '500'
+                  fontSize: '20px', 
+                  lineHeight: '1.7', 
+                  color: '#52682d', 
+                  margin: '8px 0 0 0',
+                  fontWeight: '600',
+                  textShadow: '0 1px 2px rgba(0,0,0,0.05)'
                 }}>
                   Now imagine this difference across the full width of your sweater or blanket — even a half-stitch can change your project by several inches!
                 </p>
-                <a 
-                  href="/skill-builders/swatch" 
-                  className="btn btn-primary"
-                  style={{ 
-                    display: 'inline-block',
-                    padding: '12px 24px',
-                    backgroundColor: '#52682d',
-                    color: 'white',
-                    textDecoration: 'none',
-                    borderRadius: '4px',
-                    fontWeight: 'bold',
-                    transition: 'background-color 0.2s ease'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#3d4f21'}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#52682d'}
-                  data-testid="link-swatch"
-                >
-                  Plan a Proper Swatch
-                </a>
               </div>
             </div>
           )}
