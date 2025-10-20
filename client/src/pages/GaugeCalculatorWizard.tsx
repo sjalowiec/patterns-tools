@@ -271,48 +271,50 @@ export default function GaugeCalculatorWizard() {
               justifyContent: 'center',
               alignItems: 'center'
             }}>
-              <svg style={{ maxWidth: '100%', height: 'auto' }} viewBox="0 0 493.6 442.86" xmlns="http://www.w3.org/2000/svg">
+              <svg style={{ maxWidth: '100%', height: 'auto' }} id="a" data-name="rulers" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 440 440">
                 <defs>
                   <style>{`
-                    .gauge-bg-fill {
-                      fill: #fcfcfc;
-                      opacity: .13;
-                      stroke: #6e8b3d;
-                      stroke-miterlimit: 10;
+                    .i {
+                      filter: url(#c);
+                      stroke-width: .87px;
+                      transition: stroke 0.3s ease, filter 0.3s ease;
                     }
-                    .gauge-triangle-marks {
-                      stroke: #52682d;
-                      stroke-width: 11px;
-                      fill: none;
+              
+                    .i, .j {
+                      fill: #eae8e8;
+                      stroke: #000;
                     }
-                    .gauge-outer-hex {
-                      fill: #fefffd;
-                      stroke: #52682d;
-                      stroke-width: 16.24px;
-                      stroke-linejoin: round;
+              
+                    .j {
+                      filter: url(#f);
+                      stroke-width: .89px;
+                      transition: stroke 0.3s ease, filter 0.3s ease;
                     }
-                    .gauge-inner-hex {
-                      fill: none;
-                      stroke: #6e8b3d;
-                      stroke-width: 11.37px;
-                      stroke-linejoin: round;
+
+                    .i.active,
+                    .j.active {
+                      stroke: #C2614E !important;
+                      filter: drop-shadow(0 0 4px rgba(194, 97, 78, 0.6)) !important;
                     }
                   `}</style>
+                  <filter id="c" data-name="drop-shadow-1" x="184.7" y="61.97" width="47" height="324" filterUnits="userSpaceOnUse">
+                    <feOffset dx="1.73" dy="3.46"/>
+                    <feGaussianBlur result="d" stdDeviation="3.46"/>
+                    <feFlood floodColor="#000" floodOpacity=".61"/>
+                    <feComposite in2="d" operator="in"/>
+                    <feComposite in="SourceGraphic"/>
+                  </filter>
+                  <filter id="f" data-name="drop-shadow-2" x="49.64" y="190.44" width="332" height="48" filterUnits="userSpaceOnUse">
+                    <feOffset dx="1.77" dy="3.54"/>
+                    <feGaussianBlur result="g" stdDeviation="3.54"/>
+                    <feFlood floodColor="#000" floodOpacity=".61"/>
+                    <feComposite in2="g" operator="in"/>
+                    <feComposite in="SourceGraphic"/>
+                  </filter>
                 </defs>
-                <g>
-                  <path className="gauge-outer-hex" d="M341.49,8.12h-189.37c-17.62,0-33.9,9.4-42.7,24.65L14.73,196.78c-8.81,15.26-8.81,34.05,0,49.31l94.69,164c8.81,15.26,25.09,24.65,42.7,24.65h189.37c17.62,0,33.9-9.4,42.7-24.65l94.69-164c8.81-15.26,8.81-34.05,0-49.31l-94.69-164c-8.81-15.26-25.09-24.65-42.7-24.65Z"/>
-                  <path className="gauge-bg-fill" d="M323.02,36.35h-159.07c-14.8,0-28.47,7.89-35.87,20.71L48.54,194.82c-7.4,12.82-7.4,28.6,0,41.42l79.54,137.76c7.4,12.82,21.07,20.71,35.87,20.71h159.07c14.8,0,28.47-7.89,35.87-20.71l79.54-137.76c7.4-12.82,7.4-28.6,0-41.42l-79.54-137.76c-7.4-12.82-21.07-20.71-35.87-20.71Z"/>
-                  <path className="gauge-inner-hex" d="M326.34,37.97h-159.07c-14.8,0-28.47,7.89-35.87,20.71L51.86,196.44c-7.4,12.82-7.4,28.6,0,41.42l79.54,137.76c7.4,12.82,21.07,20.71,35.87,20.71h159.07c14.8,0,28.47-7.89,35.87-20.71l79.54-137.76c7.4-12.82,7.4-28.6,0-41.42l-79.54-137.76c-7.4-12.82-21.07-20.71-35.87-20.71Z"/>
-                  <polygon className="gauge-triangle-marks" points="360.56 315.11 141.71 315.11 141.71 96.26 360.56 315.11"/>
-                  <line className="gauge-triangle-marks" x1="176.9" y1="286.72" x2="176.9" y2="313.03"/>
-                  <line className="gauge-triangle-marks" x1="215.83" y1="267.27" x2="215.83" y2="313.03"/>
-                  <line className="gauge-triangle-marks" x1="254.77" y1="286.72" x2="254.77" y2="313.03"/>
-                  <line className="gauge-triangle-marks" x1="293.7" y1="267.27" x2="293.7" y2="313.03"/>
-                  <line className="gauge-triangle-marks" x1="167.62" y1="276.55" x2="141.31" y2="276.55"/>
-                  <line className="gauge-triangle-marks" x1="187.07" y1="237.62" x2="141.31" y2="237.62"/>
-                  <line className="gauge-triangle-marks" x1="167.62" y1="198.68" x2="141.31" y2="198.68"/>
-                  <line className="gauge-triangle-marks" x1="187.07" y1="159.75" x2="141.31" y2="159.75"/>
-                </g>
+                <image id="background" data-name="swatch_background" width="440" height="440" xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbgAAAG4CAIAAAHPr1VyAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAACuZ9JREFUeNqsmm1snlUZx7un72u3dW+UboO9WJ0aTPygiSPhg1H3TSL6QbIvOoQvbMZkOojRQGIWZUxNCNEQzUBiRDBZMJiAWRAWBhJ1bhGXjUr3Uiit3bq+r13brfF3P79n187u53nGOjlpTs5z7nNf53+9X+fcXXDs8KGampq1G1b3nHx/ZfuyswNDC1uaJ89POa4pNsYjw+OzM7Ou7O3p/9gnNxz/d/cnPtX5n2MnGfMu8zVJ82n8LF+QNp/29Z5Zteam9MWB/sH2jhXMLwBlU1Pjwtbm0eGxxqZGVrPORcKVAd6M+XR7mkAvXZqrrS2wnrdq5t8kIlBnZmcu1jfUCXqBsozt2YYBPYKsb6ivr69zBhL9vQNr1nYMnhlCrkCB3Ojw+JKli3jqYHzs/KLFLfx0IFfKu71jJQtQQqG2dmJsgp8D/WehziQCQkwXLkzTp3pgZnJiatmKNn6WUKrf0GBOnIBjYzTOmDUAXXHTslQp5bJJpfKBLRWbOnE+pFAIiG4pRG1IiM43NNQJl6cBkQZEGDv1zntQV3HaWQoRENdGCUS40qgCIqSACKkSyvAStpQhn4WRMT80OMIYPaoLRBvyhjFmoM4MY9Qqk91dPUid7Qu1BQjCCcucETdjBqDhRbmCOPJT6SGvksbZABOBROoiNi0G40BUuFe561Rzl1RxH9hgYP1Hb6lGJOOTH8emTg5Njjr7yMReBs+OvUT/wsSr9N/qfwhZDrScy8gt7/v6qzte7Htt58E9/Nz8yr1AvPMv99++f8uev2UvMqZ/+I3Hhbj90K53xnt2HX0iNn6u56WJi5PfePP7jOkZMwAi0jkyfPyt42/vPbFPIvsPvw4RFPLj//6q5D1A+d363T8bfXpb492PnnvqgeVbu2ZOb2xYB9A7Wz//5Mjz99989x8G//zgpvug8nbfyR2f+ebPD/1mzx07tZC0f+Yff9ry2S/D8F0Htr/whV/ufvPXX71t83f/vpuIMTqdaXN1S/ui+pb+qbOPfHrH4aFjx3q7H/rctrfGupp663kdWJ0b1+bIllBicJgaRkCPCV5DO6wpV3EaR26sYaMzMxerhYWCGwNu1Zp2bNyAF2EIAag7wRnhw221dMwfiBq0vWvm1YRIMEnJxtMr8fLC1DRq0hsMQDZcJ6Srg7978v1bN6zG5HO6zuXGLDzNzUENt4NbBtNTmSMyOHumFFVApuu4LwBOdb+XanzJ0sW8nqE09LAOsRn20pabFCjCM+SmEf56fL9iM1fp0ZHAUk8vSFHhlUOktS5uVeM6I4qoLdQC1KwAxFTXqonYUREib1VECSy4rS2GVeEySdyVLPOFtGBB70y5QZQwCDzMcXBgiPTT3XVaQ8Q6U43jnoRiZIweGYOpGGXHeZcFaoBXxCoUwKFx81nEcDAwb567ysdjJ/O1VlzMXfUwh11iTxguIsdQUk+EY8iVi6fafLUGZRhQP5V9PNUXmICIUPVxEOs6BHZLDTNQaBAooZpQk5KoaD9hauUlZmRtnyJjewRXiDrXjKxE01pY7TOvJUQWVYOMAWStIDjmUR+8oTjGkXLTuBHJkxctCSQbGmfShEQ/fWE603jUREYQLGl8bIJ1qNv6PPV0wmpOL2hqdGSsoqdff4MIbMBbxYSe8aROFZWSB2LxzdkI6es7b2UBbPT1DiiD6PUSFZTz6MFiXGSZHMI/5qTPsZ6fUfLBJ/sSX0PXLHPAKwXtAHFGlY57xk6NxbxHj18bsKzncSB79jN2IAP3s2d+7tKcAmaZ3..."/>
+                <path id="vertical-ruler" data-name="vertical ruler" className={`i ${activeRuler === 'vertical' ? 'active' : ''}`} d="M194.61,370.87V70.06h24.26v300.81h-24.26ZM205.28,75.42l-10.7.06M194.58,81.14l10.7-.06M194.58,86.8l10.7-.06M205.28,92.39l-10.7.06M212.55,98l-17.05.1M205.28,103.69l-10.7.06M205.28,109.35l-10.7.06M205.28,115l-10.7.06M194.58,120.72l10.7-.06M212.45,126.27l-17.05.1M205.28,131.97l-10.7.06M205.28,137.62l-10.7.06M205.28,143.28l-10.7.06M205.28,148.93l-10.7.06M212.34,154.54l-17.05.1M194.58,160.3l10.7-.06M205.28,165.89l-10.7.06M205.28,171.55l-10.7.06M194.58,177.27l10.7-.06M212.24,182.81l-17.05.1M205.28,188.51l-10.7.06M205.28,194.17l-10.7.06M194.58,199.89l10.7-.06M205.28,205.47l-10.7.06M212.14,211.09l-17.05.1M194.58,216.85l10.7-.06M205.28,222.44l-10.7.06M205.28,228.09l-10.7.06M205.28,233.75l-10.7.06M212.04,239.36l-17.05.1M205.28,245.06l-10.7.06M194.58,250.78l10.7-.06M194.58,256.43l10.7-.06M205.28,262.02l-10.7.06M211.94,267.63l-17.05.1M205.28,273.33l-10.7.06M205.28,278.98l-10.7.06M205.28,284.64l-10.7.06M194.58,290.36l10.7-.06M211.84,295.91l-17.05.1M194.58,301.67l10.7-.06M194.58,307.32l10.7-.06M205.28,312.91l-10.7.06M194.58,318.63l10.7-.06M211.73,324.18l-17.05.1M194.58,329.94l10.7-.06M205.28,335.53l-10.7.06M194.58,341.25l10.7-.06M194.58,346.9l10.7-.06M211.63,352.45l-17.05.1M194.58,358.21l10.7-.06M205.28,363.8l-10.7.06"/>
+                <path id="horizontal-ruler" data-name="horizontal_ruler" className={`j ${activeRuler === 'horizontal' ? 'active' : ''}`} d="M59.15,197.99h307.98v24.84H59.15v-24.84ZM361.64,208.9l-.07-10.95M355.78,197.95l.07,10.95M349.99,197.95l.07,10.95M344.27,208.9l-.07-10.95M338.53,216.35l-.11-17.46M332.69,208.9l-.07-10.95M326.9,208.9l-.07-10.95M321.11,208.9l-.07-10.95M315.26,197.95l.07,10.95M309.58,216.24l-.11-17.46M303.74,208.9l-.07-10.95M297.96,208.9l-.07-10.95M292.17,208.9l-.07-10.95M286.38,208.9l-.07-10.95M280.63,216.14l-.11-17.46M274.73,197.95l.07,10.95M269.01,208.9l-.07-10.95M263.22,208.9l-.07-10.95M257.36,197.95l.07,10.95M251.68,216.04l-.11-17.46M245.85,208.9l-.07-10.95M240.06,208.9l-.07-10.95M234.21,197.95l.07,10.95M228.48,208.9l-.07-10.95M222.74,215.93l-.11-17.46M216.84,197.95l.07,10.95M211.12,208.9l-.07-10.95M205.33,208.9l-.07-10.95M199.54,208.9l-.07-10.95M193.79,215.83l-.11-17.46M187.96,208.9l-.07-10.95M182.1,197.95l.07,10.95M176.32,197.95l.07,10.95M170.59,208.9l-.07-10.95M164.84,215.72l-.11-17.46M159.01,208.9l-.07-10.95M153.22,208.9l-.07-10.95M147.44,208.9l-.07-10.95M141.58,197.95l.07,10.95M135.9,215.62l-.11-17.46M130,197.95l.07,10.95M124.21,197.95l.07,10.95M118.49,208.9l-.07-10.95M112.63,197.95l.07,10.95M106.95,215.52l-.11-17.46M101.06,197.95l.07,10.95M95.33,208.9l-.07-10.95M89.48,197.95l.07,10.95M83.69,197.95l.07,10.95M78,215.41l-.11-17.46M72.11,197.95l.07,10.95M66.39,208.9l-.07-10.95"/>
               </svg>
             </div>
           </div>
